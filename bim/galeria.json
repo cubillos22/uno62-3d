@@ -81,6 +81,44 @@
    ]
   },
   {
+   "titulo": "UNO62 desde Revit, como foto",
+   "nota": "Cada foto sale de la vista de Revit 2027 de la misma cámara: el edificio es del modelo. El barrio, las personas, los carros, los árboles y el cielo los agregó la IA (Astra) y son ilustrativos; el lote de atrás es otro predio.",
+   "fotos": [
+    {
+     "src": "revit_foto/01_fachada_manana.jpg",
+     "titulo": "Fachada en la mañana"
+    },
+    {
+     "src": "revit_foto/02_tu_ventana_desde_la_calle.jpg",
+     "titulo": "Tu ventana desde la calle"
+    },
+    {
+     "src": "revit_foto/03_porteria_al_atardecer.jpg",
+     "titulo": "Portería al atardecer"
+    },
+    {
+     "src": "revit_foto/04_arcada_y_locales.jpg",
+     "titulo": "Arcada y locales"
+    },
+    {
+     "src": "revit_foto/05_patio_y_jardin_colgante.jpg",
+     "titulo": "Patio y jardín colgante"
+    },
+    {
+     "src": "revit_foto/06_conjunto_desde_el_aire.jpg",
+     "titulo": "El conjunto desde el aire"
+    },
+    {
+     "src": "revit_foto/08_parqueaderos_del_patio.jpg",
+     "titulo": "Parqueaderos del patio"
+    },
+    {
+     "src": "revit_foto/09_parqueaderos_y_lote_de_atras.jpg",
+     "titulo": "Parqueaderos y lote de atrás"
+    }
+   ]
+  },
+  {
    "titulo": "UNO62 como foto",
    "nota": "Renders de Cycles con la geometría del modelo, retocados con IA (Astra): personas, carros y cielo ilustrativos.",
    "fotos": [
@@ -165,6 +203,10 @@
   [
    "Apto317_diseno_D.rvt",
    47.6
+  ],
+  [
+   "UNO62_conjunto_general_y_apto317.rvt",
+   156.0
   ]
  ]
 }
