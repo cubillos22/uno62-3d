@@ -23,8 +23,8 @@
    ]
   },
   {
-   "titulo": "Vistas de Revit 2026",
-   "nota": "Exportadas por Revit desde este mismo IFC (importación de referencia, estilo realista).",
+   "titulo": "Vistas de Revit",
+   "nota": "Exportadas por Revit desde este mismo IFC (importación de referencia, estilo realista); las «Foto» salen de las cámaras de las fotos.",
    "fotos": [
     {
      "src": "revit/foto_arcada_y_locales.jpg",
