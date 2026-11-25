@@ -15,6 +15,10 @@
     {
      "src": "reales/cam_salon.jpg",
      "titulo": "Salón con muebles reales"
+    },
+    {
+     "src": "reales/cam_vitrina_tenis.jpg",
+     "titulo": "Tu vitrina: 26 pares y tus gorras"
     }
    ]
   },
@@ -22,6 +26,38 @@
    "titulo": "Vistas de Revit 2026",
    "nota": "Exportadas por Revit desde este mismo IFC (importación de referencia, estilo realista).",
    "fotos": [
+    {
+     "src": "revit/foto_arcada_y_locales.jpg",
+     "titulo": "Foto: Arcada y locales"
+    },
+    {
+     "src": "revit/foto_el_conjunto_desde_el_aire.jpg",
+     "titulo": "Foto: El conjunto desde el aire"
+    },
+    {
+     "src": "revit/foto_fachada_en_la_manana.jpg",
+     "titulo": "Foto: Fachada en la mañana"
+    },
+    {
+     "src": "revit/foto_parqueaderos_del_patio.jpg",
+     "titulo": "Foto: Parqueaderos del patio"
+    },
+    {
+     "src": "revit/foto_parqueaderos_y_lote_de_atras.jpg",
+     "titulo": "Foto: Parqueaderos y lote de atrás"
+    },
+    {
+     "src": "revit/foto_patio_y_jardin_colgante.jpg",
+     "titulo": "Foto: Patio y jardín colgante"
+    },
+    {
+     "src": "revit/foto_porteria_al_atardecer.jpg",
+     "titulo": "Foto: Portería al atardecer"
+    },
+    {
+     "src": "revit/foto_tu_ventana_desde_la_calle.jpg",
+     "titulo": "Foto: Tu ventana desde la calle"
+    },
     {
      "src": "revit/317_corte_desde_el_corredor.jpg",
      "titulo": "317 - corte desde el corredor"
@@ -35,7 +71,7 @@
      "titulo": "317 dentro del conjunto"
     },
     {
-     "src": "revit/uno62_desde_atrs_amenidades.jpg",
+     "src": "revit/uno62_desde_atras_amenidades.jpg",
      "titulo": "UNO62 - desde atrás (amenidades)"
     },
     {
@@ -129,10 +165,6 @@
   [
    "Apto317_diseno_D.rvt",
    47.6
-  ],
-  [
-   "UNO62_conjunto_general_y_apto317.rvt",
-   55.7
   ]
  ]
 }
