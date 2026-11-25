@@ -783,19 +783,20 @@ const GRUPOS_RENDER=[
 </script>
 
 <script type="module">
+const VERSION_DATOS = '202611251807';   // version_datos.py: evita que el navegador muestre datos viejos de su cache
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
-const spec = await fetch('spec.json').then(r=>r.json());
+const spec = await fetch('spec.json?v=' + VERSION_DATOS).then(r=>r.json());
 const {W,L,H,MZ,MZ1} = spec.medidas;
 const T3 = p => new THREE.Vector3(p[0], p[2], p[1]);   // plano (x, y, z) -> three (x, z, y)
 const fmt = v => v.toFixed(2).replace('.', ',');
 let tween = null, vistaActual = null, interactuado = false;
 
-const specD = await fetch('spec_D.json').then(r => r.json()).catch(() => spec);
+const specD = await fetch('spec_D.json?v=' + VERSION_DATOS).then(r => r.json()).catch(() => spec);
 dibujarPlanos(specD);
 tablaPuntos(specD);
 
@@ -931,7 +932,7 @@ const ESTILOS_ACABADOS = ['D', 'E'];   // estilos con chips de franja y de piso
 const RE_FRANJA = /^Pintura_(grafito|franja)$/;
 const cache = {};
 let raiz = null, estiloActual = null, primeraVez = true, pedidoEstilo = 0;
-function cargarJSON(url){ return fetch(url).then(r => { if(!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }); }
+function cargarJSON(url){ return fetch(url + (url.includes('?') ? '&' : '?') + 'v=' + VERSION_DATOS).then(r => { if(!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }); }
 function cargarModelo(url){
   return cargarJSON(url).then(j => new Promise((res, rej) => {
     const b = atob(j.datos), u = new Uint8Array(b.length);
@@ -1485,7 +1486,7 @@ renderer.setAnimationLoop(t => {
 controls.addEventListener('start', () => { tween = null; interactuado = true; document.querySelectorAll('[data-cam]').forEach(b => b.setAttribute('aria-pressed','false')); });
 
 // ---------------- presupuesto ----------------
-fetch('presupuesto.json').then(r => r.json()).then(p => {
+fetch('presupuesto.json?v=' + VERSION_DATOS).then(r => r.json()).then(p => {
   const cop = v => '$' + Math.round(v).toLocaleString('es-CO');
   const tb = document.querySelector('#tabla-presupuesto tbody');
   tb.innerHTML = p.categorias.map(c => `<tr class="presu-cat"><td colspan="2">${c.nombre}</td><td class="num">${cop(c.bajo)}</td><td class="num">${cop(c.alto)}</td><td></td></tr>` +

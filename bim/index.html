@@ -174,6 +174,7 @@ button.enlace{cursor:pointer;font:inherit;font-weight:500;font-size:13px}
 {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
 </script>
 <script type="module">
+const VERSION_DATOS = '202611251807';   // version_datos.py: evita que el navegador muestre datos viejos de su cache
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
@@ -243,8 +244,8 @@ new ResizeObserver(tamano).observe(app); tamano();
 // ---------- carga
 const prog = $('#prog');
 const [DATOS, gltf] = await Promise.all([
-  fetch('modelo.json').then(r => { if (!r.ok) throw new Error('modelo.json ' + r.status); return r.json(); }),
-  new GLTFLoader().loadAsync('modelo.glb', e => { if (e.total) prog.style.width = (100 * e.loaded / e.total).toFixed(0) + '%'; })
+  fetch('modelo.json?v=' + VERSION_DATOS).then(r => { if (!r.ok) throw new Error('modelo.json ' + r.status); return r.json(); }),
+  new GLTFLoader().loadAsync('modelo.glb?v=' + VERSION_DATOS, e => { if (e.total) prog.style.width = (100 * e.loaded / e.total).toFixed(0) + '%'; })
 ]).catch(err => { $('#cargaTxt').textContent = 'No se pudo cargar el modelo: ' + err.message; throw err; });
 const E = DATOS.elementos;
 const PISOS = DATOS.pisos;                                   // ['Piso 1', 'Piso 2', 'Piso 3', 'Piso 4', 'Cubierta']
@@ -421,14 +422,14 @@ $('#resumen').innerHTML = `<details open><summary>${E.length.toLocaleString('es-
   filas.map(([c, n]) => `<span>${esc(NOMBRE_CLASE[c] || c)} <small style="color:var(--muted);font-family:var(--f-mono)">${esc(c)}</small></span><span>${n.toLocaleString('es-CO')}</span>`).join('') + '</div></details>' +
   `<p class="vacio" style="margin-top:10px">Archivo ${esc(DATOS.archivo)} · ${esc(DATOS.esquema)} · georreferenciado en MAGNA-SIRGAS Origen-Nacional (EPSG:9377).</p>` +
   `<p style="margin:10px 0 0;display:flex;gap:8px;flex-wrap:wrap"><a class="btn-mini" href="UNO62_conjunto_y_apto317.ifc" download>IFC del conjunto</a><a class="btn-mini" href="Apto317_diseno_D.ifc" download>IFC solo del 317</a></p>` +
-  `<p style="margin:8px 0 0;display:flex;gap:8px;flex-wrap:wrap"><a class="btn-mini" href="revit/UNO62_conjunto_general_y_apto317.rvt" download>Revit 2026 del conjunto</a><a class="btn-mini" href="revit/Apto317_diseno_D.rvt" download>Revit 2026 del 317</a></p>` +
+  `<p style="margin:8px 0 0;display:flex;gap:8px;flex-wrap:wrap"><a class="btn-mini" href="https://media.githubusercontent.com/media/cubillos22/uno62-3d/main/bim/revit/UNO62_conjunto_general_y_apto317.rvt" target="_blank" rel="noopener">Revit 2026 del conjunto (156 MB)</a><a class="btn-mini" href="revit/Apto317_diseno_D.rvt" download>Revit 2026 del 317</a></p>` +
   `<p class="vacio" style="margin-top:6px">Los .rvt se abren en Revit 2026 (ArcGIS Pro también los lee). Las texturas apuntan a la carpeta local del proyecto: en otro equipo se ven los colores.</p>`;
 
 // ---------- galeria: vistas exportadas por Revit desde este mismo IFC y fotos realistas del proyecto (galeria.json)
-fetch('galeria.json').then(r => r.ok ? r.json() : null).then(G => {
+fetch('galeria.json?v=' + VERSION_DATOS).then(r => r.ok ? r.json() : null).then(G => {
   if (!G || !G.grupos || !G.grupos.length) return;
   $('#galCuerpo').innerHTML = G.grupos.map(g => `<div class="gal-grupo"><h3>${esc(g.titulo)}</h3>${g.nota ? `<p>${esc(g.nota)}</p>` : ''}<div class="gal-grid">` +
-    g.fotos.map(f => `<figure><a href="${esc(f.src)}" target="_blank" rel="noopener"><img src="${esc(f.src)}" alt="${esc(f.titulo)}" loading="lazy"></a><figcaption>${esc(f.titulo)}</figcaption></figure>`).join('') +
+    g.fotos.map(f => `<figure><a href="${esc(f.src)}" target="_blank" rel="noopener"><img src="${esc(f.src)}?v=${VERSION_DATOS}" alt="${esc(f.titulo)}" loading="lazy"></a><figcaption>${esc(f.titulo)}</figcaption></figure>`).join('') +
     '</div></div>').join('');
   $('#bFotos').hidden = false;
 }).catch(() => {});
