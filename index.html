@@ -28,12 +28,13 @@
   --bg:#121211; --surface:#1b1b19; --surface-2:#262623; --fg:#efeeea; --muted:#a9a59d; --line:#35342f;
   --ink:#0b0b0b; --ink-fg:#ffffff; --accent:#ff7631; --accent-fg:#160800; --ok:#5fc48a;
   --glass:rgba(24,24,22,.88); --glass-line:rgba(255,255,255,.10); --shadow:0 10px 30px rgba(0,0,0,.55); color-scheme:dark}
+[hidden]{display:none!important}
 html,body{height:100%}
 body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:14px;line-height:1.45;overflow:hidden}
 #app{position:relative;height:100%;width:100%;overflow:hidden;background:#c9d3dc}
 #lienzo{position:absolute;inset:0}
 #lienzo canvas{display:block;touch-action:none}
-.capa-etiquetas{position:absolute;inset:0;pointer-events:none}
+.capa-etiquetas{position:absolute;inset:0;pointer-events:none;z-index:0}
 button{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
@@ -101,6 +102,18 @@ button{font:inherit;color:inherit}
 .sol-ventana{display:flex;gap:10px;align-items:flex-start;margin:12px 0 0;padding:10px 12px;border-radius:10px;background:var(--surface-2);font-size:13px}
 .reproducir{border:0;background:var(--ink);color:var(--ink-fg);border-radius:999px;padding:8px 14px;font-size:13px;font-weight:500;cursor:pointer}
 
+/* fotos realistas */
+.panel-fotos{background:var(--surface);z-index:3;left:max(16px,env(safe-area-inset-left,0px));right:max(16px,env(safe-area-inset-right,0px));width:auto;top:calc(78px + env(safe-area-inset-top,0px));bottom:calc(72px + env(safe-area-inset-bottom,0px));max-height:none}
+.fotos{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:10px}
+.fotos figure{margin:0;display:grid;gap:6px;min-width:0}
+.fotos button{border:0;padding:0;background:var(--surface-2);border-radius:8px;overflow:hidden;cursor:zoom-in;aspect-ratio:16/9;max-width:100%}
+.fotos img{width:100%;height:100%;object-fit:cover;display:block}
+.fotos figcaption{font-size:12.5px;line-height:1.35}
+.fotos figcaption b{display:block;font-weight:600;font-size:13px}
+.foto-grande{position:absolute;inset:0;z-index:8;background:rgba(8,8,8,.94);display:grid;grid-template-rows:1fr auto;gap:10px;padding:calc(16px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.foto-grande img{width:100%;height:100%;object-fit:contain;min-height:0}
+.foto-grande p{margin:0;color:#f2f0ec;text-align:center;font-size:13.5px}
+.foto-grande .cerrar{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:max(14px,env(safe-area-inset-right,0px));background:#ffffff;color:#151515}
 /* capas */
 .capas{display:grid;gap:8px;margin:6px 0 4px}
 .capas label{display:flex;align-items:center;gap:10px;font-size:13.5px;cursor:pointer}
@@ -226,6 +239,19 @@ button{font:inherit;color:inherit}
     <p class="sol-ventana"><span class="punto" id="sv-punto"></span><span id="sv-texto">Calculando el sol en tu ventana…</span></p>
   </section>
 
+  <section id="panel-fotos" class="panel panel-fotos" aria-labelledby="fotos-t" hidden>
+    <div class="cab">
+      <div><p class="eyebrow">Cycles + retoque con IA</p><h2 id="fotos-t">Fotos de UNO62</h2></div>
+      <button class="cerrar" data-cierra="panel-fotos" aria-label="Cerrar las fotos">×</button>
+    </div>
+    <div class="seg" role="group" aria-label="Versión de las fotos" style="width:max-content;margin-top:4px">
+      <button type="button" data-modo-foto="foto" aria-pressed="true">Como foto</button>
+      <button type="button" data-modo-foto="render" aria-pressed="false">Render exacto</button>
+    </div>
+    <p class="nota" id="nota-fotos"></p>
+    <div class="fotos" id="fotos"></div>
+  </section>
+
   <section id="panel-capas" class="panel" aria-labelledby="capas-t" hidden>
     <div class="cab">
       <h2 id="capas-t">Capas</h2>
@@ -266,10 +292,12 @@ button{font:inherit;color:inherit}
     <button class="chip" data-vista="adentro" aria-pressed="false">Adentro</button>
     <span class="sep" aria-hidden="true"></span>
     <button class="chip" data-panel="panel-sol" aria-pressed="false">☀ Sol</button>
+    <button class="chip" data-panel="panel-fotos" aria-pressed="false">Fotos</button>
     <button class="chip" data-panel="panel-capas" aria-pressed="false">Capas</button>
     <button class="chip acento" data-panel="ficha" aria-pressed="false">Apto 317</button>
   </nav>
 
+  <div id="foto-grande" class="foto-grande" hidden><button class="cerrar" id="cerrar-foto" aria-label="Cerrar la foto">×</button><img id="img-grande" alt=""><p id="txt-grande"></p></div>
   <div id="aviso" class="aviso" hidden></div>
   <div id="carga" class="carga"><div><span class="box">317</span><p id="carga-txt">Cargando la ciudad…</p><div class="barra-prog"><i id="carga-bar"></i></div></div></div>
 </div>
@@ -288,6 +316,8 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { GTAOPass } from 'three/addons/postprocessing/GTAOPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
 const $ = s => document.querySelector(s);
@@ -333,6 +363,37 @@ scene.fog = new THREE.Fog(0xc9d3dc, 1600, 17000);
 // el mismo cielo, horneado como mapa de entorno: los vidrios, el agua y los metales lo reflejan
 const escenaCielo = new THREE.Scene();
 const sky2 = new Sky(); sky2.material = sky.material; sky2.scale.setScalar(900); escenaCielo.add(sky2);
+// cielo real de dia (Poly Haven, CC0): la foto se ve de fondo y su HDR ilumina; se gira para que su sol caiga donde esta el sol real
+const cieloFoto = new THREE.Mesh(new THREE.SphereGeometry(30000, 64, 32), new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, depthWrite: false, depthTest: false, fog: false }));
+cieloFoto.scale.x = -1; cieloFoto.renderOrder = -1; cieloFoto.visible = false; scene.add(cieloFoto);
+const cieloLuz = new THREE.Mesh(new THREE.SphereGeometry(800, 64, 32), new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, toneMapped: false, color: 0xb3b3b3 }));
+cieloLuz.scale.x = -1; cieloLuz.visible = false; escenaCielo.add(cieloLuz);
+let cieloListo = false, SOL_LOCAL = null;
+async function cargarCielo() {
+  try {
+    const cargarHdr = async () => {          // el HDR va en base64 dentro de un .json (los Artifacts no sirven .hdr)
+      const j = await (await fetch('tex/cielo_luz.json')).json(), bin = atob(j.datos), u = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+      const td = new RGBELoader().parse(u.buffer);
+      const t = new THREE.DataTexture(td.data, td.width, td.height, THREE.RGBAFormat, td.type);
+      t.colorSpace = THREE.LinearSRGBColorSpace; t.minFilter = t.magFilter = THREE.LinearFilter; t.generateMipmaps = false; t.flipY = true; t.needsUpdate = true;
+      return t;
+    };
+    const [foto, hdr] = await Promise.all([new THREE.TextureLoader().loadAsync('tex/cielo_fondo.jpg'), cargarHdr()]);
+    foto.colorSpace = THREE.SRGBColorSpace; foto.anisotropy = 4;
+    cieloFoto.material.map = foto; cieloFoto.material.needsUpdate = true;
+    cieloLuz.material.map = hdr; cieloLuz.material.needsUpdate = true;
+    // el sol de la foto: el pixel mas brillante de una copia chica
+    const c = document.createElement('canvas'); c.width = 512; c.height = 256; const g = c.getContext('2d');
+    g.drawImage(foto.image, 0, 0, 512, 256);
+    const d = g.getImageData(0, 0, 512, 128).data; let mejor = -1, iu = 0, iv = 0;
+    for (let i = 0; i < d.length; i += 4) { const l = d[i] + d[i + 1] + d[i + 2]; if (l > mejor) { mejor = l; iu = (i / 4) % 512; iv = Math.floor(i / 4 / 512); } }
+    const phi = 2 * Math.PI * (iu + 0.5) / 512, th = Math.PI * (iv + 0.5) / 256;
+    SOL_LOCAL = new THREE.Vector3(Math.cos(phi) * Math.sin(th), Math.cos(th), Math.sin(phi) * Math.sin(th));   // con scale.x = -1
+    cieloListo = true;
+    if (typeof aplicarSol === 'function') aplicarSol();
+  } catch (e) { console.warn('cielo real no disponible', e); }
+}
 const pmrem = new THREE.PMREMGenerator(renderer);
 let rtEntorno = null, entornoPend = true, tEntorno = 0;
 function hornearEntorno() {
@@ -365,6 +426,23 @@ if (!MOVIL) {
 const pBloom = new UnrealBloomPass(new THREE.Vector2(2, 2), 0.15, 0.55, 0.95);
 composer.addPass(pBloom);
 composer.addPass(new OutputPass());
+const pPelicula = new ShaderPass({
+  uniforms: { tDiffuse: { value: null }, uTiempo: { value: 0 }, uVineta: { value: 0.22 }, uGrano: { value: MOVIL ? 0.0 : 0.022 }, uAberr: { value: 0.00018 } },
+  vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
+  fragmentShader: `uniform sampler2D tDiffuse; uniform float uTiempo, uVineta, uGrano, uAberr; varying vec2 vUv;
+    float h(vec2 p){ return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
+    void main(){
+      vec2 c = vUv - 0.5; float r2 = dot(c, c);
+      vec3 col = vec3(texture2D(tDiffuse, vUv + c * uAberr * 8.0).r, texture2D(tDiffuse, vUv).g, texture2D(tDiffuse, vUv - c * uAberr * 8.0).b);
+      col = mix(col, col * col * (3.0 - 2.0 * col), 0.16);
+      float l = dot(col, vec3(0.299, 0.587, 0.114));
+      col *= mix(vec3(0.97, 0.99, 1.035), vec3(1.035, 1.0, 0.965), smoothstep(0.15, 0.85, l));
+      col *= 1.0 - uVineta * r2 * 1.7;
+      col += (h(vUv * vec2(1931.0, 1087.0) + fract(uTiempo)) - 0.5) * uGrano;
+      gl_FragColor = vec4(col, 1.0);
+    }`
+});
+composer.addPass(pPelicula);
 
 // ------------------------------------------------------------------ datos
 async function json(url) {
@@ -467,6 +545,7 @@ function matFachada(t) {
     emissiveMap: t.emis, emissive: 0xffffff, emissiveIntensity: 0, vertexColors: true, envMapIntensity: 0.55 });
 }
 const MAT = { ladrillo: matFachada(TEX.ladrillo), estuco: matFachada(TEX.estuco), concreto: matFachada(TEX.concreto), uno: matFachada(TEXU), local: matFachada(TEXL) };
+for (const k of ['ladrillo', 'estuco', 'concreto']) ensuciar(MAT[k], 0.55);
 function matSuelo(c, n, rep, extra = {}) {
   const map = textura(IMG[c]), nm = textura(IMG[n], false);
   map.repeat.set(1 / rep, 1 / rep); nm.repeat.set(1 / rep, 1 / rep);
@@ -708,8 +787,30 @@ const GEO = {
     caja(0.04, 0.04, 1, -0.49, 0.5, 0), caja(0.04, 0.04, 1, 0.49, 0.5, 0), ...[-0.3, 0, 0.3].flatMap(z => [caja(0.02, 1, 0.02, -0.49, 0, z), caja(0.02, 1, 0.02, 0.49, 0, z)])]),
   panel: new THREE.BoxGeometry(1, 1, 1)
 };
-const MAT_VIDRIO = new THREE.MeshStandardMaterial({ color: 0x141a1f, roughness: 0.07, metalness: 0.0, envMapIntensity: 0.75 });
-const MAT_VIDRIO_ON = new THREE.MeshStandardMaterial({ color: 0x1c1b19, roughness: 0.08, metalness: 0.0, envMapIntensity: 0.7, emissive: 0xffc98a, emissiveIntensity: 0 });
+function ensuciar(mat, fuerza) {
+  mat.onBeforeCompile = sh => {
+    sh.uniforms.uSucio = { value: fuerza };
+    sh.vertexShader = sh.vertexShader.replace('#include <common>', '#include <common>\nvarying vec3 vPosMundo;')
+      .replace('#include <project_vertex>', '#include <project_vertex>\nvPosMundo = (modelMatrix * vec4(transformed, 1.0)).xyz;');
+    sh.fragmentShader = sh.fragmentShader.replace('#include <common>', `#include <common>
+      varying vec3 vPosMundo; uniform float uSucio;
+      float h31(vec3 p){ return fract(sin(dot(p, vec3(12.9898, 78.233, 37.719))) * 43758.5453); }
+      float n31(vec3 p){ vec3 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
+        return mix(mix(mix(h31(i), h31(i + vec3(1,0,0)), f.x), mix(h31(i + vec3(0,1,0)), h31(i + vec3(1,1,0)), f.x), f.y),
+                   mix(mix(h31(i + vec3(0,0,1)), h31(i + vec3(1,0,1)), f.x), mix(h31(i + vec3(0,1,1)), h31(i + vec3(1,1,1)), f.x), f.y), f.z); }`)
+      .replace('#include <map_fragment>', `#include <map_fragment>
+      { vec3 q = vPosMundo;
+        float chorreo = n31(vec3(q.x * 2.6, q.y * 0.11, q.z * 2.6)) * n31(vec3(q.x * 0.7, q.y * 0.04, q.z * 0.7));
+        float suelo = 1.0 - smoothstep(0.0, 1.3, q.y);
+        float parche = n31(q * 0.33);
+        float s = clamp(chorreo * 1.0 + suelo * 0.5 + (parche - 0.5) * 0.3, 0.0, 1.0) * uSucio;
+        diffuseColor.rgb *= 1.0 - s * 0.42; }`);
+  };
+  mat.customProgramCacheKey = () => 'sucio' + fuerza;
+}
+const MAT_VIDRIO = new THREE.MeshStandardMaterial({ color: 0x26323b, roughness: 0.03, metalness: 0.5, envMapIntensity: 3.2 });
+const MAT_VIDRIO_ON = new THREE.MeshStandardMaterial({ color: 0x2c2c2a, roughness: 0.04, metalness: 0.45, envMapIntensity: 2.8, emissive: 0xffc98a, emissiveIntensity: 0 });
+ensuciar(MAT3.ladrillo, 0.75); ensuciar(MAT3.estuco, 1.0); ensuciar(MAT3.concreto, 1.0);
 const MALLAS_3D = [];
 function cerrarDetalle() {
   for (const t of ['ladrillo', 'estuco', 'concreto']) { const m = malla(ACC3[t], MAT3[t]); MALLAS_3D.push(m); grupoEdif.add(m); }
@@ -893,6 +994,41 @@ puntosArbol.forEach((p, i) => {
   copa.setColorAt(i, color.setHSL(0.22 + rA() * 0.08, 0.32 + rA() * 0.2, 0.09 + rA() * 0.07));
 });
 grupoVerde.add(copa, tronco);
+// arboles foto: sprites del jacaranda (el sprite mide 1,304 veces la altura del arbol y su base queda a 0,1166 del borde de abajo)
+const SPR = { frente: null, lado: null, planta: null };
+const geoSprite = {
+  frente: new THREE.PlaneGeometry(1, 1).translate(0, 0.5 - 0.1166, 0),
+  lado: new THREE.PlaneGeometry(1, 1).translate(0, 0.5 - 0.1166, 0).rotateY(Math.PI / 2),
+  planta: new THREE.PlaneGeometry(0.96, 0.96).rotateX(-Math.PI / 2).translate(0, 0.52, 0)
+};
+function arbolesFoto(puntos, grupo) {
+  // puntos: [x, z, altura, giro]; devuelve las 3 instancias
+  const mallas = [];
+  for (const k of ['frente', 'lado', 'planta']) {
+    const mat = new THREE.MeshStandardMaterial({ map: SPR[k], alphaTest: 0.42, side: THREE.DoubleSide, roughness: 0.9, envMapIntensity: 0.4 });
+    const im = new THREE.InstancedMesh(geoSprite[k], mat, puntos.length);
+    const m4 = new THREE.Matrix4(), qq = new THREE.Quaternion(), ss = new THREE.Vector3(), pp = new THREE.Vector3(), cc = new THREE.Color();
+    puntos.forEach((p, i) => {
+      const S = p[2] * 1.304;
+      m4.compose(pp.set(p[0], 0, p[1]), qq.setFromAxisAngle(ARRIBA, p[3]), ss.set(S, S, S)); im.setMatrixAt(i, m4);
+      im.setColorAt(i, cc.setHSL(0.28 + ((i * 37) % 10) * 0.004, 0.05, 0.92 + ((i * 13) % 7) * 0.012));
+    });
+    im.castShadow = k !== 'planta'; im.receiveShadow = true;
+    grupo.add(im); mallas.push(im);
+  }
+  return mallas;
+}
+async function cargarArboles() {
+  try {
+    const L = new THREE.TextureLoader();
+    const [f, l, p] = await Promise.all(['frente', 'lado', 'planta'].map(n => L.loadAsync('tex/arbol_' + n + '.png')));
+    for (const [k, t] of [['frente', f], ['lado', l], ['planta', p]]) { t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; SPR[k] = t; }
+    const rr = mulberry(1979), pts = puntosArbol.map(p => [p[0] / 10, -p[1] / 10, p[2] ? 7 + rr() * 5 : 6 + rr() * 8, rr() * 6.28]);
+    arbolesFoto(pts, grupoVerde);
+    copa.visible = false; tronco.visible = false;
+    if (window.ARBOLES_UNO) { arbolesFoto(window.ARBOLES_UNO.pts, grupoUno); window.ARBOLES_UNO.viejos.forEach(o => { o.visible = false; }); }
+  } catch (e) { console.warn('sin arboles foto', e); }
+}
 
 // carros parqueados y postes de luz a lo largo de las vías (ilustrativos)
 {
@@ -1079,7 +1215,7 @@ function caraUno(xa, ya, xb, yb, normal, alongX, op = {}) {
     const es317 = op.hueco317 && alongX && Math.abs(xa + c - 1.5) < 0.5;
     for (let f = 0; f < 4; f++) {
       const base = 4.5 * f; if (base < z0 - 0.01) continue;
-      if (es317 && f === 2) { vanos.push({ a: c - 1.65, b: c + 1.65, ya: 8.75, yb: 13.45, hueco: true }); continue; }
+      if (es317 && f === 2) { vanos.push({ a: 0.61 - xa, b: 2.68 - xa, ya: 9.40, yb: 12.70, hueco: true }); continue; }   // el ventanal del 317 (VENT del modelo)
       const v = f === 0 ? { a: c - 1.035, b: c + 1.035, ya: 0.45, yb: 3.25, uno: true } : { a: c - 1.035, b: c + 1.035, ya: base + 0.25, yb: base + 3.55, uno: true };
       if (gaps.some(g => v.b > g.a - 0.2 && v.a < g.b + 0.2 && v.ya < g.z)) continue;
       vanos.push(v);
@@ -1096,7 +1232,7 @@ function caraUno(xa, ya, xb, yb, normal, alongX, op = {}) {
   if (z0 > 0) franja(AC_UNO3, p, d, normal, L, z0, z0 + 0.25, 0.05, colUno);    // zocalo sobre la arcada
 }
 // ---- Torre A: pisos 2 a 4 sobre la arcada; Torre B completa
-caraUno(XA0, YA1, XA1, YA1, NY3, true, { z0: 4.5, hueco317: true });
+caraUno(XA0, YA1 + 0.02, XA1, YA1 + 0.02, NY3, true, { z0: 4.5, hueco317: true });
 caraUno(XA0, YA0, XA1, YA0, [-NY3[0], -NY3[1]], true, { gaps: [{ a: XPAS0 - XA0, b: XPAS1 - XA0, z: 4.0 }] });
 caraUno(XA0, YA0, XA0, YA1, [-TX3[0], -TX3[1]], false, { z0: 4.5 });
 caraUno(XA1, YA0, XA1, YA1, TX3, false);
@@ -1226,6 +1362,7 @@ grupoUno.add(malla(AC_NEGRO2, new THREE.MeshStandardMaterial({ color: 0x18191b, 
     m4.compose(p4.set(q.x, 2.3, q.z), q4.identity(), s4.set(1, 4.6, 1)); troncoA.setMatrixAt(i, m4);
   }
   for (const o of [luces, col, pl, bol, copaA, troncoA]) { o.castShadow = o !== luces; o.receiveShadow = true; grupoUno.add(o); }
+  window.ARBOLES_UNO = { pts: Array.from({ length: NT }, (_, i) => { const q = W3(XA0 + 2.5 + i * 8.6, YA1 + 1.7, 0); return [q.x, q.z, 6.5, i * 1.3]; }), viejos: [copaA, troncoA] };
   EMIS_UNO.push({ m: bol.material, base: 0, k: 2.5 }, { m: luces.material, base: 0.6, k: 2.0 });
 }
 const MAT_VERDE = matSuelo('pasto_c', 'pasto_n', 1); MAT_VERDE.color.set('#9fb58d');
@@ -1455,7 +1592,7 @@ function aplicarSol() {
   grupoVida.userData.lampara.material.emissiveIntensity = 6 * noche;
   nubesMat.uniforms.luz.value.setRGB(1, 1, 1).lerp(new THREE.Color(1.0, 0.78, 0.6), dorado * dia * 0.85).multiplyScalar(0.12 + 0.88 * dia);
   nubesMat.uniforms.sombra.value.setRGB(0.55, 0.58, 0.64).multiplyScalar(0.1 + 0.9 * dia);
-  renderer.toneMappingExposure = 0.5 + 0.32 * dia;
+  renderer.toneMappingExposure = 0.6 + 0.4 * dia;
   for (const k of ['ladrillo', 'estuco', 'concreto']) MAT[k].emissiveIntensity = 0.95 * noche;
   MAT.uno.emissiveIntensity = 1.2 * noche; MAT.local.emissiveIntensity = 1.4 * noche; MAT_VIDRIO_ON.emissiveIntensity = 1.6 * noche;
   for (const e of EMIS_UNO) e.m.emissiveIntensity = e.base + e.k * noche;
@@ -1463,6 +1600,12 @@ function aplicarSol() {
   const cf = new THREE.Color('#c9d3dc').lerp(new THREE.Color('#e1b994'), dorado * dia * 0.8).lerp(new THREE.Color('#121826'), noche);
   scene.fog.color.copy(cf); $('#app').style.background = '#' + cf.getHexString();
   sol.userData.dir = d;
+  const real = cieloListo && s.alt > 12;
+  sky.visible = !real; sky2.visible = !real; nubes.visible = !real; cieloFoto.visible = real; cieloLuz.visible = real;
+  if (real && SOL_LOCAL) {
+    const ang = Math.atan2(d.x, d.z) - Math.atan2(SOL_LOCAL.x, SOL_LOCAL.z);
+    cieloFoto.rotation.y = ang; cieloLuz.rotation.y = ang;
+  }
   colocarSombra();
 }
 let dentro = false;
@@ -1551,7 +1694,7 @@ document.querySelectorAll('[data-vista]').forEach(b => b.addEventListener('click
 // paneles
 function panel(id, abrir) {
   const p = document.getElementById(id); const si = abrir ?? p.hidden;
-  if (si) ['ficha', 'panel-sol', 'panel-capas'].forEach(o => { if (o !== id && esMovil()) document.getElementById(o).hidden = true; });
+  if (si) ['ficha', 'panel-sol', 'panel-capas', 'panel-fotos'].forEach(o => { if (o !== id && (esMovil() || id === 'panel-fotos' || o === 'panel-fotos')) document.getElementById(o).hidden = true; });
   p.hidden = !si;
   document.querySelectorAll('[data-panel]').forEach(b => b.setAttribute('aria-pressed', String(!document.getElementById(b.dataset.panel).hidden)));
 }
@@ -1561,12 +1704,51 @@ document.querySelectorAll('[data-cierra]').forEach(b => b.addEventListener('clic
 const capa = (id, fn) => $(id).addEventListener('change', e => fn(e.target.checked));
 capa('#c-edificios', v => { grupoEdif.visible = v; });
 capa('#c-uno62', v => { grupoUno.visible = v; });
-capa('#c-calles', v => { grupoCalles.visible = v && !(ortoSuelo && ortoSuelo.visible); });
+capa('#c-calles', v => { grupoCalles.visible = v; });
 capa('#c-verde', v => { grupoVerde.visible = v; });
 capa('#c-vida', v => { grupoVida.visible = v; });
 capa('#c-relieve', v => { relieve.visible = v; });
 capa('#c-etiquetas', v => { mostrarEtiquetas(v && !dentro); });
 capa('#c-sombras', v => { sol.castShadow = v; });
+
+// galeria de fotos realistas
+{
+  const FOTOS = [
+    ['01_fachada_manana', 'Fachada en la mañana', 'Sol de las 8:30 sobre la KR 55C: ladrillo, pilastras y ventanales negros.'],
+    ['02_tu_ventana_desde_la_calle', 'Tu ventana desde la calle', 'El 317, piso 3: ventanal de 2,07 × 3,30 m con tu diseño adentro.'],
+    ['03_porteria_al_atardecer', 'Portería al atardecer', 'La caja negra con el rombo de UNO62 y el lobby encendido.'],
+    ['04_arcada_y_locales', 'Arcada y locales', 'Primer piso retrocedido 2,6 m, cielo con luces empotradas.'],
+    ['05_patio_y_jardin_colgante', 'Patio y jardín colgante', 'Puente entre torres con matera, pérgola de madera y columna en travertino.'],
+    ['06_conjunto_desde_el_aire', 'El conjunto desde el aire', 'Torres A y B con la cubierta verde y el punto fijo negro.'],
+    ['07_vista_desde_el_317', 'Vista desde el 317', 'Lo que ves desde la sala en la mañana: El Portal de San Diego.']
+  ];
+  const cont = $('#fotos'), grande = $('#foto-grande');
+  const NOTAS = {
+    foto: 'El render de Cycles retocado con IA (ChatGPT) para que parezca una fotografía: el edificio y el encuadre salen del render; las personas, los carros, los árboles, el cielo y el desgaste son ilustrativos.',
+    render: 'Renderizadas en Blender (Cycles, trazado de rayos) con la misma geometría de este visor: UNO62 según el ayudaventas final, los vecinos de Catastro, el cielo físico de Bogotá a 2.600 m y el sol real del día.'
+  };
+  let modoFoto = 'foto';
+  const archivo = f => 'fotos/' + f + (modoFoto === 'foto' ? '_foto' : '') + '.jpg';
+  function pintarFotos() {
+    cont.innerHTML = ''; $('#nota-fotos').textContent = NOTAS[modoFoto];
+    for (const [f, t, d] of FOTOS) {
+      const fig = document.createElement('figure');
+      fig.innerHTML = `<button type="button" aria-label="Ver ${t} en grande"><img src="${archivo(f)}" alt="${t}" loading="lazy"></button><figcaption><b>${t}</b>${d}</figcaption>`;
+      const img = fig.querySelector('img');
+      img.addEventListener('error', () => { if (modoFoto === 'foto') img.src = 'fotos/' + f + '.jpg'; }, { once: true });
+      fig.querySelector('button').addEventListener('click', () => { $('#img-grande').src = img.src; $('#img-grande').alt = t; $('#txt-grande').textContent = t + ' · ' + d; grande.hidden = false; $('#cerrar-foto').focus(); });
+      cont.appendChild(fig);
+    }
+  }
+  document.querySelectorAll('[data-modo-foto]').forEach(b => b.addEventListener('click', () => {
+    modoFoto = b.dataset.modoFoto; document.querySelectorAll('[data-modo-foto]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); pintarFotos();
+  }));
+  pintarFotos();
+  const cerrarFoto = () => { grande.hidden = true; };
+  $('#cerrar-foto').addEventListener('click', cerrarFoto);
+  grande.addEventListener('click', e => { if (e.target === grande) cerrarFoto(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && !grande.hidden) cerrarFoto(); });
+}
 
 // clic en un edificio: pisos y altura
 const ray = new THREE.Raycaster(), ptr = new THREE.Vector2();
@@ -1611,7 +1793,7 @@ function ponerOrto(v) {
   if (!ortoSuelo) v = false;
   if (ortoSuelo) { ortoSuelo.visible = v; ortoCerca.visible = v; }
   suelo.visible = !v;
-  grupoCalles.visible = !v && $('#c-calles').checked;
+  grupoCalles.visible = $('#c-calles').checked;      // asfalto, andenes y rayas nitidos encima de la foto
   mallaParques.visible = !v; agua.visible = !v;
   for (const o of grupoVida.userData.carros) o.visible = !v;
   MALLAS_EDIF[3].material = v ? MAT_TECHO_ORTO : MAT_TECHO;
@@ -1622,7 +1804,7 @@ ponerOrto(true);
 
 // ------------------------------------------------------------------ arranque
 progreso('Calculando el sol en tu ventana…', 0.85); await espera();
-aplicarSol(); textoVentana();
+aplicarSol(); textoVentana(); cargarCielo(); cargarArboles();
 {
   const cv = cerrosVisibles();
   const t = (g) => g > 0 ? `se ven en ${g}° del ventanal` : 'quedan tapados';
@@ -1663,6 +1845,7 @@ function cuadro() {
   if (Math.abs(camera.near - cerca) > 0.01) { camera.near = cerca; camera.far = 40000; camera.updateProjectionMatrix(); }
   nubesMat.uniforms.t.value += dt * 60; nubesMat.uniforms.cam.value.copy(camera.position);
   if (entornoPend && performance.now() - tEntorno > 250) hornearEntorno();
+  pPelicula.uniforms.uTiempo.value = (performance.now() % 10000) / 997;
   composer.render();
   etq.render(scene, camera);
   requestAnimationFrame(cuadro);
