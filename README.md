@@ -15,6 +15,7 @@ Hecho con software libre (three.js, Blender) y datos abiertos.
 - Relieve: Terrain Tiles (AWS Open Data, derivado de SRTM).
 - Texturas de materiales: ambientCG (CC0). Fachadas en textura de los edificios lejanos: generadas con IA.
 - Cielo (HDRI) y árbol (jacaranda): Poly Haven (CC0); el árbol se renderizó en Blender como sprite.
+- Muebles reales del 317: silla lounge mid-century, otomana, butacos, mesa de centro, lámpara colgante, planta y cojines escaneados de Poly Haven (CC0). El edredón y el pie de cama son tela simulada en Blender; el sofá, la cama y el resto del mobiliario a medida siguen modelados con las medidas del diseño.
 - Fotos: renders de Blender Cycles con la geometría del visor; la versión «como foto» es el render retocado con IA (ChatGPT), con personas, carros, árboles y cielo ilustrativos.
 - UNO62: modelado a partir del ayudaventas publicado por el proyecto (representación aproximada, no planos de obra).
 - Parqueaderos, bloque comunal y cerramiento de UNO62: planta general del ayudaventas (la altura del muro es supuesta).

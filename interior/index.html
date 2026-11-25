@@ -992,7 +992,8 @@ function activar(c){
     });
     const n = nombreDe(o);
     const transparente = mats.some(m => m.transparent), emisivo = mats.some(m => m.userData.e0 !== undefined);
-    o.castShadow = !transparente && !emisivo; o.receiveShadow = !emisivo;
+    const tela = /edredon|pie_de_cama|almohada|cojin/.test(n);   // telas curvas y delgadas: si proyectan sombra se manchan solas (acne)
+    o.castShadow = !transparente && !emisivo && !tela; o.receiveShadow = !emisivo;
     if(n.startsWith('MURO_N')) grupos.N.push(o);
     else if(n.startsWith('MURO_S')) grupos.S.push(o);
     else if(n.startsWith('MURO_E')) grupos.E.push(o);

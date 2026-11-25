@@ -1,6 +1,24 @@
 {
  "grupos": [
   {
+   "titulo": "El 317 con muebles reales",
+   "nota": "Render de Cycles: Eames, otomana, butacos, mesa, lámpara, planta y cojines escaneados (Poly Haven, CC0); edredón y pie de cama simulados como tela.",
+   "fotos": [
+    {
+     "src": "reales/cam_eames.jpg",
+     "titulo": "Rincón Eames real"
+    },
+    {
+     "src": "reales/cam_mezz_cama.jpg",
+     "titulo": "Cama con ropa de cama real"
+    },
+    {
+     "src": "reales/cam_salon.jpg",
+     "titulo": "Salón con muebles reales"
+    }
+   ]
+  },
+  {
    "titulo": "Vistas de Revit 2026",
    "nota": "Exportadas por Revit desde este mismo IFC (importación de referencia, estilo realista).",
    "fotos": [
