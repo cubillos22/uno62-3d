@@ -167,6 +167,7 @@ code{font-family:var(--f-mono);font-size:12.5px;background:var(--surface-2);padd
       <a href="#renders" data-v="renders">Renders</a>
       <a href="#ficha" data-v="ficha">Ficha</a>
       <a class="ext" href="../" target="_blank" rel="noopener">Ciudad 3D ↗</a>
+      <a class="ext" href="../bim/" target="_blank" rel="noopener">BIM ↗</a>
     </nav>
   </div>
 </header>
@@ -453,7 +454,20 @@ code{font-family:var(--f-mono);font-size:12.5px;background:var(--surface-2);padd
     </div>
     <p class="lead" style="margin-top:10px">Estas tres son fotos hechas con IA (ChatGPT) sobre los renders del modelo: el espacio es tu diseño y las personas son genéricas, no retratos. Puede haber pequeñas diferencias con el modelo. Diez personas caben así: tres en el sofá, una en el Eames, una en la otomana, dos en los butacos y tres de pie; es una reunión apretada pero posible, y cómodas caben seis u ocho. En la pestaña Renders están las mismas escenas con maniquíes a escala de 1,72 m, además de la cama y la escalera.</p>
 
-    <h3>13. Entorno: qué tan alto quedas frente a los vecinos</h3>
+    <h3>13. Como fotos reales</h3>
+    <div class="fotos2">
+      <figure><img src="renders/D_F01_salon_dia.jpg" alt="Salón de día, como foto" loading="lazy"><figcaption>Salón de día</figcaption></figure>
+      <figure><img src="renders/D_F03_mezzanine_dia.jpg" alt="Mezzanine de día, como foto" loading="lazy"><figcaption>Mezzanine de día</figcaption></figure>
+      <figure><img src="renders/D_F05_salon_noche.jpg" alt="Salón de noche, como foto" loading="lazy"><figcaption>Salón de noche</figcaption></figure>
+      <figure><img src="renders/D_F19_cocina_barra.jpg" alt="Cocina y barra, como foto" loading="lazy"><figcaption>Cocina y barra</figcaption></figure>
+      <figure><img src="renders/D_F17_salon_tv.jpg" alt="TV tipo cuadro, como foto" loading="lazy"><figcaption>TV tipo cuadro</figcaption></figure>
+      <figure><img src="renders/D_F14_entrada_galeria.jpg" alt="Entrada y galería, como foto" loading="lazy"><figcaption>Entrada y galería</figcaption></figure>
+      <figure><img src="renders/D_F10_bano.jpg" alt="Baño, como foto" loading="lazy"><figcaption>Baño</figcaption></figure>
+      <figure><img src="renders/D_F12_mezzanine_tv.jpg" alt="Mezzanine con el TV, como foto" loading="lazy"><figcaption>Mezzanine con el TV</figcaption></figure>
+    </div>
+    <p class="lead" style="margin-top:10px">Son los renders de Cycles retocados con IA (Astra de ChatGPT): la misma geometría, los mismos muebles, colores y encuadre. La IA solo cambia la luz, las texturas y la cámara para que se vean como fotos de revista; puede haber diferencias mínimas en objetos pequeños.</p>
+
+    <h3>14. Entorno: qué tan alto quedas frente a los vecinos</h3>
     <div class="fotos2">
       <figure><img src="renders/D_30_entorno_frente.jpg" alt="UNO62 y los vecinos vistos desde la calle" loading="lazy"><figcaption>Desde la calle: tu apartamento marcado en naranja</figcaption></figure>
       <figure><img src="renders/D_33_vista_desde_la_ventana.jpg" alt="Vista desde la ventana del 317" loading="lazy"><figcaption>Lo que verías desde tu ventana</figcaption></figure>
@@ -474,10 +488,14 @@ code{font-family:var(--f-mono);font-size:12.5px;background:var(--surface-2);padd
     <p class="lead" style="margin-top:10px">En la Ciudad 3D está todo el barrio con los edificios de Catastro, los cerros, el sol real por fecha y hora (hoy entra sol directo por tu ventana de 06:46 a 11:51) y el vuelo hasta adentro del apartamento.</p>
     <a class="ciudad" href="../" target="_blank" rel="noopener">Abrir UNO62 en la ciudad 3D ↗</a>
 
-    <h3>14. Modelo E: alargar el mezzanine</h3>
+    <h3 id="bim-317">15. El proyecto en BIM (IFC)</h3>
+    <p class="lead">Todo el conjunto está modelado en IFC4, el formato abierto de BIM que abren Revit, ArchiCAD, Navisworks y BlenderBIM: las dos torres con sus 144 apartaestudios, los puntos fijos con escaleras, el ascensor y los puentes, el gimnasio, la lavandería, el salón de eventos, el coworking, la administración, la portería, la terraza con pérgola y BBQ, los parqueaderos, el patio y el cerramiento. Los demás apartamentos van como los entrega la constructora; el 317 lleva el diseño D pieza por pieza (116 elementos: muebles, electrodomésticos con su referencia, luminarias, aparatos sanitarios, escalera y barandas). Cada elemento dice de dónde sale y qué tan preciso es, y el archivo está georreferenciado en MAGNA-SIRGAS Origen-Nacional.</p>
+    <a class="ciudad" href="../bim/" target="_blank" rel="noopener">Abrir el modelo BIM y descargar el IFC ↗</a>
+
+    <h3>16. Modelo E: alargar el mezzanine</h3>
     <p class="lead">El modelo E alarga la placa 1,51 m junto a la escalera (+3,3 m²). Se puede, pero es una ampliación: necesita licencia de construcción, acta de la copropiedad y diseño estructural, puede chocar con la altura mínima de 2,30 m en Bogotá y te quita el amparo de la garantía por obras posteriores. Hoy no te lo recomiendo; primero cierra la reclamación con la constructora. El modelo E quedó con el mobiliario anterior a los últimos cambios.</p>
 
-    <h3>15. Para confirmar cuando te entreguen</h3>
+    <h3>17. Para confirmar cuando te entreguen</h3>
     <ul class="clean">
       <li>Medidas reales de muros, alturas y ventana, con fotos.</li>
       <li>Distancia del desagüe del sanitario al muro.</li>

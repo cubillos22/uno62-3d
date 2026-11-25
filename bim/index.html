@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>UNO62 en BIM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Visor BIM: lienzo 3D a sangre, barra de marca arriba, dock de vistas y pisos abajo, ficha del elemento a la derecha. */
+:root{
+  --bg:#f3f3f1; --surface:#ffffff; --surface-2:#ecebe7; --fg:#151515; --muted:#5d5a55; --line:#d9d7d2;
+  --ink:#151515; --ink-fg:#ffffff; --accent:#d9540d; --accent-fg:#ffffff; --ok:#2f7d4f; --warn:#9a6a00;
+  --glass:rgba(255,255,255,.92); --glass-line:rgba(21,21,21,.10); --shadow:0 10px 30px rgba(0,0,0,.20);
+  --f-display:'Jost','Segoe UI',system-ui,sans-serif; --f-body:'Inter','Segoe UI',system-ui,sans-serif; --f-mono:'IBM Plex Mono',ui-monospace,Consolas,monospace;
+  --r:12px; --cielo:#cfd8e0;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121211; --surface:#1b1b19; --surface-2:#262623; --fg:#efeeea; --muted:#a9a59d; --line:#35342f;
+  --ink:#0b0b0b; --ink-fg:#ffffff; --accent:#ff7631; --accent-fg:#160800; --ok:#5fc48a; --warn:#e0b040;
+  --glass:rgba(24,24,22,.90); --glass-line:rgba(255,255,255,.10); --shadow:0 10px 30px rgba(0,0,0,.55); --cielo:#2a3038; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121211; --surface:#1b1b19; --surface-2:#262623; --fg:#efeeea; --muted:#a9a59d; --line:#35342f;
+  --ink:#0b0b0b; --ink-fg:#ffffff; --accent:#ff7631; --accent-fg:#160800; --ok:#5fc48a; --warn:#e0b040;
+  --glass:rgba(24,24,22,.90); --glass-line:rgba(255,255,255,.10); --shadow:0 10px 30px rgba(0,0,0,.55); --cielo:#2a3038; color-scheme:dark}
+[hidden]{display:none!important}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:14px;line-height:1.45;overflow:hidden}
+#app{position:relative;height:100%;width:100%;overflow:hidden;background:var(--cielo)}
+#lienzo{position:absolute;inset:0}
+#lienzo canvas{display:block;touch-action:none}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.vidrio{background:var(--glass);border:1px solid var(--glass-line);box-shadow:var(--shadow);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+
+.barra{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));left:max(16px,env(safe-area-inset-left,0px));right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;align-items:flex-start;justify-content:space-between;gap:12px;pointer-events:none}
+.marca{display:flex;align-items:center;gap:12px;border-radius:var(--r);padding:8px 14px 8px 8px;pointer-events:auto;min-width:0}
+.box{font-family:var(--f-display);font-weight:700;font-size:20px;letter-spacing:.02em;background:var(--ink);color:var(--ink-fg);padding:5px 10px 4px;border-radius:3px;line-height:1.15}
+.marca h1{font-family:var(--f-display);font-weight:600;font-size:17px;line-height:1.15;margin:0}
+.marca p{margin:1px 0 0;color:var(--muted);font-size:12px}
+.enlaces{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;pointer-events:auto}
+.enlace{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:8px 14px;color:var(--fg);text-decoration:none;font-weight:500;font-size:13px;white-space:nowrap}
+.enlace:hover{border-color:var(--accent)}
+.enlace.fuerte{background:var(--ink);color:var(--ink-fg);border-color:var(--ink)}
+
+.dock{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));max-width:calc(100% - 32px);
+  display:flex;gap:4px;align-items:center;border-radius:999px;padding:5px;overflow-x:auto;scrollbar-width:none}
+.dock::-webkit-scrollbar{display:none}
+.dock .sep{width:1px;align-self:stretch;background:var(--line);margin:4px;flex:none}
+.dock .rot{flex:none;font-size:11px;color:var(--muted);padding:0 4px 0 8px;text-transform:uppercase;letter-spacing:.06em}
+.chip{flex:none;border:0;background:transparent;border-radius:999px;padding:8px 13px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.chip:hover{background:var(--surface-2)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--ink-fg)}
+
+.panel{position:absolute;border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column}
+#ficha{top:86px;right:16px;width:min(380px,calc(100% - 32px));max-height:calc(100% - 170px)}
+#buscar{top:86px;left:16px;width:min(300px,calc(100% - 32px));max-height:calc(100% - 170px)}
+.cab{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px 8px;border-bottom:1px solid var(--line)}
+.cab h2{font-family:var(--f-display);font-weight:600;font-size:16px;margin:0;line-height:1.2}
+.cerrar{border:0;background:transparent;cursor:pointer;font-size:18px;line-height:1;padding:4px 6px;border-radius:6px;color:var(--muted)}
+.cerrar:hover{background:var(--surface-2);color:var(--fg)}
+.cuerpo{padding:10px 14px 14px;overflow:auto}
+.clase{font-family:var(--f-mono);font-size:12px;color:var(--accent);margin:0 0 6px}
+.dato{display:grid;grid-template-columns:104px 1fr;gap:2px 10px;font-size:13px;margin:6px 0 0}
+.dato dt{color:var(--muted)}
+.dato dd{margin:0;overflow-wrap:anywhere}
+details{border-top:1px solid var(--line);margin-top:10px;padding-top:8px}
+summary{cursor:pointer;font-weight:600;font-size:13px}
+.fuente{background:var(--surface-2);border-radius:8px;padding:8px 10px;margin-top:10px;font-size:12.5px}
+.fuente b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:2px}
+.vacio{color:var(--muted);font-size:13px;margin:0}
+#q{width:100%;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 10px}
+#res{list-style:none;margin:8px 0 0;padding:0}
+#res li button{width:100%;text-align:left;border:0;background:transparent;padding:6px 8px;border-radius:6px;cursor:pointer;font-size:13px}
+#res li button:hover{background:var(--surface-2)}
+#res small{display:block;color:var(--muted);font-family:var(--f-mono);font-size:11px}
+.cuenta{display:grid;grid-template-columns:1fr auto;gap:2px 10px;font-size:12.5px;margin-top:10px}
+.cuenta span:nth-child(2n){font-family:var(--f-mono);color:var(--muted);text-align:right}
+.btn-mini{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:12.5px;cursor:pointer}
+.btn-mini:hover{border-color:var(--accent)}
+
+#carga{position:absolute;inset:0;display:grid;place-items:center;background:var(--bg);z-index:5}
+#carga div{text-align:center;max-width:320px;padding:0 16px}
+#carga .box{display:inline-block;margin-bottom:12px}
+.barra-prog{height:4px;background:var(--line);border-radius:4px;overflow:hidden;margin-top:12px}
+.barra-prog i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}
+.aviso{position:absolute;left:16px;bottom:calc(78px + env(safe-area-inset-bottom,0px));max-width:min(420px,calc(100% - 32px));font-size:12px;color:var(--muted);border-radius:10px;padding:8px 12px}
+
+@media (max-width:760px){
+  .marca p,.enlace.sec{display:none}
+  #buscar{top:auto;bottom:calc(76px + env(safe-area-inset-bottom,0px));max-height:40%}
+  #ficha{top:auto;bottom:calc(76px + env(safe-area-inset-bottom,0px));right:16px;max-height:52%}
+  .aviso{display:none}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="lienzo"></div>
+  <div class="barra">
+    <div class="marca vidrio">
+      <span class="box">UNO62</span>
+      <div><h1>El conjunto en BIM (IFC4)</h1><p id="sub">Torres A y B, zonas comunes, parqueaderos y el 317 con el diseño D</p></div>
+    </div>
+    <div class="enlaces">
+      <a class="enlace vidrio sec" href="../">Ciudad 3D ↗</a>
+      <a class="enlace vidrio sec" href="../interior/">Diseño interior ↗</a>
+      <a class="enlace vidrio fuerte" id="bajar" href="UNO62_conjunto_y_apto317.ifc" download>Descargar IFC</a>
+    </div>
+  </div>
+
+  <section id="buscar" class="panel vidrio" aria-label="Buscar elementos">
+    <div class="cab"><h2>Buscar en el modelo</h2><button class="cerrar" id="cerrarBuscar" aria-label="Cerrar">×</button></div>
+    <div class="cuerpo">
+      <input id="q" type="search" placeholder="Ej.: sanitario, 317, gimnasio, ventana" autocomplete="off">
+      <ul id="res"></ul>
+      <div id="resumen"></div>
+    </div>
+  </section>
+
+  <section id="ficha" class="panel vidrio" aria-label="Ficha del elemento" hidden>
+    <div class="cab"><h2 id="fNombre">Elemento</h2><button class="cerrar" id="cerrarFicha" aria-label="Cerrar">×</button></div>
+    <div class="cuerpo" id="fCuerpo"></div>
+  </section>
+
+  <p class="aviso vidrio" id="aviso">Toca cualquier elemento para ver su ficha BIM. Modelo de referencia hecho con el ayudaventas, el plano de tipología y los correos de entrega: no es un plano de obra.</p>
+
+  <nav class="dock vidrio" aria-label="Vistas y pisos">
+    <span class="rot">Vista</span>
+    <button class="chip" data-vista="conjunto" aria-pressed="true">Conjunto</button>
+    <button class="chip" data-vista="calle">Calle</button>
+    <button class="chip" data-vista="patio">Patio</button>
+    <button class="chip" data-vista="amenidades">Amenidades</button>
+    <button class="chip" data-vista="apto">Apto 317</button>
+    <span class="sep"></span>
+    <span class="rot">Hasta</span>
+    <button class="chip" data-hasta="1">Piso 1</button>
+    <button class="chip" data-hasta="2">Piso 2</button>
+    <button class="chip" data-hasta="3">Piso 3</button>
+    <button class="chip" data-hasta="4">Piso 4</button>
+    <button class="chip" data-hasta="5" aria-pressed="true">Todo</button>
+    <span class="sep"></span>
+    <button class="chip" id="tSolo" aria-pressed="false">Solo el 317</button>
+    <button class="chip" id="tEspacios" aria-pressed="false">Espacios</button>
+    <button class="chip" id="tTechos" aria-pressed="true">Cielos rasos</button>
+    <button class="chip" id="tBuscar" aria-pressed="true">Buscar</button>
+  </nav>
+
+  <div id="carga"><div><span class="box">UNO62</span><p id="cargaTxt">Cargando el modelo BIM…</p><div class="barra-prog"><i id="prog"></i></div></div></div>
+</div>
+
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const $ = s => document.querySelector(s);
+const app = $('#app'), lienzo = $('#lienzo');
+const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.0;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+lienzo.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+const oscuro = () => matchMedia('(prefers-color-scheme: dark)').matches && document.documentElement.dataset.theme !== 'light';
+scene.background = new THREE.Color(oscuro() ? 0x2a3038 : 0xcfd8e0);
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 2000);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true; controls.dampingFactor = 0.08; controls.maxPolarAngle = Math.PI * 0.495;
+scene.add(new THREE.HemisphereLight(0xffffff, 0x8a7f72, 0.9));
+const sol = new THREE.DirectionalLight(0xfff3e2, 2.2);
+sol.position.set(40, 70, 25); sol.castShadow = true;
+sol.shadow.mapSize.set(4096, 4096);
+Object.assign(sol.shadow.camera, { left: -60, right: 60, top: 60, bottom: -60, near: 1, far: 200 });
+sol.shadow.bias = -0.0004; sol.shadow.normalBias = 0.03;
+sol.target.position.set(-13, 0, -17);
+scene.add(sol, sol.target);
+const suelo = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), new THREE.MeshStandardMaterial({ color: oscuro() ? 0x3a3a36 : 0xbdb8ae, roughness: 1 }));
+suelo.rotation.x = -Math.PI / 2; suelo.position.y = -0.16; suelo.receiveShadow = true;
+scene.add(suelo);
+
+function tamano() {
+  const w = app.clientWidth || innerWidth, h = app.clientHeight || innerHeight;
+  renderer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix();
+}
+new ResizeObserver(tamano).observe(app); tamano();
+
+// ---------- carga
+const prog = $('#prog');
+const [DATOS, gltf] = await Promise.all([
+  fetch('modelo.json').then(r => { if (!r.ok) throw new Error('modelo.json ' + r.status); return r.json(); }),
+  new GLTFLoader().loadAsync('modelo.glb', e => { if (e.total) prog.style.width = (100 * e.loaded / e.total).toFixed(0) + '%'; })
+]).catch(err => { $('#cargaTxt').textContent = 'No se pudo cargar el modelo: ' + err.message; throw err; });
+const E = DATOS.elementos;
+const PISOS = DATOS.pisos;                                   // ['Piso 1', 'Piso 2', 'Piso 3', 'Piso 4', 'Cubierta']
+const mallas = [];                                          // {mesh, info, piso, espacio, techo}
+const porNodo = {};
+gltf.scene.traverse(o => { if (o.isMesh) porNodo[o.name] = o; });
+for (const m of DATOS.mallas) {
+  let o = porNodo[m.nodo];
+  if (!o) { gltf.scene.traverse(q => { if (!o && q.isMesh && (q.name === m.nodo || q.parent?.name === m.nodo)) o = q; }); }
+  if (!o) continue;
+  const clave = m.clave, espacio = clave.startsWith('ESPACIOS '), techo = clave.includes('TECHOS '), apto = clave.includes('APTO317 ');
+  const piso = clave.replace(/^(ESPACIOS |TECHOS |APTO317 )+/, '').split('|')[0];
+  const mat = o.material;
+  mat.side = THREE.DoubleSide;
+  if (m.transp > 0.01) { mat.transparent = true; mat.depthWrite = false; }
+  if (espacio) { mat.color.set(0x3f9df2); mat.opacity = 0.16; mat.transparent = true; mat.depthWrite = false; o.renderOrder = 2; }
+  o.castShadow = !espacio && m.transp < 0.3; o.receiveShadow = !espacio;
+  mallas.push({ mesh: o, info: m, piso, espacio, techo, apto });
+}
+scene.add(gltf.scene);
+// por elemento: lista de (malla, inicio, fin)
+const partes = E.map(() => []);
+mallas.forEach((M, k) => { for (const [a, b, i] of M.info.rangos) partes[i].push([k, a, b]); });
+$('#carga').hidden = true;
+
+// ---------- visibilidad: pisos, espacios y cielos rasos
+let hasta = 5, verEspacios = false, verTechos = true, solo317 = false;
+function aplicar() {
+  for (const M of mallas) {
+    const ip = PISOS.indexOf(M.piso);
+    let v = ip < 0 ? true : ip < hasta;
+    if (M.espacio) v = v && verEspacios;
+    if (M.techo) v = v && verTechos;
+    if (solo317) v = M.apto && (!M.techo || verTechos);
+    M.mesh.visible = v;
+  }
+}
+aplicar();
+document.querySelectorAll('[data-hasta]').forEach(b => b.addEventListener('click', () => {
+  hasta = +b.dataset.hasta;
+  document.querySelectorAll('[data-hasta]').forEach(x => x.setAttribute('aria-pressed', x === b));
+  aplicar();
+}));
+$('#tEspacios').addEventListener('click', e => { verEspacios = !verEspacios; e.currentTarget.setAttribute('aria-pressed', verEspacios); aplicar(); });
+$('#tSolo').addEventListener('click', e => {
+  solo317 = !solo317; e.currentTarget.setAttribute('aria-pressed', solo317);
+  if (solo317) { verTechos = false; $('#tTechos').setAttribute('aria-pressed', false); irA('apto', true); }
+  aplicar();
+});
+$('#tTechos').addEventListener('click', e => { verTechos = !verTechos; e.currentTarget.setAttribute('aria-pressed', verTechos); aplicar(); });
+$('#tBuscar').addEventListener('click', e => { const b = $('#buscar'); b.hidden = !b.hidden; e.currentTarget.setAttribute('aria-pressed', !b.hidden); });
+$('#cerrarBuscar').addEventListener('click', () => { $('#buscar').hidden = true; $('#tBuscar').setAttribute('aria-pressed', false); });
+
+// ---------- vistas (x = oriente; y arriba; -z = norte del plano)
+const VISTAS = {
+  conjunto: { pos: [34, 46, 30], obj: [-13, 4, -17], hasta: 5, techos: true },
+  calle: { pos: [24, 3.2, 6], obj: [4, 6, -14], hasta: 5, techos: true },
+  patio: { pos: [-13.2, 24, 14], obj: [-13.2, 0, -6], hasta: 5, techos: true },
+  amenidades: { pos: [-48, 24, -48], obj: [-22.5, 4, -31], hasta: 5, techos: true },
+  apto: { pos: [10.5, 19.5, 5.5], obj: [3.9, 10.0, -1.5], hasta: 3, techos: false },
+};
+let anim = null;
+function irA(nombre, mantenerSolo = false) {
+  const V = VISTAS[nombre];
+  if (!mantenerSolo && solo317 && nombre !== 'apto') { solo317 = false; $('#tSolo').setAttribute('aria-pressed', false); }
+  document.querySelectorAll('[data-vista]').forEach(x => x.setAttribute('aria-pressed', x.dataset.vista === nombre));
+  hasta = V.hasta; verTechos = V.techos;
+  document.querySelectorAll('[data-hasta]').forEach(x => x.setAttribute('aria-pressed', +x.dataset.hasta === hasta));
+  $('#tTechos').setAttribute('aria-pressed', verTechos);
+  aplicar();
+  anim = { t: 0, p0: camera.position.clone(), o0: controls.target.clone(), p1: new THREE.Vector3(...V.pos), o1: new THREE.Vector3(...V.obj) };
+}
+document.querySelectorAll('[data-vista]').forEach(b => b.addEventListener('click', () => irA(b.dataset.vista)));
+camera.position.set(...VISTAS.conjunto.pos); controls.target.set(...VISTAS.conjunto.obj); controls.update();
+
+// ---------- seleccion
+const resalte = new THREE.Mesh(new THREE.BufferGeometry(), new THREE.MeshBasicMaterial({ color: 0xff7631, transparent: true, opacity: 0.55, depthTest: false, side: THREE.DoubleSide }));
+resalte.renderOrder = 10; scene.add(resalte);
+const bordes = new THREE.LineSegments(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: 0xd9540d, depthTest: false }));
+bordes.renderOrder = 11; scene.add(bordes);
+function geoElemento(i) {
+  const pos = [];
+  for (const [k, a, b] of partes[i]) {
+    const g = mallas[k].mesh.geometry, P = g.attributes.position.array, I = g.index ? g.index.array : null;
+    mallas[k].mesh.updateWorldMatrix(true, false);
+    const mw = mallas[k].mesh.matrixWorld, v = new THREE.Vector3();
+    for (let t = a; t < b; t++) for (let c = 0; c < 3; c++) {
+      const vi = I ? I[3 * t + c] : 3 * t + c;
+      v.set(P[3 * vi], P[3 * vi + 1], P[3 * vi + 2]).applyMatrix4(mw); pos.push(v.x, v.y, v.z);
+    }
+  }
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); return g;
+}
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const NOMBRE_CLASE = { IfcWall: 'Muro', IfcSlab: 'Placa', IfcWindow: 'Ventana', IfcDoor: 'Puerta', IfcSpace: 'Espacio', IfcStair: 'Escalera', IfcStairFlight: 'Tramo de escalera',
+  IfcRailing: 'Baranda', IfcColumn: 'Columna', IfcBeam: 'Viga', IfcCovering: 'Revestimiento', IfcFurniture: 'Mueble', IfcSanitaryTerminal: 'Aparato sanitario',
+  IfcLightFixture: 'Luminaria', IfcElectricAppliance: 'Electrodoméstico', IfcAudioVisualAppliance: 'Equipo audiovisual', IfcCommunicationsAppliance: 'Equipo de comunicaciones',
+  IfcTransportElement: 'Ascensor', IfcPlate: 'Placa o panel', IfcMember: 'Perfil', IfcBuildingElementProxy: 'Elemento genérico', IfcGeographicElement: 'Elemento del paisaje',
+  IfcWasteTerminal: 'Desagüe', IfcValve: 'Grifería', IfcShadingDevice: 'Protección solar', IfcOutlet: 'Toma', IfcBurner: 'Asador', IfcElementAssembly: 'Conjunto' };
+function seleccionar(i, enfocar = false) {
+  const e = E[i];
+  resalte.geometry.dispose(); resalte.geometry = geoElemento(i);
+  bordes.geometry.dispose(); bordes.geometry = new THREE.EdgesGeometry(resalte.geometry, 30);
+  $('#fNombre').textContent = e.n || e.c;
+  const o = e.ps.UNO62_Origen || {};
+  const unidad = e.ps.UNO62_Unidad || null;
+  let h = `<p class="clase">${esc(e.c)}${e.pt && e.pt !== 'NOTDEFINED' ? ' · ' + esc(e.pt) : ''}</p>`;
+  h += `<dl class="dato"><dt>Qué es</dt><dd>${esc(NOMBRE_CLASE[e.c] || e.c)}${e.ot ? ' · ' + esc(e.ot) : ''}</dd>`;
+  if (e.ln) h += `<dt>Nombre largo</dt><dd>${esc(e.ln)}</dd>`;
+  h += `<dt>Piso</dt><dd>${esc(e.p)}</dd>`;
+  if (e.t) h += `<dt>Tipo</dt><dd>${esc(e.t)}</dd>`;
+  if (e.m && e.m.length) h += `<dt>Material</dt><dd>${esc(e.m.join(', '))}</dd>`;
+  h += `<dt>GlobalId</dt><dd style="font-family:var(--f-mono);font-size:12px">${esc(e.g)}</dd></dl>`;
+  if (o.Fuente) h += `<div class="fuente"><b>De dónde sale</b>${esc(o.Fuente)}<br><span style="color:var(--muted)">${esc(o['Precisión'] || o.Precision || '')}</span></div>`;
+  const resto = Object.entries(e.ps).filter(([k]) => k !== 'UNO62_Origen');
+  for (const [k, v] of resto) {
+    h += `<details ${k === 'UNO62_Unidad' || k.startsWith('Pset_Manufacturer') || k.startsWith('Qto') ? 'open' : ''}><summary>${esc(k)}</summary><dl class="dato">`;
+    for (const [kk, vv] of Object.entries(v)) h += `<dt>${esc(kk)}</dt><dd>${esc(typeof vv === 'number' ? (Math.round(vv * 100) / 100).toLocaleString('es-CO') : vv === true ? 'Sí' : vv === false ? 'No' : vv)}</dd>`;
+    h += '</dl></details>';
+  }
+  if (e.d) h += `<details><summary>Descripción</summary><p class="vacio" style="margin-top:6px">${esc(e.d)}</p></details>`;
+  $('#fCuerpo').innerHTML = h;
+  $('#ficha').hidden = false;
+  if (enfocar) {
+    resalte.geometry.computeBoundingBox();
+    const bb = resalte.geometry.boundingBox, c = bb.getCenter(new THREE.Vector3()), r = Math.max(2.5, bb.getSize(new THREE.Vector3()).length());
+    const ip = PISOS.indexOf(e.p);
+    if (ip >= 0 && ip + 1 < hasta) { hasta = Math.max(1, ip + 1); document.querySelectorAll('[data-hasta]').forEach(x => x.setAttribute('aria-pressed', +x.dataset.hasta === hasta)); aplicar(); }
+    const dir = camera.position.clone().sub(controls.target).normalize();
+    anim = { t: 0, p0: camera.position.clone(), o0: controls.target.clone(), p1: c.clone().add(dir.multiplyScalar(r * 1.8 + 3)), o1: c };
+  }
+}
+function limpiar() { resalte.geometry.dispose(); resalte.geometry = new THREE.BufferGeometry(); bordes.geometry.dispose(); bordes.geometry = new THREE.BufferGeometry(); $('#ficha').hidden = true; }
+$('#cerrarFicha').addEventListener('click', limpiar);
+const ray = new THREE.Raycaster(), ptr = new THREE.Vector2();
+let abajo = null;
+renderer.domElement.addEventListener('pointerdown', e => { abajo = [e.clientX, e.clientY]; });
+renderer.domElement.addEventListener('pointerup', e => {
+  if (!abajo || Math.hypot(e.clientX - abajo[0], e.clientY - abajo[1]) > 5) return;
+  const r = renderer.domElement.getBoundingClientRect();
+  ptr.set((e.clientX - r.left) / r.width * 2 - 1, -(e.clientY - r.top) / r.height * 2 + 1);
+  ray.setFromCamera(ptr, camera);
+  const vis = mallas.filter(M => M.mesh.visible && !M.espacio).map(M => M.mesh);
+  const hit = ray.intersectObjects(vis, false)[0];
+  if (!hit) { limpiar(); return; }
+  const M = mallas.find(M => M.mesh === hit.object);
+  const t = hit.faceIndex;
+  let lo = 0, hi = M.info.rangos.length - 1, k = -1;
+  while (lo <= hi) { const mid = (lo + hi) >> 1, R = M.info.rangos[mid]; if (t < R[0]) hi = mid - 1; else if (t >= R[1]) lo = mid + 1; else { k = mid; break; } }
+  if (k >= 0) seleccionar(M.info.rangos[k][2]);
+});
+
+// ---------- buscador y resumen por clase
+const norm = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const indice = E.map((e, i) => [norm(e.n + ' ' + e.c + ' ' + (NOMBRE_CLASE[e.c] || '') + ' ' + (e.ot || '') + ' ' + (e.t || '')), i]);
+$('#q').addEventListener('input', () => {
+  const q = norm($('#q').value.trim());
+  const ul = $('#res'); ul.innerHTML = '';
+  if (q.length < 2) return;
+  const toks = q.split(/\s+/);
+  const r = indice.filter(([s]) => toks.every(t => s.includes(t))).slice(0, 40);
+  for (const [, i] of r) {
+    const li = document.createElement('li'), b = document.createElement('button');
+    b.innerHTML = `${esc(E[i].n)}<small>${esc(E[i].c)} · ${esc(E[i].p)}</small>`;
+    b.addEventListener('click', () => seleccionar(i, true));
+    li.appendChild(b); ul.appendChild(li);
+  }
+  if (!r.length) ul.innerHTML = '<li class="vacio" style="padding:6px 8px">Nada con ese nombre.</li>';
+});
+const cuenta = {};
+for (const e of E) cuenta[e.c] = (cuenta[e.c] || 0) + 1;
+const filas = Object.entries(cuenta).sort((a, b) => b[1] - a[1]);
+$('#resumen').innerHTML = `<details open><summary>${E.length.toLocaleString('es-CO')} elementos con geometría</summary><div class="cuenta">` +
+  filas.map(([c, n]) => `<span>${esc(NOMBRE_CLASE[c] || c)} <small style="color:var(--muted);font-family:var(--f-mono)">${esc(c)}</small></span><span>${n.toLocaleString('es-CO')}</span>`).join('') + '</div></details>' +
+  `<p class="vacio" style="margin-top:10px">Archivo ${esc(DATOS.archivo)} · ${esc(DATOS.esquema)} · georreferenciado en MAGNA-SIRGAS Origen-Nacional (EPSG:9377).</p>` +
+  `<p style="margin:10px 0 0;display:flex;gap:8px;flex-wrap:wrap"><a class="btn-mini" href="UNO62_conjunto_y_apto317.ifc" download>IFC del conjunto</a><a class="btn-mini" href="Apto317_diseno_D.ifc" download>IFC solo del 317</a></p>`;
+
+// ---------- bucle
+const reloj = new THREE.Clock();
+renderer.setAnimationLoop(() => {
+  const dt = reloj.getDelta();
+  if (anim) {
+    anim.t = Math.min(1, anim.t + dt / 1.1);
+    const k = anim.t < 0.5 ? 2 * anim.t * anim.t : 1 - Math.pow(-2 * anim.t + 2, 2) / 2;
+    camera.position.lerpVectors(anim.p0, anim.p1, k); controls.target.lerpVectors(anim.o0, anim.o1, k);
+    if (anim.t >= 1) anim = null;
+  }
+  controls.update();
+  renderer.render(scene, camera);
+});
+window.__bim = { E, mallas, seleccionar, irA, camera, controls };
+</script>
+</body>
+</html>

@@ -4,6 +4,7 @@ Visor web de UNO62 Apartaestudios (Bogotá) y su barrio, y el diseño interior d
 
 - Ciudad: https://cubillos22.github.io/uno62-3d/
 - Diseño interior: https://cubillos22.github.io/uno62-3d/interior/
+- Modelo BIM (IFC4) del conjunto y del apto 317: https://cubillos22.github.io/uno62-3d/bim/
 
 Hecho con software libre (three.js, Blender) y datos abiertos.
 
@@ -19,3 +20,4 @@ Hecho con software libre (three.js, Blender) y datos abiertos.
 - Parqueaderos, bloque comunal y cerramiento de UNO62: planta general del ayudaventas (la altura del muro es supuesta).
 - Lote de atrás (otro predio): ramadas y carros donde se ven en la ortoimagen 2025; los carros son ilustrativos.
 - Carros, postes, tanques, nubes y los árboles de los parques son ilustrativos.
+- Modelo BIM: generado con IfcOpenShell a partir del ayudaventas (planta general y renders), el plano de tipología 217-317-417 y los correos de entrega. Cada elemento trae su fuente y su precisión. Es un modelo de referencia, no un plano de obra.
