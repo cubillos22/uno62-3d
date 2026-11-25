@@ -16,4 +16,6 @@ Hecho con software libre (three.js, Blender) y datos abiertos.
 - Cielo (HDRI) y árbol (jacaranda): Poly Haven (CC0); el árbol se renderizó en Blender como sprite.
 - Fotos: renders de Blender Cycles con la geometría del visor; la versión «como foto» es el render retocado con IA (ChatGPT), con personas, carros, árboles y cielo ilustrativos.
 - UNO62: modelado a partir del ayudaventas publicado por el proyecto (representación aproximada, no planos de obra).
+- Parqueaderos, bloque comunal y cerramiento de UNO62: planta general del ayudaventas (la altura del muro es supuesta).
+- Lote de atrás (otro predio): ramadas y carros donde se ven en la ortoimagen 2025; los carros son ilustrativos.
 - Carros, postes, tanques, nubes y los árboles de los parques son ilustrativos.

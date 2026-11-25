@@ -275,6 +275,8 @@ button{font:inherit;color:inherit}
       <p><b>Relieve:</b> Terrain Tiles de AWS Open Data (derivado de SRTM).</p>
       <p><b>Texturas:</b> fotos de ladrillo, pañete, concreto, asfalto, andén, pasto y teja de ambientCG (CC0), a escala real; las ventanas se dibujan encima.</p>
       <p><b>Ilustrativos:</b> carros parqueados, postes de luz, tanques de agua en las terrazas, nubes y árboles de los parques. Dan escala y vida, pero no son datos.</p>
+      <p><b>Parqueaderos y cerramiento de UNO62:</b> según la planta general del ayudaventas: 3 parqueaderos en el patio norte, 1 accesible junto al gimnasio, la fila de bahías de la franja oeste (dibujadas con topes, sin carril de acceso: su uso está por confirmar), el bloque comunal de 2 pisos y el muro de los linderos. Altura del muro supuesta (2,4 m; 1,2 m en el antejardín).</p>
+      <p><b>Lote de atrás (Catastro 009102051020):</b> no es de UNO62. Las ramadas y los carros van donde se ven en la foto aérea 2025; Catastro las traía como una sola construcción corrida unos 3 m y se quitó. Los carros son ilustrativos.</p>
       <p><b>Tu apartamento:</b> el modelo del diseño D. UNO62: 4 pisos de 4,50 m (supuesto).</p>
     </div>
   </section>
@@ -287,6 +289,7 @@ button{font:inherit;color:inherit}
     <button class="chip" data-vista="calle" aria-pressed="false">Calle</button>
     <button class="chip" data-vista="porteria" aria-pressed="false">Portería</button>
     <button class="chip" data-vista="patio" aria-pressed="false">Patio</button>
+    <button class="chip" data-vista="parqueo" aria-pressed="false">Parqueaderos</button>
     <button class="chip" data-vista="ventana" aria-pressed="false">Ventana</button>
     <button class="chip" data-vista="mezzanine" aria-pressed="false">Mezzanine</button>
     <button class="chip" data-vista="adentro" aria-pressed="false">Adentro</button>
@@ -626,6 +629,9 @@ const TINTE = {
 };
 const TECHO_GRIS = ['#ffffff', '#e9e6e0', '#d9d6cf', '#f2efe9', '#cfcac2'];
 const color = new THREE.Color();
+// Catastro trae las ramadas del lote de atras de UNO62 (009102051020) como una sola construccion de 1 piso (824 m2) corrida 3-4 m
+// respecto a la ortoimagen 2025 y con techo donde la foto muestra patio con carros. Se quita: las ramadas se levantan aparte, segun la foto.
+{ const i = C.edificios.findIndex(b => b.l === '009102051020' && b.p === 1 && Math.abs(areaXZ(anillo(b.r))) > 500); if (i >= 0) C.edificios.splice(i, 1); }
 const EDIF = C.edificios;
 const TANQUES = [];
 // ------------------------------------------------------------------ fachadas en 3D cerca de UNO62: vanos reales como familias de Revit
@@ -1176,7 +1182,7 @@ const rrU = mulberry(317);
 const TX3 = [AP.t[0], -AP.t[1]], NY3 = [AP.n[0], -AP.n[1]];        // +x y +y del plano en el mundo (x, z)
 const W3 = (x, y, zw) => plano(x, y, zw - 9);                        // punto del plano con altura del mundo
 const XA0 = -3.30, XA1 = 38.0, YA0 = -9.90, YA1 = Ld + T, ARC = 2.6, YG = YA1 - ARC;
-const XB0 = -3.30, XB1 = 26.0, YB0 = -34.70, YB1 = -16.90;
+const XB0 = -3.30, XB1 = 26.0, YB0 = -33.40, YB1 = -16.90;       // franja oeste de ~4 m (planta general)
 const XPAS0 = 27.0, XPAS1 = 32.0, XPOR0 = 32.5, ANTEJARDIN_M = 3.0;
 const negroC = new THREE.Color('#ffffff'), claroLad = new THREE.Color('#f1d9c9');
 const vX = _v(TX3[0], 0, TX3[1]), vY = _v(NY3[0], 0, NY3[1]);
@@ -1193,6 +1199,19 @@ function cajaW(A, x0, y0, z0, x1, y1, z1, col, sin = '') {
   if (!sin.includes('A')) caraH(P(x0, y0, z1), P(x1, y0, z1), P(x1, y1, z1), P(x0, y1, z1), ARRIBA);
   if (!sin.includes('B')) caraH(P(x0, y0, z0), P(x1, y0, z0), P(x1, y1, z0), P(x0, y1, z0), _v(0, -1, 0));
 }
+// caja a lo largo de una linea del plano a->b (linderos): de w0 a w1 metros hacia nI, alturas del mundo z0..z1
+function cajaLinea(A, a, b, nI, w0, w1, z0, z1, col) {
+  const L = Math.hypot(b[0] - a[0], b[1] - a[1]); if (L < 0.02) return;
+  const P = (q, w, z) => W3(q[0] + nI[0] * w, q[1] + nI[1] * w, z);
+  const mundo = (u, v) => _v(TX3[0] * u + NY3[0] * v, 0, TX3[1] * u + NY3[1] * v).normalize();
+  const N = mundo(nI[0], nI[1]), D = mundo((b[0] - a[0]) / L, (b[1] - a[1]) / L);
+  const uvV = [[0, z0], [L, z0], [L, z1], [0, z1]], uvE = [[w0, z0], [w1, z0], [w1, z1], [w0, z1]];
+  quad(A, P(a, w0, z0), P(b, w0, z0), P(b, w0, z1), P(a, w0, z1), N.clone().negate(), col, uvV);
+  quad(A, P(a, w1, z0), P(b, w1, z0), P(b, w1, z1), P(a, w1, z1), N, col, uvV);
+  quad(A, P(a, w0, z1), P(b, w0, z1), P(b, w1, z1), P(a, w1, z1), ARRIBA, col, [[0, w0], [L, w0], [L, w1], [0, w1]]);
+  quad(A, P(a, w0, z0), P(a, w1, z0), P(a, w1, z1), P(a, w0, z1), D.clone().negate(), col, uvE);
+  quad(A, P(b, w0, z0), P(b, w1, z0), P(b, w1, z1), P(b, w0, z1), D, col, uvE);
+}
 function pilastra(A, p, d, n, s, w, z0, z1, sal, col) {
   const Q = (ss, y, k) => _v(p[0] + d[0] * ss + n[0] * k, y, p[1] + d[1] * ss + n[1] * k);
   const N = _v(n[0], 0, n[1]), Dd = _v(d[0], 0, d[1]);
@@ -1202,7 +1221,7 @@ function pilastra(A, p, d, n, s, w, z0, z1, sal, col) {
 }
 // una cara de torre: vanos alineados con los muros del 317 en las caras largas, centrados en las cortas
 function caraUno(xa, ya, xb, yb, normal, alongX, op = {}) {
-  const z0 = op.z0 || 0;
+  const z0 = op.z0 || 0, alto = op.alto || 18, nf = Math.round(alto / 4.5);
   const pa = W3(xa, ya, 0), pb = W3(xb, yb, 0);
   const L = Math.hypot(pb.x - pa.x, pb.z - pa.z), p = [pa.x, pa.z], d = [(pb.x - pa.x) / L, (pb.z - pa.z) / L];
   const vanos = [], B = 3.3, pil = [];
@@ -1213,22 +1232,22 @@ function caraUno(xa, ya, xb, yb, normal, alongX, op = {}) {
     const borde = c - B / 2; if (borde > 0.25 && borde < L - 0.25) pil.push(borde);
     if (c - 1.2 < 0.1 || c + 1.2 > L - 0.1) continue;
     const es317 = op.hueco317 && alongX && Math.abs(xa + c - 1.5) < 0.5;
-    for (let f = 0; f < 4; f++) {
+    for (let f = 0; f < nf; f++) {
       const base = 4.5 * f; if (base < z0 - 0.01) continue;
       if (es317 && f === 2) { vanos.push({ a: 0.61 - xa, b: 2.68 - xa, ya: 9.40, yb: 12.70, hueco: true }); continue; }   // el ventanal del 317 (VENT del modelo)
       const v = f === 0 ? { a: c - 1.035, b: c + 1.035, ya: 0.45, yb: 3.25, uno: true } : { a: c - 1.035, b: c + 1.035, ya: base + 0.25, yb: base + 3.55, uno: true };
       if (gaps.some(g => v.b > g.a - 0.2 && v.a < g.b + 0.2 && v.ya < g.z)) continue;
       vanos.push(v);
-      if (f >= 1 && (j + f) % 2 === 0 && !(es317 && f <= 2)) {
+      if (f >= 1 && !op.sinPanel && (j + f) % 2 === 0 && !(es317 && f <= 2)) {
         const q = [p[0] + d[0] * c + normal[0] * 0.02, p[1] + d[1] * c + normal[1] * 0.02];
         INST.panel.push([q[0], base + 4.0, q[1], normal[0], normal[1], 2.2, 0.78, 0.04]);
       }
     }
   }
-  muroVanos(AC_UNO3, p, d, normal, L, z0, 18, vanos, colUno, 0);
+  muroVanos(AC_UNO3, p, d, normal, L, z0, alto, vanos, colUno, 0);
   for (const v of vanos) if (!v.hueco) vanoProfundo(AC_UNO3, p, d, normal, v, colUno, E_UNO, rrU, 0.6, true);
-  for (const s of pil) pilastra(AC_UNO3, p, d, normal, s, 0.36, z0 + (z0 > 0 ? 0 : 0.02), 17.3, 0.09, colUno);
-  franja(AC_UNO3, p, d, normal, L, 17.3, 17.85, 0.08, colUno);                  // cornisa de ladrillo
+  for (const s of pil) pilastra(AC_UNO3, p, d, normal, s, 0.36, z0 + (z0 > 0 ? 0 : 0.02), alto - 0.7, 0.09, colUno);
+  franja(AC_UNO3, p, d, normal, L, alto - 0.7, alto - 0.15, 0.08, colUno);                  // cornisa de ladrillo
   if (z0 > 0) franja(AC_UNO3, p, d, normal, L, z0, z0 + 0.25, 0.05, colUno);    // zocalo sobre la arcada
 }
 // ---- Torre A: pisos 2 a 4 sobre la arcada; Torre B completa
@@ -1330,7 +1349,86 @@ const COLGANTES = [], PLANTAS = [], BOLARDOS = [];
   for (let x = 17.4; x < 25.8; x += 0.9) { const q = W3(x, YA0 - 0.78, 0.6); PLANTAS.push([q.x, q.y, q.z, 0.8 + rP() * 0.7, rP() * 6.28]); }
   for (let x = 0.4; x < 9.2; x += 0.9) { const q = W3(x, YB1 + 0.78, 0.6); PLANTAS.push([q.x, q.y, q.z, 0.8 + rP() * 0.7, rP() * 6.28]); }
   for (let x = XA0 + 2; x < XPAS0; x += 6.6) { const q = W3(x, YA1 + 0.6, 0.09); BOLARDOS.push([q.x, q.y, q.z]); }
-  for (const y of [YA0 - 1, YG - 1, YA0 - 3.5]) for (const x of [XPAS0 + 0.5, XPAS1 - 0.5]) { const q = W3(x, y, 0.09); BOLARDOS.push([q.x, q.y, q.z]); }
+  for (const y of [YG - 1]) for (const x of [XPAS0 + 0.5, XPAS1 - 0.5]) { const q = W3(x, y, 0.09); BOLARDOS.push([q.x, q.y, q.z]); }
+}
+// ---- bloque comunal (planta general): gimnasio, salon de eventos y coworking al norte del patio, 2 pisos, terraza verde con pergola
+const XC0 = 26.05, XC1 = 37.6, YC0 = -28.9, YC1 = -16.9;
+caraUno(XC0, YC1, XC1, YC1, NY3, true, { alto: 9, sinPanel: true });
+caraUno(XC0, YC0, XC1, YC0, [-NY3[0], -NY3[1]], true, { alto: 9, sinPanel: true });
+caraUno(XC1, YC0, XC1, YC1, TX3, false, { alto: 9, sinPanel: true });
+{
+  const ring = [[XC0, YC0], [XC1, YC0], [XC1, YC1], [XC0, YC1]].map(([x, y]) => { const v = W3(x, y, 0); return [v.x, v.z]; });
+  tapa(AC_UNO_T, ring, [], 9, blanco);
+  cajaW(AC_NEGRO2, XC0, YC0, 9, XC1, YC0 + 0.2, 9.7, negroC); cajaW(AC_NEGRO2, XC0, YC1 - 0.2, 9, XC1, YC1, 9.7, negroC);
+  cajaW(AC_NEGRO2, XC1 - 0.2, YC0, 9, XC1, YC1, 9.7, negroC);
+  for (const [x, y] of [[29, -27], [36, -27], [29, -19], [36, -19]]) cajaW(AC_MAD, x - 0.1, y - 0.1, 9, x + 0.1, y + 0.1, 11.6, BLANCO3, 'B');
+  cajaW(AC_MAD, 28.8, -27.1, 11.6, 36.2, -26.9, 11.8, BLANCO3); cajaW(AC_MAD, 28.8, -19.1, 11.6, 36.2, -18.9, 11.8, BLANCO3);
+  for (let x = 29.0; x < 36.1; x += 0.45) cajaW(AC_MAD, x, -27.3, 11.8, x + 0.08, -18.7, 11.98, BLANCO3);
+}
+// ---- parqueaderos de la planta general: 3 en el patio norte (2,3 x 5,1 m con topes), 1 accesible junto al gimnasio
+// y la fila de bahias de 2,45 x 2,65 m de la franja oeste (la planta las dibuja con topes, pero sin carril de acceso)
+cajaW(AC_ADOQ, -3.0, -37.2, 0.0, XB1, YB0, 0.09, BLANCO3, 'SNOEB');
+cajaW(AC_ADOQ, XB1, -37.2, 0.0, 27.55, YC0, 0.09, BLANCO3, 'SNOEB');
+cajaW(AC_ADOQ, 27.55, -31.6, 0.0, 38.6, YC0, 0.09, BLANCO3, 'SNOEB');
+cajaW(AC_ADOQ, XC1, YC0, 0.0, 38.6, YC1, 0.09, BLANCO3, 'SNOEB');
+const AC_PINT = acc(), BLANCO_P = new THREE.Color('#f3f3ef'), GRIS_TOPE = new THREE.Color('#b5b0a8');
+const raya = (x0, y0, x1, y1) => cajaW(AC_PINT, x0, y0, 0.09, x1, y1, 0.097, BLANCO_P, 'SNOEB');
+const tope = (xc, yc, enY = true) => enY ? cajaW(AC_BLANCO, xc - 0.08, yc - 0.27, 0.09, xc + 0.08, yc + 0.27, 0.21, GRIS_TOPE, 'B')
+  : cajaW(AC_BLANCO, xc - 0.27, yc - 0.08, 0.09, xc + 0.27, yc + 0.08, 0.21, GRIS_TOPE, 'B');
+{
+  const X0 = 31.7, X1 = 36.85, YS = [-16.85, -14.55, -12.25, -9.95];
+  for (const y of YS) raya(X0, y - 0.05, X1, y + 0.05);
+  raya(X1 - 0.1, YS[0], X1, YS[3]);
+  for (let k = 0; k < 3; k++) { const yc = (YS[k] + YS[k + 1]) / 2; tope(X1 - 0.6, yc - 0.55); tope(X1 - 0.6, yc + 0.55); }
+  // accesible
+  raya(31.8, -31.55, 36.9, -31.45); raya(31.8, -29.05, 36.9, -28.95); raya(36.8, -31.55, 36.9, -28.95);
+  tope(36.3, -30.8); tope(36.3, -29.7);
+  // franja oeste
+  const BX0 = -2.2, BW = 2.45, NB = 10, BY0 = -36.1, BY1 = YB0 - 0.05;
+  raya(BX0, BY0 - 0.05, BX0 + BW * NB, BY0 + 0.05);
+  for (let k = 0; k <= NB; k++) raya(BX0 + BW * k - 0.05, BY0, BX0 + BW * k + 0.05, BY1);
+  for (let k = 0; k < NB; k++) { const xc = BX0 + BW * (k + 0.5); tope(xc - 0.55, BY0 + 0.7, false); tope(xc + 0.55, BY0 + 0.7, false); }
+  const pint = malla(AC_PINT, sobre(new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.7, vertexColors: true }), 8), false);
+  grupoUno.add(pint);
+  // simbolo de accesibilidad pintado
+  const [c, g] = lienzo(256, 256);
+  g.fillStyle = '#1f5fa8'; g.fillRect(0, 0, 256, 256);
+  g.fillStyle = g.strokeStyle = '#ffffff'; g.lineWidth = 16; g.lineCap = g.lineJoin = 'round';
+  g.beginPath(); g.arc(122, 50, 19, 0, 7); g.fill();
+  g.beginPath(); g.moveTo(116, 84); g.lineTo(110, 150); g.lineTo(168, 150); g.lineTo(190, 204); g.stroke();
+  g.beginPath(); g.moveTo(112, 112); g.lineTo(160, 112); g.stroke();
+  g.beginPath(); g.arc(112, 172, 50, 0.4, 5.3); g.stroke();
+  const tx = textura(c); tx.wrapS = tx.wrapT = THREE.ClampToEdgeWrapping;
+  const sim = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 1.5), sobre(new THREE.MeshStandardMaterial({ map: tx, roughness: 0.7 }), 9));
+  sim.position.copy(W3(34.4, -30.25, 0.1));
+  sim.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(vX.clone().cross(ARRIBA), vX, ARRIBA));
+  sim.receiveShadow = true; grupoUno.add(sim);
+}
+// ---- cerramiento: muro blanco de 2,4 m con remate gris en los linderos sur, oeste, la muesca y el norte; 1,2 m en el antejardin;
+// nada sobre la KR 55C. Donde la torre va pegada al lindero no hay muro (la fachada es el cerramiento).
+{
+  const L = [[38.65, 10.78], [-3.45, 10.78], [-3.45, 10.69], [-3.42, 3.45], [-3.33, -15.10], [-3.17, -27.29], [-3.04, -37.29], [19.29, -37.28], [27.66, -37.28], [27.58, -31.65], [38.69, -31.66]];
+  const CAJAS = [[XA0, XA1, YA0, YA1], [XB0, XB1, YB0, YB1], [XC0, XC1, YC0, YC1]];
+  const ocupado = (x, y) => CAJAS.some(([a, b, c, d]) => x > a && x < b && y > c && y < d);
+  const remate = new THREE.Color('#bdb8b0');
+  for (let i = 1; i < L.length; i++) {
+    const a = L[i], b = L[(i + 1) % L.length], Lg = Math.hypot(b[0] - a[0], b[1] - a[1]);
+    if (Lg < 0.05) continue;
+    const d = [(b[0] - a[0]) / Lg, (b[1] - a[1]) / Lg], nI = [-d[1], d[0]];
+    const n = Math.max(1, Math.round(Lg / 0.25)), tramos = [];
+    for (let k = 0; k < n; k++) {
+      const sm = (k + 0.5) / n * Lg, m = [a[0] + d[0] * sm, a[1] + d[1] * sm];
+      const h = ocupado(m[0] + nI[0] * 0.9, m[1] + nI[1] * 0.9) ? 0 : m[1] > YA1 - 0.05 ? 1.2 : 2.4;
+      const ult = tramos[tramos.length - 1];
+      if (ult && ult.h === h) ult.k1 = k + 1; else tramos.push({ h, k0: k, k1: k + 1 });
+    }
+    for (const t of tramos) {
+      if (!t.h) continue;
+      const p = [a[0] + d[0] * t.k0 / n * Lg, a[1] + d[1] * t.k0 / n * Lg], q = [a[0] + d[0] * t.k1 / n * Lg, a[1] + d[1] * t.k1 / n * Lg];
+      cajaLinea(AC_BLANCO, p, q, nI, 0, 0.15, 0.0, t.h, BLANCO3);
+      cajaLinea(AC_BLANCO, p, q, nI, -0.03, 0.18, t.h, t.h + 0.06, remate);
+    }
+  }
 }
 const MAT_INT_LAD = matSuelo('ladrillo_c', 'ladrillo_n', 1.6, { roughness: 0.8 }); MAT_INT_LAD.color.set('#f2d6c2');
 const MAT_INT_MAD = matSuelo('madera_c', 'madera_n', 1.5, { roughness: 0.7 });
@@ -1370,7 +1468,7 @@ const mallaUno = malla(AC_UNO3, MAT3.ladrillo), mallaLocal = mallaUno; grupoUno.
 // remates de cubierta: antepecho negro, chimeneas de ventilacion y el punto fijo, como en el render
 {
   const AC_NEGRO = acc(), negro = new THREE.Color('#ffffff');
-  for (const [x0, y0, x1, y1] of [[-3.30, -9.90, 38.0, Ld + T], [-3.30, -34.70, 26.0, -16.90]]) {
+  for (const [x0, y0, x1, y1] of [[-3.30, -9.90, 38.0, Ld + T], [-3.30, -33.40, 26.0, -16.90]]) {
     cajaPlano(AC_NEGRO, AC_NEGRO, x0, y0, ZT, x1, y0 + 0.25, ZT + 0.7, negro);
     cajaPlano(AC_NEGRO, AC_NEGRO, x0, y1 - 0.25, ZT, x1, y1, ZT + 0.7, negro);
     cajaPlano(AC_NEGRO, AC_NEGRO, x0, y0, ZT, x0 + 0.25, y1, ZT + 0.7, negro);
@@ -1378,7 +1476,7 @@ const mallaUno = malla(AC_UNO3, MAT3.ladrillo), mallaLocal = mallaUno; grupoUno.
     for (let x = x0 + 3; x < x1 - 2; x += 5.2) cajaPlano(AC_NEGRO, AC_NEGRO, x, (y0 + y1) / 2 - 0.4, ZT, x + 0.8, (y0 + y1) / 2 + 0.4, ZT + 1.6, negro);
   }
   cajaPlano(AC_NEGRO, AC_NEGRO, 16.5, -9.0, ZT, 21.0, -3.5, ZT + 3.2, negro);
-  cajaPlano(AC_NEGRO, AC_NEGRO, 9.0, -33.5, ZT, 13.0, -28.5, ZT + 3.2, negro);
+  cajaPlano(AC_NEGRO, AC_NEGRO, 9.0, -32.4, ZT, 13.0, -27.9, ZT + 3.2, negro);
   grupoUno.add(malla(AC_NEGRO, new THREE.MeshStandardMaterial({ color: 0x1c1d1f, roughness: 0.6, vertexColors: true })));
 }
 // lote de UNO62
@@ -1399,7 +1497,13 @@ cerrarDetalle();
 // ------------------------------------------------------------------ etiquetas
 const grupoEtq = new THREE.Group(); scene.add(grupoEtq);
 let verEtiquetas = true;
-function mostrarEtiquetas(v) { verEtiquetas = v; grupoEtq.children.forEach(o => { o.visible = v && (!o.userData.calle || camera.position.y > 70); }); }
+function mostrarEtiquetas(v) {
+  verEtiquetas = v;
+  grupoEtq.children.forEach(o => {
+    const cerca = o.userData.cerca;     // [altura minima de la camara, distancia maxima]
+    o.visible = v && (!o.userData.calle || camera.position.y > 70) && (!cerca || (camera.position.y > cerca[0] && camera.position.distanceTo(o.position) < cerca[1]));
+  });
+}
 function etiqueta(html, clase, pos, grupo = grupoEtq) {
   const d = document.createElement('div'); d.className = 'et ' + (clase || ''); d.innerHTML = html;
   const o = new CSS2DObject(d); o.position.copy(pos); grupo.add(o); return o;
@@ -1407,6 +1511,89 @@ function etiqueta(html, clase, pos, grupo = grupoEtq) {
 const et317 = etiqueta('<span class="p"></span>Apto 317 <em>· entrar</em>', 'et-317', plano(1.5, Ld + 0.6, Hd + 3.2), scene);
 et317.element.setAttribute('role', 'button'); et317.element.tabIndex = 0;
 et317.element.addEventListener('click', () => irA('adentro'));
+
+// ------------------------------------------------------------------ lote de atras (Catastro 009102051020) y parqueadero del vecino del norte: NO son de UNO62
+// Ramadas de zinc y carros en las posiciones de la ortoimagen 2025 (los carros son ilustrativos: cambian cada dia); cerca de lamina de 2,2 m
+// en sus linderos con la calle y los vecinos (con UNO62 lo separa el muro de UNO62).
+const LOTE_ATRAS = [[38.69, -31.66], [27.58, -31.65], [27.66, -37.28], [20.58, -37.28], [19.29, -37.28], [-3.04, -37.29], [-2.94, -42.38], [-2.85, -47.28],
+  [-2.19, -81.56], [-2.12, -85.26], [8.34, -85.29], [36.6, -85.36], [41.6, -85.38], [41.27, -79.29], [41.1, -76.12], [40.99, -74.18], [39.25, -41.95]];
+const RAMADAS = [   // [x0, x1, y0, y1, alto, color] en el plano del apto, leidas de la foto rectificada
+  [29.8, 38.5, -44.3, -31.85, 2.7, '#c7cacc'], [-2.0, 9.6, -85.0, -68.2, 2.5, '#a77c62'], [9.6, 30.0, -85.0, -70.4, 2.6, '#c3c6c8'],
+  [13.2, 23.9, -70.4, -60.2, 2.6, '#b9bcbf'], [12.9, 17.6, -60.2, -37.5, 2.6, '#c9ccce'], [17.6, 28.7, -42.4, -37.5, 2.5, '#bfc2c4'], [-2.6, 12.9, -43.0, -37.5, 2.5, '#b3a294']
+];
+const texZinc = (() => {
+  const [c, g] = lienzo(64, 64);
+  for (let i = 0; i < 64; i++) { const v = Math.round(150 + 95 * (0.5 + 0.5 * Math.cos(i / 64 * Math.PI * 16))); g.fillStyle = `rgb(${v},${v},${v})`; g.fillRect(i, 0, 1, 64); }
+  const t = textura(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; return t;
+})();
+const MAT_ZINC = new THREE.MeshStandardMaterial({ map: texZinc, vertexColors: true, metalness: 0.45, roughness: 0.5, envMapIntensity: 0.7 });
+let MAT_RAMADA_ORTO = null;
+if (ortoCerca) {
+  const Cc = ORTO.cerca, WC = Cc.e1 - Cc.e0, HC = Cc.n1 - Cc.n0, t = ortoCerca.material.map.clone();
+  t.repeat.set(1 / WC, -1 / HC); t.offset.set(-Cc.e0 / WC, -Cc.n0 / HC); t.needsUpdate = true;
+  MAT_RAMADA_ORTO = new THREE.MeshStandardMaterial({ map: t, roughness: 0.7, metalness: 0.15, envMapIntensity: 0.4 });
+}
+const AC_RAM = acc(), AC_RAM_T = acc();
+for (const [x0, x1, y0, y1, h, c] of RAMADAS) { color.set(c); cajaW(AC_RAM, x0, y0, 0, x1, y1, h, color.clone(), 'AB'); cajaW(AC_RAM_T, x0, y0, h, x1, y1, h, color.clone(), 'SNOEB'); }
+{
+  const gris = new THREE.Color('#aeb2b5'), poste = new THREE.Color('#55595c'), n = LOTE_ATRAS.length;
+  for (let i = 5; i < n; i++) {
+    const a = LOTE_ATRAS[i], b = LOTE_ATRAS[(i + 1) % n], Lg = Math.hypot(b[0] - a[0], b[1] - a[1]);
+    const d = [(b[0] - a[0]) / Lg, (b[1] - a[1]) / Lg], nI = [-d[1], d[0]];
+    for (let s0 = 0; s0 < Lg - 0.01; s0 += 2.4) {
+      const s1 = Math.min(Lg, s0 + 2.4), m = W3(a[0] + d[0] * (s0 + s1) / 2 + nI[0] * 0.5, a[1] + d[1] * (s0 + s1) / 2 + nI[1] * 0.5, 0);
+      if (alturaVecino(m.x, m.z, -1) > 1.5) continue;                      // ahi el lindero es la pared de una construccion
+      const p = [a[0] + d[0] * s0, a[1] + d[1] * s0], q = [a[0] + d[0] * s1, a[1] + d[1] * s1];
+      cajaLinea(AC_RAM, p, q, nI, 0.02, 0.06, 0, 2.2, gris);
+      cajaLinea(AC_RAM, p, [p[0] + d[0] * 0.08, p[1] + d[1] * 0.08], nI, 0.06, 0.14, 0, 2.3, poste);
+    }
+  }
+}
+const mallaRamada = malla(AC_RAM, MAT_ZINC), mallaRamadaT = malla(AC_RAM_T, MAT_RAMADA_ORTO || MAT_ZINC);
+const AC_TIERRA = acc(); tapa(AC_TIERRA, LOTE_ATRAS.map(([x, y]) => { const v = W3(x, y, 0); return [v.x, v.z]; }), [], 0.05, color.set('#ffffff'));
+const tierraAtras = malla(AC_TIERRA, sobre(matSuelo('concreto_c', 'concreto_n', 3, { roughness: 1 }), 3), false); tierraAtras.material.color.set('#a88f6f');
+grupoEdif.add(mallaRamada, mallaRamadaT, tierraAtras);
+// carros en su sitio: [x, y, eje, tipo, color, base] (c carro, g camioneta, v van, t camion); los de UNO62 son ilustrativos
+const CARROS_FIJOS = [
+  [34.1, -15.7, 'x', 'c', '#b9bcc0', 0.09], [34.1, -11.1, 'x', 'c', '#f4f4f2', 0.09],
+  [38.29, -77.29, 'x', 'c', '#1a1c1e'], [37.79, -72.89, 'x', 'v', '#f1f1ee'], [36.89, -70.61, 'x', 'c', '#24406e'], [37.04, -60.25, 'x', 'g', '#1a1c1e'],
+  [33.68, -45.61, 'x', 't', '#f1f1ee'], [26.5, -67.46, 'x', 'c', '#f4f4f2'], [26.75, -61.6, 'y', 'c', '#b04a58'], [24.85, -61.86, 'y', 'c', '#25282b'],
+  [22.86, -59.07, 'x', 'c', '#b9bcc0'], [21.5, -56.21, 'x', 'c', '#24406e'], [20.0, -53.46, 'x', 'c', '#2a3550'], [20.71, -50.75, 'x', 'g', '#f4f4f2'],
+  [25.07, -46.21, 'y', 't', '#2a2c2e'], [20.07, -46.4, 'x', 'c', '#f4f4f2'], [20.71, -44.2, 'x', 'g', '#1a1c1e'],
+  [5.0, -66.64, 'x', 'v', '#f1f1ee'], [-0.18, -66.82, 'x', 'c', '#f4f4f2'], [0.25, -64.07, 'x', 'c', '#f4f4f2'], [0.04, -59.57, 'x', 'c', '#f4f4f2'],
+  [-0.04, -57.36, 'x', 'c', '#8e1d1d'], [0.43, -54.64, 'x', 'v', '#f1f1ee'], [0.43, -52.18, 'x', 'v', '#f1f1ee'], [5.0, -50.11, 'x', 'c', '#f4f4f2'],
+  [0.0, -50.07, 'x', 'c', '#f4f4f2'], [-0.36, -47.89, 'x', 'c', '#f4f4f2'], [3.93, -45.96, 'x', 'c', '#1a1c1e'], [-0.54, -45.79, 'x', 'c', '#f4f4f2'],
+  [5.0, -44.1, 'x', 'c', '#f4f4f2'],
+  [67.78, -20.6, 'y', 'c', '#b9bcc0'], [65.63, -20.6, 'y', 'c', '#c9ccd0'], [63.41, -20.6, 'y', 'c', '#3a4450'], [61.16, -20.6, 'y', 'c', '#2a3036'],
+  [58.97, -20.6, 'y', 'c', '#2e3a48'], [56.75, -20.6, 'y', 'c', '#a3161c'], [52.25, -21.0, 'y', 'c', '#d8d8d4'], [56.19, -29.25, 'y', 'c', '#f4f4f2'],
+  [53.84, -29.25, 'y', 'c', '#a3161c'], [51.63, -29.25, 'y', 'c', '#a3161c'], [49.34, -29.25, 'y', 'c', '#f4f4f2'], [41.53, -18.56, 'x', 'c', '#f4f4f2'],
+  [43.81, -11.19, 'y', 'v', '#f1f1ee']
+];
+{
+  const N = CARROS_FIJOS.length, m4 = new THREE.Matrix4(), q4 = new THREE.Quaternion(), s4 = new THREE.Vector3();
+  // silueta de sedan extruida con bordes redondeados: capo, parabrisas inclinado, techo y baul (la cabina va en vidrio oscuro)
+  const extruir = (pts, w, bev) => {
+    const sh = new THREE.Shape(); pts.forEach(([x, y], i) => i ? sh.lineTo(x, y) : sh.moveTo(x, y));
+    return new THREE.ExtrudeGeometry(sh, { depth: w - 2 * bev, bevelEnabled: true, bevelThickness: bev, bevelSize: bev, bevelSegments: 2, curveSegments: 1 }).translate(0, 0, -(w - 2 * bev) / 2);
+  };
+  const cuerpo = extruir([[-2.05, 0.3], [2.05, 0.3], [2.13, 0.55], [2.04, 0.79], [0.85, 0.92], [-1.85, 0.94], [-2.08, 0.9], [-2.13, 0.55]], 1.74, 0.08);
+  const cabina = extruir([[0.92, 0.9], [0.22, 1.35], [-1.1, 1.37], [-1.9, 0.92]], 1.5, 0.06);
+  const ruedas = mergeGeometries([[1.35, 0.78], [1.35, -0.78], [-1.35, 0.78], [-1.35, -0.78]].map(([x, z]) => new THREE.CylinderGeometry(0.31, 0.31, 0.2, 14).rotateX(Math.PI / 2).translate(x, 0.31, z)));
+  const carros = new THREE.InstancedMesh(cuerpo, new THREE.MeshStandardMaterial({ roughness: 0.3, metalness: 0.55, envMapIntensity: 1.2 }), N);
+  const vidrios = new THREE.InstancedMesh(cabina, new THREE.MeshStandardMaterial({ color: 0x15191d, roughness: 0.06, metalness: 0.2, envMapIntensity: 1.4 }), N);
+  const llantas = new THREE.InstancedMesh(ruedas, new THREE.MeshStandardMaterial({ color: 0x141414, roughness: 0.85 }), N);
+  const ESC = { c: [1, 1, 1], g: [1.12, 1.12, 1.06], v: [1.25, 1.3, 1.08], t: [1.55, 1.55, 1.25] };
+  const ang = { x: Math.atan2(-TX3[1], TX3[0]), y: Math.atan2(-NY3[1], NY3[0]) };
+  CARROS_FIJOS.forEach(([x, y, eje, tipo, col, base], i) => {
+    const p = W3(x, y, 0), b = base ?? Math.max(alturaVecino(p.x, p.z, -1), 0.05);
+    m4.compose(p.setY(b), q4.setFromAxisAngle(ARRIBA, ang[eje] + (hash('car' + i) % 2 ? Math.PI : 0)), s4.set(...ESC[tipo]));
+    carros.setMatrixAt(i, m4); vidrios.setMatrixAt(i, m4); llantas.setMatrixAt(i, m4);
+    carros.setColorAt(i, color.set(col));
+  });
+  for (const o of [carros, vidrios, llantas]) { o.castShadow = true; o.receiveShadow = true; grupoVida.add(o); }
+}
+for (const [txt, p] of [['Parqueaderos de UNO62', W3(34.3, -13.4, 3.4)], ['Gimnasio · eventos · coworking', W3(31.8, -22.9, 12.6)],
+  ['Parqueadero de otro predio <em>· no es de UNO62</em>', W3(20, -58, 7)]]) etiqueta(txt, 'et-parqueo', p).userData.cerca = [22, 150];
 et317.element.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); irA('adentro'); } });
 etiqueta('UNO62 <small>· Torre A y Torre B</small>', '', plano(15, -12, ZT + 4));
 for (const t of C.etiquetas) {
@@ -1444,7 +1631,8 @@ if (rio) { const pts = anillo(rio.p); const p = pts[Math.floor(pts.length * 0.4)
 }
 
 // ------------------------------------------------------------------ tu apartamento (modelo del diseño D)
-let apto = null;
+let apto = null, NOCHE_ACTUAL = 0;
+const EMIS_APTO = [], LUCES_APTO = [];
 const promesaApto = (async () => {
   const j = await json('modelo_D.json');
   const b = atob(j.datos), u = new Uint8Array(b.length);
@@ -1463,9 +1651,21 @@ const promesaApto = (async () => {
     const esVidrio = ms.some(m => /vidrio/i.test(m.name || '') || m.transmission > 0);
     if (esVidrio) { o.material = vidrio; o.castShadow = false; o.receiveShadow = false; }
     else { o.castShadow = true; o.receiveShadow = true; }
+    // LEDs y lamparas del modelo: el GLB trae intensidades de hasta 7 que con el brillo se ven como barras blancas
+    for (const m of ms) if (!esVidrio && m.emissive && (m.emissive.r + m.emissive.g + m.emissive.b) > 0.05 && !m.userData.emisLista) {
+      m.userData.emisLista = true; m.userData.emisBase = Math.min(m.emissiveIntensity, 1.0) * 0.6;
+      m.emissiveIntensity = m.userData.emisBase * (0.25 + 0.75 * NOCHE_ACTUAL); EMIS_APTO.push(m);
+    }
   });
   ocultar.forEach(o => { o.visible = false; });
   scene.add(g);
+  // lamparas calidas (2.700 K) donde estan las luces del diseno: sala, barra, entrada y mezzanine
+  for (const [x, y, z, k] of [[1.5, 6.3, 3.7, 16], [1.4, 4.4, 2.6, 9], [1.5, 1.6, 2.0, 7], [1.4, 1.6, 3.9, 5], [1.0, 2.6, 2.0, 5]]) {
+    const l = new THREE.PointLight(0xffc98f, 0, 7, 2); l.position.copy(plano(x, y, z)); l.userData.k = k;
+    l.intensity = k * NOCHE_ACTUAL; scene.add(l); LUCES_APTO.push(l);
+  }
+  // de dia, la luz que rebota del ventanal (fria y suave) para que las paredes no queden en penumbra
+  { const l = new THREE.PointLight(0xe4ecff, 0, 9, 2); l.position.copy(plano(1.5, 6.6, 2.6)); l.userData.k = 6; l.userData.dia = true; scene.add(l); LUCES_APTO.push(l); }
   apto = g;
   return g;
 })();
@@ -1588,11 +1788,16 @@ function aplicarSol() {
   hemi.intensity = 0.12 + 0.18 * dia + 0.25 * noche;
   hemi.color.set(0xf2efe8).lerp(new THREE.Color(0x6f86b8), noche);
   entornoPend = true;
-  pBloom.strength = 0.12 + 0.42 * noche; pBloom.threshold = 0.95 - 0.35 * noche; pBloom.radius = 0.55;
+  NOCHE_ACTUAL = noche;
+  // adentro el brillo es casi nada (como una camara real); afuera solo lo suficiente para las luces de la calle
+  if (dentro) { pBloom.strength = 0.04 + 0.08 * noche; pBloom.threshold = 0.97; pBloom.radius = 0.25; }
+  else { pBloom.strength = 0.1 + 0.3 * noche; pBloom.threshold = 0.95 - 0.28 * noche; pBloom.radius = 0.5; }
+  for (const m of EMIS_APTO) m.emissiveIntensity = m.userData.emisBase * (0.25 + 0.75 * noche);
+  for (const l of LUCES_APTO) l.intensity = l.userData.k * (l.userData.dia ? dia : noche);
   grupoVida.userData.lampara.material.emissiveIntensity = 6 * noche;
   nubesMat.uniforms.luz.value.setRGB(1, 1, 1).lerp(new THREE.Color(1.0, 0.78, 0.6), dorado * dia * 0.85).multiplyScalar(0.12 + 0.88 * dia);
   nubesMat.uniforms.sombra.value.setRGB(0.55, 0.58, 0.64).multiplyScalar(0.1 + 0.9 * dia);
-  renderer.toneMappingExposure = 0.6 + 0.4 * dia;
+  renderer.toneMappingExposure = dentro ? 0.82 + 0.38 * dia : 0.6 + 0.4 * dia;      // adentro la camara se adapta a la luz de la casa
   for (const k of ['ladrillo', 'estuco', 'concreto']) MAT[k].emissiveIntensity = 0.95 * noche;
   MAT.uno.emissiveIntensity = 1.2 * noche; MAT.local.emissiveIntensity = 1.4 * noche; MAT_VIDRIO_ON.emissiveIntensity = 1.6 * noche;
   for (const e of EMIS_UNO) e.m.emissiveIntensity = e.base + e.k * noche;
@@ -1658,6 +1863,7 @@ const VISTAS = {
   calle: () => ({ pos: plano(-11, Ld + 15, Z0 + 1.6), tgt: plano(1.5, Ld, 1.8), dentro: false }),
   porteria: () => ({ pos: plano(44, Ld + 15, Z0 + 1.7), tgt: plano(33, Ld, Z0 + 2.6), dentro: false }),
   patio: () => ({ pos: plano(30.5, -13.4, Z0 + 1.7), tgt: plano(17, -13.4, Z0 + 5.5), dentro: false }),
+  parqueo: () => ({ pos: plano(72, -46, 34), tgt: plano(14, -36, Z0), dentro: false }),
   ventana: () => ({ pos: plano(1.05, 7.05, 1.6), tgt: plano(1.25, 40, -1.5), dentro: true }),
   mezzanine: () => ({ pos: plano(1.35, 2.75, 2.32 + 1.55), tgt: plano(1.5, Ld, 3.0), dentro: true }),
   adentro: () => ({ pos: plano(1.75, 4.15, 1.55), tgt: plano(1.35, Ld, 1.45), dentro: true })
@@ -1688,6 +1894,7 @@ function ponerDentro(si) {
   camera.updateProjectionMatrix();
   if (pAO) pAO.updateGtaoMaterial({ radius: si ? 0.6 : 3.5, thickness: si ? 0.5 : 2.5 });
   colocarSombra();
+  aplicarSol();
 }
 document.querySelectorAll('[data-vista]').forEach(b => b.addEventListener('click', () => irA(b.dataset.vista)));
 
@@ -1764,7 +1971,7 @@ renderer.domElement.addEventListener('pointerup', e => {
   if (resalte) { scene.remove(resalte); resalte.geometry.dispose(); resalte = null; }
   if (!hit) { tj.hidden = true; return; }
   if (hit.object === mallaUno || hit.object === mallaLocal) {
-    tj.innerHTML = '<p class="eyebrow">Tu edificio</p><h3>UNO62</h3><div class="fila"><div><span class="num">4</span><small>pisos de 4,50 m</small></div><div><span class="num">18 m</span><small>altura aproximada</small></div></div><p class="nota">Como en el ayudaventas final (nov-2025): ladrillo con pilastras, ventanales negros, primer piso bajo arcada con locales, portería negra con el rombo de UNO62 y paso al patio, puente con jardín colgante y cubierta verde. El 317 está en el piso 3, marcado en naranja.</p>';
+    tj.innerHTML = '<p class="eyebrow">Tu edificio</p><h3>UNO62</h3><div class="fila"><div><span class="num">4</span><small>pisos de 4,50 m</small></div><div><span class="num">18 m</span><small>altura aproximada</small></div></div><p class="nota">Como en el ayudaventas final (nov-2025): ladrillo con pilastras, ventanales negros, primer piso bajo arcada con locales, portería negra con el rombo de UNO62 y paso al patio, puente con jardín colgante y cubierta verde; al norte del patio, el bloque comunal (gimnasio, salón de eventos y coworking) y los parqueaderos de la planta general. El 317 está en el piso 3, marcado en naranja.</p>';
     tj.hidden = false; return;
   }
   const ini = hit.object.userData.ini, ids = hit.object.userData.ids;
@@ -1798,6 +2005,7 @@ function ponerOrto(v) {
   for (const o of grupoVida.userData.carros) o.visible = !v;
   MALLAS_EDIF[3].material = v ? MAT_TECHO_ORTO : MAT_TECHO;
   MALLAS_EDIF[4].material = v ? MAT_TECHO_ORTO : MAT_TEJA;
+  mallaRamadaT.material = v && MAT_RAMADA_ORTO ? MAT_RAMADA_ORTO : MAT_ZINC; tierraAtras.visible = !v;
 }
 capa('#c-orto', v => ponerOrto(v));
 ponerOrto(true);
@@ -1814,7 +2022,7 @@ aplicarSol(); textoVentana(); cargarCielo(); cargarArboles();
 camera.position.copy(plano(-420, 620, 520)); controls.target.copy(plano(1.5, 3.9, -2));
 progreso('Listo', 1);
 $('#carga').classList.add('fuera'); setTimeout(() => { $('#carga').hidden = true; }, 700);
-aviso('Cargando tu apartamento…');
+if (!apto) aviso('Cargando tu apartamento…');
 irA('aerea');
 if (!esMovil()) panel('ficha', true);
 
