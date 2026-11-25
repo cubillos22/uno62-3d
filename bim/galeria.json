@@ -1,0 +1,120 @@
+{
+ "grupos": [
+  {
+   "titulo": "Vistas de Revit 2026",
+   "nota": "Exportadas por Revit desde este mismo IFC (importación de referencia, estilo realista).",
+   "fotos": [
+    {
+     "src": "revit/317_corte_desde_el_corredor.jpg",
+     "titulo": "317 - corte desde el corredor"
+    },
+    {
+     "src": "revit/317_corte_desde_la_calle.jpg",
+     "titulo": "317 - corte desde la calle"
+    },
+    {
+     "src": "revit/317_dentro_del_conjunto.jpg",
+     "titulo": "317 dentro del conjunto"
+    },
+    {
+     "src": "revit/uno62_desde_atrs_amenidades.jpg",
+     "titulo": "UNO62 - desde atrás (amenidades)"
+    },
+    {
+     "src": "revit/uno62_desde_la_calle.jpg",
+     "titulo": "UNO62 - desde la calle"
+    }
+   ]
+  },
+  {
+   "titulo": "UNO62 como foto",
+   "nota": "Renders de Cycles con la geometría del modelo, retocados con IA (Astra): personas, carros y cielo ilustrativos.",
+   "fotos": [
+    {
+     "src": "../fotos/01_fachada_manana_foto.jpg",
+     "titulo": "Fachada en la mañana"
+    },
+    {
+     "src": "../fotos/02_tu_ventana_desde_la_calle_foto.jpg",
+     "titulo": "Tu ventana desde la calle"
+    },
+    {
+     "src": "../fotos/03_porteria_al_atardecer_foto.jpg",
+     "titulo": "Portería al atardecer"
+    },
+    {
+     "src": "../fotos/04_arcada_y_locales_foto.jpg",
+     "titulo": "Arcada y locales"
+    },
+    {
+     "src": "../fotos/05_patio_y_jardin_colgante_foto.jpg",
+     "titulo": "Patio y jardín colgante"
+    },
+    {
+     "src": "../fotos/06_conjunto_desde_el_aire_foto.jpg",
+     "titulo": "El conjunto desde el aire"
+    },
+    {
+     "src": "../fotos/07_vista_desde_el_317_foto.jpg",
+     "titulo": "Vista desde el 317"
+    },
+    {
+     "src": "../fotos/08_parqueaderos_del_patio_foto.jpg",
+     "titulo": "Parqueaderos del patio"
+    },
+    {
+     "src": "../fotos/09_parqueaderos_y_lote_de_atras_foto.jpg",
+     "titulo": "Parqueaderos y lote de atrás"
+    }
+   ]
+  },
+  {
+   "titulo": "El 317 por dentro, como foto",
+   "nota": "El diseño D renderizado en Cycles y retocado con IA (Astra) sin cambiar muebles, colores ni encuadre.",
+   "fotos": [
+    {
+     "src": "../interior/renders/D_F01_salon_dia.jpg",
+     "titulo": "Salón de día"
+    },
+    {
+     "src": "../interior/renders/D_F03_mezzanine_dia.jpg",
+     "titulo": "Mezzanine de día"
+    },
+    {
+     "src": "../interior/renders/D_F05_salon_noche.jpg",
+     "titulo": "Salón de noche"
+    },
+    {
+     "src": "../interior/renders/D_F10_bano.jpg",
+     "titulo": "Baño"
+    },
+    {
+     "src": "../interior/renders/D_F12_mezzanine_tv.jpg",
+     "titulo": "Mezzanine con el TV"
+    },
+    {
+     "src": "../interior/renders/D_F14_entrada_galeria.jpg",
+     "titulo": "Entrada y galería"
+    },
+    {
+     "src": "../interior/renders/D_F17_salon_tv.jpg",
+     "titulo": "TV tipo cuadro"
+    },
+    {
+     "src": "../interior/renders/D_F19_cocina_barra.jpg",
+     "titulo": "Cocina y barra"
+    }
+   ]
+  }
+ ],
+ "rvt": [
+  [
+   "Apto317_diseno_D.rvt",
+   47.6
+  ],
+  [
+   "UNO62_conjunto_general_y_apto317.rvt",
+   55.7
+  ]
+ ]
+}
