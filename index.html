@@ -1388,7 +1388,7 @@ const tope = (xc, yc, enY = true) => enY ? cajaW(AC_BLANCO, xc - 0.08, yc - 0.27
   raya(BX0, BY0 - 0.05, BX0 + BW * NB, BY0 + 0.05);
   for (let k = 0; k <= NB; k++) raya(BX0 + BW * k - 0.05, BY0, BX0 + BW * k + 0.05, BY1);
   for (let k = 0; k < NB; k++) { const xc = BX0 + BW * (k + 0.5); tope(xc - 0.55, BY0 + 0.7, false); tope(xc + 0.55, BY0 + 0.7, false); }
-  const pint = malla(AC_PINT, sobre(new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.7, vertexColors: true }), 8), false);
+  const pint = malla(AC_PINT, sobre(new THREE.MeshStandardMaterial({ name: 'Pintura_piso', color: 0xffffff, roughness: 0.7, vertexColors: true }), 8), false);
   grupoUno.add(pint);
   // simbolo de accesibilidad pintado
   const [c, g] = lienzo(256, 256);
@@ -1399,7 +1399,7 @@ const tope = (xc, yc, enY = true) => enY ? cajaW(AC_BLANCO, xc - 0.08, yc - 0.27
   g.beginPath(); g.moveTo(112, 112); g.lineTo(160, 112); g.stroke();
   g.beginPath(); g.arc(112, 172, 50, 0.4, 5.3); g.stroke();
   const tx = textura(c); tx.wrapS = tx.wrapT = THREE.ClampToEdgeWrapping;
-  const sim = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 1.5), sobre(new THREE.MeshStandardMaterial({ map: tx, roughness: 0.7 }), 9));
+  const sim = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 1.5), sobre(new THREE.MeshStandardMaterial({ name: 'Simbolo_accesible', map: tx, roughness: 0.7 }), 9));
   sim.position.copy(W3(34.4, -30.25, 0.1));
   sim.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(vX.clone().cross(ARRIBA), vX, ARRIBA));
   sim.receiveShadow = true; grupoUno.add(sim);
@@ -1549,6 +1549,7 @@ for (const [x0, x1, y0, y1, h, c] of RAMADAS) { color.set(c); cajaW(AC_RAM, x0, 
     }
   }
 }
+MAT_ZINC.name = 'Zinc'; if (MAT_RAMADA_ORTO) MAT_RAMADA_ORTO.name = 'Techo_orto_cerca';
 const mallaRamada = malla(AC_RAM, MAT_ZINC), mallaRamadaT = malla(AC_RAM_T, MAT_RAMADA_ORTO || MAT_ZINC);
 const AC_TIERRA = acc(); tapa(AC_TIERRA, LOTE_ATRAS.map(([x, y]) => { const v = W3(x, y, 0); return [v.x, v.z]; }), [], 0.05, color.set('#ffffff'));
 const tierraAtras = malla(AC_TIERRA, sobre(matSuelo('concreto_c', 'concreto_n', 3, { roughness: 1 }), 3), false); tierraAtras.material.color.set('#a88f6f');
@@ -1590,7 +1591,9 @@ const CARROS_FIJOS = [
     carros.setMatrixAt(i, m4); vidrios.setMatrixAt(i, m4); llantas.setMatrixAt(i, m4);
     carros.setColorAt(i, color.set(col));
   });
+  carros.material.name = 'Pintura_carro'; vidrios.material.name = 'Vidrio_carro'; llantas.material.name = 'Llanta';
   for (const o of [carros, vidrios, llantas]) { o.castShadow = true; o.receiveShadow = true; grupoVida.add(o); }
+  grupoVida.userData.fijos = [carros, vidrios, llantas];
 }
 for (const [txt, p] of [['Parqueaderos de UNO62', W3(34.3, -13.4, 3.4)], ['Gimnasio · eventos · coworking', W3(31.8, -22.9, 12.6)],
   ['Parqueadero de otro predio <em>· no es de UNO62</em>', W3(20, -58, 7)]]) etiqueta(txt, 'et-parqueo', p).userData.cerca = [22, 150];
@@ -1927,7 +1930,9 @@ capa('#c-sombras', v => { sol.castShadow = v; });
     ['04_arcada_y_locales', 'Arcada y locales', 'Primer piso retrocedido 2,6 m, cielo con luces empotradas.'],
     ['05_patio_y_jardin_colgante', 'Patio y jardín colgante', 'Puente entre torres con matera, pérgola de madera y columna en travertino.'],
     ['06_conjunto_desde_el_aire', 'El conjunto desde el aire', 'Torres A y B con la cubierta verde y el punto fijo negro.'],
-    ['07_vista_desde_el_317', 'Vista desde el 317', 'Lo que ves desde la sala en la mañana: El Portal de San Diego.']
+    ['07_vista_desde_el_317', 'Vista desde el 317', 'Lo que ves desde la sala en la mañana: El Portal de San Diego.'],
+    ['08_parqueaderos_del_patio', 'Parqueaderos del patio', 'Los 3 cupos de la planta general, entre el bloque comunal y la torre.'],
+    ['09_parqueaderos_y_lote_de_atras', 'Parqueaderos y lote de atrás', 'El conjunto con su bloque comunal y, aparte, el lote vecino con ramadas y carros (no es de UNO62).']
   ];
   const cont = $('#fotos'), grande = $('#foto-grande');
   const NOTAS = {
