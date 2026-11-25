@@ -1,0 +1,1562 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<title>Apto 317 · UNO62</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: barra superior con pestañas; el modelo 3D es el protagonista y ocupa la primera pantalla.
+   Materiales del apartamento como paleta: acero negro, roble, blanco de muro y el naranja de las lámparas. */
+:root{
+  --bg:#f3f3f1; --surface:#ffffff; --surface-2:#ebeae6; --fg:#151515; --muted:#5b5853; --line:#d9d7d2;
+  --steel:#151515; --oak:#a9774a; --accent:#d9540d; --accent-fg:#ffffff; --led:#ffc27a;
+  --label-dim-bg:#151515; --label-dim-fg:#ffffff; --label-tag-bg:rgba(255,255,255,.92); --label-tag-fg:#151515;
+  --f-display:'Jost','Segoe UI',system-ui,sans-serif;
+  --f-body:'Inter','Segoe UI',system-ui,sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,Consolas,monospace;
+  --r:6px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121211; --surface:#1b1b19; --surface-2:#242421; --fg:#efeeea; --muted:#a7a39b; --line:#33322f;
+  --steel:#0b0b0b; --oak:#c99a6a; --accent:#ff7631; --accent-fg:#160800; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121211; --surface:#1b1b19; --surface-2:#242421; --fg:#efeeea; --muted:#a7a39b; --line:#33322f;
+  --steel:#0b0b0b; --oak:#c99a6a; --accent:#ff7631; --accent-fg:#160800; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.55}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:1320px;margin:0 auto}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px 20px;flex-wrap:wrap;padding-block:10px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.box{font-family:var(--f-display);font-weight:700;font-size:20px;letter-spacing:.02em;background:var(--steel);color:#fff;padding:4px 10px 3px;border-radius:2px;line-height:1.2}
+.brand h1{font-family:var(--f-display);font-weight:600;font-size:19px;margin:0;line-height:1.15;text-wrap:balance}
+.brand p{margin:0;color:var(--muted);font-size:12.5px;letter-spacing:.02em}
+nav.tabs{display:flex;gap:4px;background:var(--surface-2);padding:3px;border-radius:999px;max-width:100%;overflow-x:auto;scrollbar-width:none}
+nav.tabs a{white-space:nowrap}
+nav.tabs a{font-family:var(--f-display);font-weight:500;font-size:14px;color:var(--muted);text-decoration:none;padding:6px 14px;border-radius:999px}
+nav.tabs a[aria-current="page"]{background:var(--steel);color:#fff}
+nav.tabs a.ext{color:var(--accent);font-weight:600}
+nav.tabs a.ext:hover{background:var(--accent);color:var(--accent-fg)}
+a.ciudad{display:inline-flex;align-items:center;gap:8px;margin-top:12px;background:var(--accent);color:var(--accent-fg);text-decoration:none;font-family:var(--f-display);font-weight:600;font-size:15px;padding:10px 18px;border-radius:999px}
+a.ciudad:hover{filter:brightness(1.06)}
+nav.tabs a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+main{padding-bottom:48px}
+.stage{position:relative;height:clamp(420px,72vh,860px);background:#e7e5e0;overflow:hidden}
+.stage canvas{display:block;width:100%;height:100%;touch-action:none}
+#labels{position:absolute;inset:0;pointer-events:none}
+.lbl-dim{font-family:var(--f-mono);font-size:11px;font-weight:500;background:var(--label-dim-bg);color:var(--label-dim-fg);padding:2px 6px;border-radius:3px;white-space:nowrap;pointer-events:none}
+.lbl-tag{font-family:var(--f-body);font-size:11.5px;font-weight:500;background:var(--label-tag-bg);color:var(--label-tag-fg);padding:3px 8px;border-radius:999px;white-space:nowrap;pointer-events:none;box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.lbl-tag::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#d9540d;margin-right:6px;vertical-align:1px}
+.loading{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--f-display);font-size:16px;color:#3a3833;background:#e7e5e0}
+.info{position:absolute;left:max(12px,env(safe-area-inset-left,0px));bottom:12px;max-width:min(380px,calc(100% - 24px));background:rgba(21,21,21,.92);color:#f4f2ee;border-radius:var(--r);padding:10px 34px 10px 12px;font-size:13px;line-height:1.45}
+.info b{font-family:var(--f-display);font-weight:600;font-size:15px;display:block;margin-bottom:2px}
+.info button{position:absolute;top:6px;right:6px;background:none;border:0;color:#f4f2ee;font-size:18px;cursor:pointer;line-height:1;padding:4px}
+.hint{position:absolute;right:max(12px,env(safe-area-inset-right,0px));top:10px;font-size:12px;color:#3a3833;background:rgba(255,255,255,.75);padding:3px 8px;border-radius:999px}
+.stage.noche .hint{color:#e9e6df;background:rgba(0,0,0,.45)}
+.controls{display:flex;flex-wrap:wrap;gap:10px 22px;padding-block:14px;align-items:center}
+.ctl-group{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.ctl-group .cap{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-right:4px}
+.chip{font-family:var(--f-display);font-size:14px;font-weight:500;border:1px solid var(--line);background:var(--surface);color:var(--fg);padding:6px 12px;border-radius:999px;cursor:pointer}
+.chip:hover{border-color:var(--fg)}
+.chip[aria-pressed="true"]{background:var(--steel);border-color:var(--steel);color:#fff}
+.chip.accent[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;padding-block:6px 4px}
+.fact{border-top:2px solid var(--fg);padding-top:8px}
+.fact .n{font-family:var(--f-mono);font-size:20px;font-weight:500;font-variant-numeric:tabular-nums}
+.fact .t{color:var(--muted);font-size:13px}
+section.vista{display:block}
+h2{font-family:var(--f-display);font-weight:600;font-size:26px;margin:28px 0 6px;text-wrap:balance}
+h3{font-family:var(--f-display);font-weight:600;font-size:18px;margin:22px 0 8px}
+p.lead{color:var(--muted);max-width:68ch;margin:0 0 14px}
+.planos{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:20px;align-items:start}
+.plano{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px;min-width:0}
+.plano .scroll{overflow-x:auto}
+.plano svg{display:block;width:100%;height:auto;min-width:340px}
+.plano h3{margin:2px 0 8px}
+.leyenda{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--muted);margin-top:8px}
+.leyenda i{display:inline-block;width:12px;height:12px;border:1px solid var(--fg);vertical-align:-2px;margin-right:6px}
+.galeria{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:16px}
+.galeria figure{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.galeria button{display:block;padding:0;border:0;background:none;cursor:zoom-in;width:100%}
+.galeria img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover}
+.galeria figcaption{padding:10px 12px;font-size:13.5px}
+.galeria figcaption b{font-family:var(--f-display);font-weight:600;font-size:15px;display:block}
+.lightbox{position:fixed;inset:0;z-index:50;background:rgba(10,10,10,.94);display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.lightbox img{max-height:86vh;width:auto;max-width:100%;border-radius:4px}
+.lightbox p{color:#eee;text-align:center;margin:10px 0 0;font-size:14px}
+.lightbox button{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));background:#fff;border:0;border-radius:999px;width:38px;height:38px;font-size:20px;cursor:pointer}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:18px 28px}
+.cols>div{min-width:0}
+ul.clean{list-style:none;padding:0;margin:0}
+ul.clean li{padding:7px 0;border-bottom:1px solid var(--line)}
+ul.clean li b{font-weight:600}
+.paleta{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.sw{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface)}
+.sw div{height:64px}
+.sw span{display:block;padding:7px 9px;font-size:12.5px;line-height:1.35}
+.tabla{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-display);font-weight:600;font-size:13px;background:var(--surface-2)}
+td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.nota{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:var(--r);padding:12px 14px}
+.nota ol{margin:6px 0 0;padding-left:20px}
+.nota li{margin:4px 0}
+code{font-family:var(--f-mono);font-size:12.5px;background:var(--surface-2);padding:1px 5px;border-radius:3px;word-break:break-all}
+.estilos{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:18px;margin-top:8px}
+.estilo{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.estilo .fotos{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--line)}
+.estilo .fotos img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
+.estilo .cuerpo{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
+.estilo .letra{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;color:var(--muted)}
+.estilo h3{margin:0;font-size:21px}
+.estilo p{margin:0}
+.estilo .tira{display:flex;gap:0;height:14px;border-radius:3px;overflow:hidden;border:1px solid var(--line)}
+.estilo .tira i{flex:1}
+.estilo .de{font-size:13px;color:var(--muted)}
+.estilo dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0;font-size:13.5px}
+.estilo dt{color:var(--muted)}
+.estilo dd{margin:0}
+.estilo .ver{align-self:flex-start;margin-top:auto}
+.ok{color:#2f7d4a;font-weight:600}.ojo{color:#b06a00;font-weight:600}.no{color:#b3361b;font-weight:600}
+.fotos2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px;margin:10px 0 4px}
+.fotos2 figure{margin:0}.fotos2 img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:var(--r);border:1px solid var(--line)}
+.fotos2 figcaption{font-size:12.5px;color:var(--muted);margin-top:4px}
+.chip.franja i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;vertical-align:-1px;border:1px solid rgba(255,255,255,.4)}
+.lbl-mov{font-family:var(--f-body);font-size:11.5px;font-weight:500;line-height:1.35;background:var(--label-tag-bg);color:var(--label-tag-fg);border:2px solid #d9540d;padding:4px 8px;border-radius:4px;max-width:230px;white-space:normal;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+[hidden]{display:none!important}
+.pt-agua{color:#2f6fb0;font-weight:700}.pt-luz{color:#d9540d;font-weight:700}
+.presu-cat td{background:var(--surface-2);font-family:var(--f-display);font-weight:600}
+.tabla a{color:var(--accent)}
+.veredicto{font-family:var(--f-display);font-weight:600;font-size:16px;margin:10px 0 0}
+@media (max-width:640px){
+  .brand h1{font-size:17px}
+  nav.tabs a{padding:6px 11px;font-size:13.5px}
+  .stage{height:62vh;min-height:380px}
+  .controls{gap:10px}
+  .ctl-group .cap{width:100%}
+}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important}}
+</style>
+
+
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <span class="box">317</span>
+      <div>
+        <h1>Apto 317 · Torre A</h1>
+        <p>UNO62 · Bogotá · propuesta de interiorismo</p>
+      </div>
+    </div>
+    <nav class="tabs" aria-label="Secciones">
+      <a href="#modelo" data-v="modelo">Modelo 3D</a>
+      <a href="#estilos" data-v="estilos">Estilos</a>
+      <a href="#analisis" data-v="analisis">Análisis</a>
+      <a href="#planos" data-v="planos">Planos</a>
+      <a href="#presupuesto" data-v="presupuesto">Presupuesto</a>
+      <a href="#renders" data-v="renders">Renders</a>
+      <a href="#ficha" data-v="ficha">Ficha</a>
+      <a class="ext" href="../" target="_blank" rel="noopener">Ciudad 3D ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="vista" id="v-modelo">
+    <div class="stage" id="stage">
+      <canvas id="c" aria-label="Modelo 3D del apartamento"></canvas>
+      <div id="labels"></div>
+      <div class="hint" id="hint">Arrastra para girar · rueda o pellizco para acercar · toca un mueble</div>
+      <div class="info" id="info" hidden><button type="button" id="info-x" aria-label="Cerrar">×</button><b id="info-t"></b><span id="info-d"></span></div>
+      <div class="loading" id="loading">Cargando el modelo…</div>
+    </div>
+    <div class="wrap controls">
+      <div class="ctl-group" role="group" aria-label="Estilo">
+        <span class="cap">Estilo</span>
+        <button class="chip accent" type="button" id="e-D" data-estilo="D" aria-pressed="true">D · Definitivo</button>
+        <button class="chip accent" type="button" id="e-E" data-estilo="E" aria-pressed="false">E · Mezzanine extendido</button>
+        <button class="chip accent" type="button" id="e-A" data-estilo="A" aria-pressed="false">A · Roble y naranja</button>
+        <button class="chip accent" type="button" id="e-B" data-estilo="B" aria-pressed="false">B · Loft industrial</button>
+        <button class="chip accent" type="button" id="e-C" data-estilo="C" aria-pressed="false">C · Retro mediterráneo</button>
+      </div>
+      <div class="ctl-group" role="group" aria-label="Color de la franja" id="grupo-franja">
+        <span class="cap">Franja</span>
+        <button class="chip franja" type="button" data-color="#232426" aria-pressed="false"><i style="background:#232426"></i>Grafito</button>
+        <button class="chip franja" type="button" data-color="#1f3a2e" aria-pressed="false"><i style="background:#1f3a2e"></i>Verde bosque</button>
+        <button class="chip franja" type="button" data-color="#1d3a46" aria-pressed="false"><i style="background:#1d3a46"></i>Azul petróleo</button>
+        <button class="chip franja" type="button" data-color="#4a1f24" aria-pressed="true"><i style="background:#4a1f24"></i>Vino</button>
+        <button class="chip franja" type="button" data-color="#7a3520" aria-pressed="false"><i style="background:#7a3520"></i>Terracota</button>
+      </div>
+      <div class="ctl-group" role="group" aria-label="Piso" id="grupo-piso">
+        <span class="cap">Piso</span>
+        <button class="chip franja" type="button" data-piso="claro" aria-pressed="false"><i style="background:#c49c70"></i>Roble claro</button>
+        <button class="chip franja" type="button" data-piso="medio" aria-pressed="true"><i style="background:#7e5b3c"></i>Roble medio</button>
+        <button class="chip franja" type="button" data-piso="nogal" aria-pressed="false"><i style="background:#5e3f2a"></i>Nogal</button>
+      </div>
+      <div class="ctl-group" role="group" aria-label="Vistas">
+        <span class="cap">Vistas</span>
+        <button class="chip" type="button" id="cam-axo" data-cam="axo" aria-pressed="true">General</button>
+        <button class="chip" type="button" id="cam-axo1" data-cam="axo_primer_piso" aria-pressed="false">Primer piso</button>
+        <button class="chip" type="button" id="cam-entrada" data-cam="galeria" aria-pressed="false">Entrada</button>
+        <button class="chip" type="button" id="cam-espejo" data-cam="espejo" aria-pressed="false">Espejo</button>
+        <button class="chip" type="button" id="cam-cocina" data-cam="cocina" aria-pressed="false">Cocina y barra</button>
+        <button class="chip" type="button" id="cam-bano" data-cam="bano" aria-pressed="false">Baño</button>
+        <button class="chip" type="button" id="cam-salon" data-cam="salon" aria-pressed="false">Salón</button>
+        <button class="chip" type="button" id="cam-tv" data-cam="salon_tv" aria-pressed="false">TV 75"</button>
+        <button class="chip" type="button" id="cam-eames" data-cam="eames" aria-pressed="false">Rincón Eames</button>
+        <button class="chip" type="button" id="cam-estudio" data-cam="estudio" aria-pressed="false">Estudio</button>
+        <button class="chip" type="button" id="cam-mezz" data-cam="mezzanine" aria-pressed="false">Mezzanine</button>
+        <button class="chip" type="button" id="cam-mtv" data-cam="mezz_tv" aria-pressed="false">Cama y TV</button>
+        <button class="chip" type="button" id="cam-mext" data-cam="mezz_ext" aria-pressed="false">Extensión (E)</button>
+      </div>
+      <div class="ctl-group" role="group" aria-label="Capas">
+        <span class="cap">Mostrar</span>
+        <button class="chip" type="button" id="t-medidas" aria-pressed="true">Medidas</button>
+        <button class="chip" type="button" id="t-nombres" aria-pressed="false">Nombres</button>
+        <button class="chip" type="button" id="t-mezz" aria-pressed="true">Mezzanine</button>
+        <button class="chip" type="button" id="t-techo" aria-pressed="true">Techo</button>
+        <button class="chip" type="button" id="t-abrir" aria-pressed="false" aria-keyshortcuts="X" hidden>Abrir cajones y puertas (X)</button>
+      </div>
+      <div class="ctl-group" role="group" aria-label="Luz">
+        <span class="cap">Luz</span>
+        <button class="chip" type="button" id="l-dia" aria-pressed="true">Día</button>
+        <button class="chip accent" type="button" id="l-noche" aria-pressed="false">Noche LED</button>
+      </div>
+    </div>
+    <div class="wrap facts">
+      <div class="fact"><div class="n">3,00 × 7,78 m</div><div class="t">planta libre del primer piso (23,3 m²)</div></div>
+      <div class="fact"><div class="n">4,20 m</div><div class="t">doble altura en el salón, de piso a techo</div></div>
+      <div class="fact"><div class="n">3,00 × 3,09 m</div><div class="t">mezzanine a +2,32 m (9,3 m²), 1,88 m libres arriba</div></div>
+      <div class="fact"><div class="n">12 × 19,3 cm</div><div class="t">escalera recta de 0,80 m con el estudio debajo</div></div>
+    </div>
+  </section>
+
+  <section class="vista wrap" id="v-estilos" hidden>
+    <h2>Tres estilos para el mismo apartamento</h2>
+    <p class="lead">Los tres respetan lo que pediste: clósets y vitrina de tenis en el mezzanine, estudio con el PC bajo la escalera y cocina abierta con barra. La distribución y las medidas son las mismas; cambian los materiales, la luz y la decoración. Cada uno sale de un grupo distinto de las fotos que me mandaste. El D es el definitivo: junta lo que te gustó y quita lo que no.</p>
+    <div class="estilos">
+      <article class="estilo">
+        <div class="fotos"><img src="renders/D_01_salon_dia.jpg" alt="Estilo D, salón de día" loading="lazy"><img src="renders/D_14_entrada_galeria.jpg" alt="Estilo D, entrada con galería" loading="lazy"></div>
+        <div class="cuerpo">
+          <span class="letra">ESTILO D · DEFINITIVO</span>
+          <h3>Vino, roble y naranja</h3>
+          <p>El que elegiste. Una franja vino hasta la línea del mezzanine divide el espacio; arriba todo es blanco, con cielo raso de luz indirecta y lámparas que caen. Cuero cognac, roble, acero negro y arte tuyo. Sin ladrillo, sin paneles de madera en las paredes y sin pasteles.</p>
+          <div class="tira" aria-hidden="true"><i style="background:#4a1f24"></i><i style="background:#c49a6c"></i><i style="background:#8a4a22"></i><i style="background:#e4570f"></i><i style="background:#ecebe7"></i></div>
+          <p class="de">Entrada con puertas ocultas, locker de la moto, galería y espejo con bisagras. Cocina con lavaplatos eléctrico, barra conectada y estación de café. TV tipo cuadro, Eames, escritorio de muro a muro y vitrina para 30 pares de tenis.</p>
+          <dl><dt>Piso</dt><dd>Roble medio</dd><dt>Muros</dt><dd>Vino hasta +2,32 m, blanco arriba</dd><dt>Techo</dt><dd>Drywall con luz indirecta</dd><dt>Escalera</dt><dd>Negra con huella en roble</dd><dt>Baño</dt><dd>Microcemento oscuro y LED</dd><dt>Entrada</dt><dd>Galería y puertas ocultas</dd></dl>
+          <button class="chip ver" type="button" data-ver-estilo="D">Ver D en 3D</button>
+        </div>
+      </article>
+      <article class="estilo">
+        <div class="fotos"><img src="renders/01_salon_dia.jpg" alt="Estilo A, salón de día" loading="lazy"><img src="renders/05_salon_noche.jpg" alt="Estilo A, salón de noche" loading="lazy"></div>
+        <div class="cuerpo">
+          <span class="letra">ESTILO A</span>
+          <h3>Roble y naranja</h3>
+          <p>Minimalismo cálido: roble claro, acero negro y muro blanco. El color aparece solo en tres lámparas naranja. La luz indirecta hace flotar el techo de la doble altura.</p>
+          <div class="tira" aria-hidden="true"><i style="background:#c49a6c"></i><i style="background:#161616"></i><i style="background:#ecebe7"></i><i style="background:#e4570f"></i><i style="background:#ffc27a"></i></div>
+          <p class="de">Sale de tus fotos del loft con escritorio bajo la escalera y baranda de vidrio, de los clósets alrededor de la cama, de las lámparas naranja tipo hongo y arco, y de la luz indirecta en drywall.</p>
+          <dl><dt>Piso</dt><dd>Roble claro en tablas largas</dd><dt>Salón</dt><dd>Pared de listones de roble de 4 m</dd><dt>Escalera</dt><dd>Lámina negra, huella en roble, malla negra</dd><dt>Cocina</dt><dd>Roble y piedra negra</dd><dt>Baño</dt><dd>Mármol blanco, torre de ducha negra</dd><dt>Luz</dt><dd>Cielo raso con LED perimetral, escalones, spots</dd></dl>
+          <button class="chip ver" type="button" data-ver-estilo="A">Ver A en 3D</button>
+        </div>
+      </article>
+      <article class="estilo">
+        <div class="fotos"><img src="renders/B_01_salon_dia.jpg" alt="Estilo B, salón de día" loading="lazy"><img src="renders/B_05_salon_noche.jpg" alt="Estilo B, salón de noche" loading="lazy"></div>
+        <div class="cuerpo">
+          <span class="letra">ESTILO B</span>
+          <h3>Loft industrial</h3>
+          <p>Materiales crudos y oscuros: microcemento en el muro de la escalera, nogal, acero negro y cuero cognac. Una lámpara grande de ratán llena la doble altura. Es el más acogedor de noche.</p>
+          <div class="tira" aria-hidden="true"><i style="background:#6b6964"></i><i style="background:#5a3c28"></i><i style="background:#8a8781"></i><i style="background:#4f6b52"></i><i style="background:#161616"></i></div>
+          <p class="de">Sale de Tuliv Polo (escalera negra, cocina de madera y mesón negro), del loft de doble altura (malla perforada, paneles acústicos con franja negra, media pared verde, lámpara de fibra) y del render de UNO62 en concreto. Sin ladrillo a la vista: va microcemento.</p>
+          <dl><dt>Piso</dt><dd>Nogal en tablas anchas</dd><dt>Salón</dt><dd>Media pared verde salvia y 4 paneles acústicos</dd><dt>Escalera</dt><dd>Negra, huella en nogal, contra el microcemento</dd><dt>Cocina</dt><dd>Frentes negros, azulejo grafito vertical</dd><dt>Baño</dt><dd>Mármol verde salvia y negro</dd><dt>Luz</dt><dd>Cielo raso con LED, riel de spots, ratán cálido</dd></dl>
+          <button class="chip ver" type="button" data-ver-estilo="B">Ver B en 3D</button>
+        </div>
+      </article>
+      <article class="estilo">
+        <div class="fotos"><img src="renders/C_01_salon_dia.jpg" alt="Estilo C, salón de día" loading="lazy"><img src="renders/C_05_salon_noche.jpg" alt="Estilo C, salón de noche" loading="lazy"></div>
+        <div class="cuerpo">
+          <span class="letra">ESTILO C</span>
+          <h3>Retro mediterráneo</h3>
+          <p>Alegre y luminoso: piso en espina de pescado, baldosa hidráulica en la cocina, azulejo azul y colores tierra (mostaza, oliva, terracota). Una galería de cuadros llena la pared alta.</p>
+          <div class="tira" aria-hidden="true"><i style="background:#d2b48a"></i><i style="background:#3a5f8a"></i><i style="background:#a98a2a"></i><i style="background:#545a2c"></i><i style="background:#b0543a"></i></div>
+          <p class="de">Sale del apartamento con piso en espina y baldosa hidráulica (cocina gris con nicho de roble y azulejo azul vertical), de tu foto del baño (mueble de madera, espejo redondo, grifo terracota, ducha verde), del render con galería de cuadros, cojines mostaza y mueble oliva, y de los clósets blancos brillantes.</p>
+          <dl><dt>Piso</dt><dd>Roble claro en espina; hidráulica en la cocina</dd><dt>Salón</dt><dd>Galería de 8 cuadros, mueble TV oliva</dd><dt>Escalera</dt><dd>Blanca con huella en roble</dd><dt>Cocina</dt><dd>Gris salvia, azulejo azul, cuarzo blanco</dd><dt>Baño</dt><dd>Enchape beige y ducha en mármol salvia</dd><dt>Luz</dt><dd>Líneas de LED en el techo, globo opal, escalones</dd></dl>
+          <button class="chip ver" type="button" data-ver-estilo="C">Ver C en 3D</button>
+        </div>
+      </article>
+    </div>
+
+    <h3>Comparación</h3>
+    <div class="tabla"><table>
+      <thead><tr><th></th><th>A · Roble y naranja</th><th>B · Loft industrial</th><th>C · Retro mediterráneo</th></tr></thead>
+      <tbody>
+        <tr><td>Sensación</td><td>Sereno y luminoso</td><td>Cálido y nocturno, con carácter</td><td>Alegre y colorido</td></tr>
+        <tr><td>Muros</td><td>Blanco</td><td>Microcemento gris claro y gris medio</td><td>Blanco cálido</td></tr>
+        <tr><td>Mezzanine</td><td>Clósets blanco mate, cabecero de listones</td><td>Clósets en nogal, lino grafito y óxido</td><td>Clósets blanco brillante, manta mostaza</td></tr>
+        <tr><td>Lámparas</td><td>Colgante, arco y hongo naranja</td><td>Ratán grande, colgante negro con bombillo vintage, hongo naranja</td><td>Globo opal, arco y hongo naranja</td></tr>
+        <tr><td>Se siente el espacio</td><td>Más amplio</td><td>Más recogido: absorbe luz</td><td>Amplio, con mucho movimiento visual</td></tr>
+        <tr><td>Obra que más pide</td><td>Cielo raso flotante y pared de listones</td><td>Microcemento y paneles acústicos</td><td>Piso en espina (más corte), cerámicas especiales</td></tr>
+        <tr><td>Mantenimiento</td><td>Fácil</td><td>Fácil; el microcemento va sellado</td><td>Medio: la baldosa y los colores piden orden</td></tr>
+      </tbody>
+    </table></div>
+    <p class="lead" style="margin-top:10px">También se pueden mezclar: por ejemplo, la base de A con el microcemento y el cuero cognac de B, o con la baldosa hidráulica y el azulejo azul de C en la cocina.</p>
+  </section>
+
+  <section class="vista wrap" id="v-analisis" hidden>
+    <h2>Análisis del diseño D</h2>
+    <p class="lead">Todo lo de esta página es del diseño D en vino, el que elegiste. Las medidas de arquitectura no se tocaron: 3,00 × 7,78 m, baño de 1,23 × 2,34, cocina de 1,34, mezzanine de 3,09 m y doble altura de 4,20. Cuando te entreguen el apartamento se ajusta con tus fotos y medidas reales.</p>
+    <div class="fotos2">
+      <figure><img src="renders/D_15_entrada_abierta.jpg" alt="Entrada con las puertas ocultas abiertas" loading="lazy"><figcaption>Entrada abierta: bici, locker de la moto y torre de ropas</figcaption></figure>
+      <figure><img src="renders/D_19_cocina_barra.jpg" alt="Cocina con la barra conectada y la estación de café" loading="lazy"><figcaption>Cocina, barra conectada y estación de café</figcaption></figure>
+      <figure><img src="renders/D_17_salon_tv.jpg" alt="TV tipo cuadro en el salón" loading="lazy"><figcaption>TV de 75" tipo cuadro: apagado queda una obra</figcaption></figure>
+    </div>
+
+    <h3>1. Entrada: todo oculto y a la mano</h3>
+    <ul class="clean">
+      <li><b>Nicho de llegada</b> junto a la puerta: repisas de roble con luz para las llaves, una figura y una planta; adentro quedan los interruptores.</li>
+      <li><b>Bici de ruta</b> colgada de la rueda delantera detrás de dos puertas ocultas, con bandeja de caucho y luz interior.</li>
+      <li><b>Locker de la moto</b>: el casco abajo y la chaqueta en una barra extraíble, con ventilación oculta. Encima, la galería: nicho, cajón, nicho.</li>
+      <li><b>Torre de ropas</b> y <b>nevera</b> con microondas al final del frente.</li>
+      <li><b>Espejo con bisagras</b> de 0,60 × 1,96 m frente a la galería: es la puerta de un gabinete de 6 cm para gafas, correas, llaves de repuesto y una sombrilla plegable.</li>
+    </ul>
+
+    <h3>2. Cocina y barra: dónde va cada cosa</h3>
+    <div class="tabla"><table>
+      <thead><tr><th>Qué</th><th>Dónde</th></tr></thead>
+      <tbody>
+        <tr><td>Ollas y sartenes</td><td>Los dos cajones bajos de la barra (0,60 m de ancho y 0,30 de alto cada uno)</td></tr>
+        <tr><td>Platos y bowls</td><td>Alacena alta izquierda, sobre el lavaplatos: te quedan de 1,55 a 1,90 m</td></tr>
+        <tr><td>Vasos y pocillos</td><td>Alacena alta del centro</td></tr>
+        <tr><td>Despensa</td><td>Alacena alta derecha y los cajones del medio de la barra</td></tr>
+        <tr><td>Aceites y especias</td><td>Extraíble de 30 cm bajo la estufa</td></tr>
+        <tr><td>Cubiertos y utensilios</td><td>Cajones de arriba de la barra</td></tr>
+        <tr><td>Lavaplatos eléctrico de 45 cm</td><td>Entre el lavaplatos y la estufa, con frente de roble; usa el mismo punto de agua</td></tr>
+        <tr><td>Aseo y reciclaje</td><td>Bajo el lavaplatos y en el cajón bajo izquierdo de la barra (dos canecas)</td></tr>
+        <tr><td>Café</td><td>En fila contra el muro, sobre una bandeja de roble en el extremo de la barra: molino, tetera, prensa francesa y Chemex, con dos tomas justo detrás. Tazas y café en la repisa de arriba; filtros y báscula en el primer cajón</td></tr>
+      </tbody>
+    </table></div>
+    <p class="lead" style="margin-top:10px">La barra queda a la altura del mesón (0,90 m) y con la misma piedra negra, así que sirve de mesón extra para dos. Una U completa no cabe: el lavaplatos que entrega la constructora queda en la esquina y el pasillo bajaría a 0,74 m.</p>
+
+    <h3>3. Escritorio y robot</h3>
+    <p class="lead">El escritorio va de muro a muro bajo la escalera, 1,35 × 0,79 m, sin huecos: la torre del PC sobre la mesa al lado de la pantalla de 27", teclado, mouse, dos cajones y luz propia. A continuación queda el garaje del robot aspiradora con su base y su toma; el robot pasa bajo el sofá (patas de 12 cm) y bajo el mueble del TV. Al mezzanine hay que subirlo a mano.</p>
+
+    <h3>4. Salón</h3>
+    <ul class="clean">
+      <li><b>TV de 75" tipo cuadro</b> (Samsung The Frame o el de galería de LG): a ras de un muro técnico en drywall, con marco en tono madera y arte cuando está apagado. Centro a 1,35 m: altura de cuadro y de TV a la vez. La caja de conexiones va dentro del mueble.</li>
+      <li><b>Mueble de 0,80 m</b> centrado bajo el TV, con frentes en vino y tapa de roble: guarda el Xbox, el router y la caja del TV. La barra de sonido va en el muro y el subwoofer debajo.</li>
+      <li><b>Sofá cama de 1,80 m</b> en cuero cognac y <b>Eames con otomana</b> en la esquina de la ventana, con la lámpara de arco para leer.</li>
+      <li><b>Arte tuyo</b>: un mapa topográfico con una ruta de ciclismo y el afiche 317. Los archivos para imprimir están en la carpeta del proyecto.</li>
+      <li><b>Sofá cama abierto</b>: la cama de 1,40 × 1,90 sale hacia el TV. La mesa de centro pasa junto a la ventana y queda un paso de 0,38 m en un tramo corto frente al mueble.</li>
+    </ul>
+
+    <h3>5. Mezzanine</h3>
+    <ul class="clean">
+      <li><b>Vitrina de tenis</b>: tus 30 pares van parados, en vertical. Cada par ocupa 22 cm de frente y caben dos filas: capacidad para 40.</li>
+      <li><b>Clóset de 1,68 m con dos puertas corredizas</b>: no invaden la franja de 0,70 m para vestirse.</li>
+      <li><b>TV de 65"</b> a ras del muro, con el centro a 1,22 m del piso: desde la cama se ve sin bajar la mirada.</li>
+      <li><b>Cama girada</b> con cabecero en cuero, ropa de cama blanca, manta carbón y dos cajones grandes.</li>
+    </ul>
+
+    <h3>6. Baño</h3>
+    <div class="tabla"><table>
+      <thead><tr><th>Punto</th><th>Este diseño</th><th>Referencia</th><th></th></tr></thead>
+      <tbody>
+        <tr><td>Espacio libre al frente del sanitario</td><td class="num">0,59 m (suspendido)</td><td class="num">≥ 0,60 m</td><td class="ojo">Al límite</td></tr>
+        <tr><td>Eje del sanitario al mueble</td><td class="num">0,42 m</td><td class="num">≥ 0,40 m</td><td class="ok">Bien</td></tr>
+        <tr><td>Eje del sanitario a la ducha</td><td class="num">0,30 m</td><td class="num">≥ 0,40 m</td><td class="ojo">Viene así del plano</td></tr>
+        <tr><td>Ducha</td><td class="num">1,23 × 1,00 m</td><td class="num">≥ 0,80 × 0,80 m</td><td class="ok">Bien</td></tr>
+        <tr><td>Ventilación</td><td>sin ventana</td><td>extractor</td><td class="ojo">Pedirlo o instalarlo</td></tr>
+      </tbody>
+    </table></div>
+    <p class="veredicto">Microcemento oscuro, nichos con luz y sanitario suspendido caben si el desagüe queda a unos 25 cm o menos del muro. Si no, se deja el sanitario de piso y se mantiene lo demás.</p>
+
+    <h3>7. Luz por capas</h3>
+    <ul class="clean">
+      <li><b>Ambiente</b>: la ranura del cielo raso en drywall y la línea sobre la franja vino, tenue. Cálida, 2700 K.</li>
+      <li><b>Lámparas que caen</b>: tres domos naranja sobre la barra y uno grande con difusor sobre la mesa de centro.</li>
+      <li><b>Tarea</b>: spots empotrados dirigibles, luz bajo la alacena, escritorio y lectura en el Eames y la cama. 3000 K.</li>
+      <li><b>Colección</b>: LED en la vitrina de tenis, la galería y el nicho de llegada.</li>
+      <li>Cada capa con su regulador. Para ver una película: spots apagados y ambiente al 30 %.</li>
+    </ul>
+
+    <h3>8. Medidas</h3>
+    <div class="tabla"><table>
+      <thead><tr><th>Punto</th><th>Este diseño</th><th>Referencia</th><th></th></tr></thead>
+      <tbody>
+        <tr><td>Pasillo de la entrada</td><td class="num">0,93 m (0,85 frente al espejo)</td><td class="num">≥ 0,80 m</td><td class="ok">Bien</td></tr>
+        <tr><td>Cocina a la barra</td><td class="num">0,81 m</td><td class="num">0,90–1,00 m</td><td class="ojo">Para uno cocinando</td></tr>
+        <tr><td>Paso entre la barra y la escalera</td><td class="num">0,90 m</td><td class="num">≥ 0,80 m</td><td class="ok">Bien</td></tr>
+        <tr><td>Pie de la escalera</td><td class="num">0,89 m libres</td><td class="num">≥ 0,80 m</td><td class="ok">Corregido</td></tr>
+        <tr><td>Escalera</td><td class="num">0,80 × 19,3 / 22 cm</td><td class="num">cómoda: 18 / 25–28</td><td class="ojo">Compacta</td></tr>
+        <tr><td>Bajo y sobre el mezzanine</td><td class="num">2,20 y 1,88 m</td><td class="num">tú: 1,72 m</td><td class="ok">Te sobran 16 cm arriba</td></tr>
+        <tr><td>TV del salón</td><td class="num">75" a 2,5 m, centro a 1,35</td><td class="num">2,3–3,0 m</td><td class="ok">Bien</td></tr>
+        <tr><td>TV del mezzanine</td><td class="num">65" a 2,4 m</td><td class="num">2,0–2,6 m</td><td class="ok">Bien</td></tr>
+        <tr><td>Barra y butacos</td><td class="num">0,90 y 0,62 m</td><td class="num">28 cm entre los dos</td><td class="ok">Bien</td></tr>
+        <tr><td>Espejo de la entrada</td><td class="num">de 0,12 a 2,08 m</td><td>cuerpo entero</td><td class="ok">Bien</td></tr>
+        <tr><td>Gancho de la bici</td><td class="num">a 2,00 m</td><td>alcanzas unos 2,15</td><td class="ok">Sin escalera</td></tr>
+        <tr><td>Franja para vestirse</td><td class="num">0,70 m</td><td class="num">≥ 0,60 m</td><td class="ok">Bien</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>9. Cómo abre cada cosa</h3>
+    <p class="lead">En el modelo 3D, la tecla X abre y cierra todo (puertas, cajones, electrodomésticos y hasta la tapa del sanitario) y muestra hacia dónde. También guarda las sillas: los butacos entran bajo la barra y la silla, bajo el escritorio.</p>
+    <div class="tabla"><table>
+      <thead><tr><th>Pieza</th><th>Herraje</th><th>Abre hacia</th></tr></thead>
+      <tbody>
+        <tr><td>Puertas ocultas (bici, locker, ropas, zapatos)</td><td>Bisagras de cazoleta de 110° con cierre suave y apertura por empuje, sin manija</td><td>El pasillo</td></tr>
+        <tr><td>Espejo</td><td>Bisagras de cazoleta de 110°</td><td>El pasillo</td></tr>
+        <tr><td>Puerta de entrada y puerta del baño</td><td>Bisagras de puerta</td><td>Adentro: la de entrada descansa contra el muro del baño; la del baño pasa a 0,29 m del mueble</td></tr>
+        <tr><td>Nevera, microondas y torre de ropas</td><td>Puertas de fábrica</td><td>El pasillo y la cocina</td></tr>
+        <tr><td>Sanitario y mueble del baño</td><td>Tapa de caída lenta y corredera oculta</td><td>Arriba y hacia la puerta</td></tr>
+        <tr><td>Cajones de la barra, escritorio, galería y cama</td><td>Correderas ocultas de extensión total con cierre suave</td><td>La cocina, la silla, el pasillo y la zona de vestir</td></tr>
+        <tr><td>Lavaplatos eléctrico</td><td>Puerta abatible del equipo, con frente de roble</td><td>Abajo, hacia ti</td></tr>
+        <tr><td>Alacenas altas</td><td>Bisagras de cazoleta con cierre suave</td><td>El salón (arriba está la placa del mezzanine)</td></tr>
+        <tr><td>Mueble del TV y gabinete de la nevera</td><td>Compás con apertura por empuje</td><td>Abajo y arriba</td></tr>
+        <tr><td>Clóset y vitrina de tenis</td><td>Riel superior corredizo con cierre suave</td><td>De lado: no ocupan espacio</td></tr>
+      </tbody>
+    </table></div>
+    <p class="lead" style="margin-top:10px">Tres parejas no se abren al mismo tiempo: el lavaplatos eléctrico y los cajones bajos de la barra, el cajón de la galería y la puerta de la bici, y el gabinete de la nevera con la puerta de ropas.</p>
+
+    <h3>10. Revisión de choques</h3>
+    <p class="lead">El modelo pasa una revisión automática que busca piezas que se crucen, muebles dentro de los pasos y puertas o cajones que choquen al abrir. Además lo revisó Astra de ChatGPT como segundo diseñador. Resultado actual: ninguna pieza se cruza, los pasos están libres y nada choca al abrir.</p>
+    <ul class="clean">
+      <li>El mueble del TV quedaba al pie de la escalera: ahora arranca 0,89 m después del último escalón.</li>
+      <li>Las alacenas chocaban con la placa del mezzanine al subir: ahora son batientes.</li>
+      <li>Las puertas del clóset invadían la franja de vestirse: ahora son corredizas.</li>
+      <li>La repisa del TV de arriba invadía la llegada de la escalera: se acortó.</li>
+      <li>De Astra: arte más personal, línea de luz más tenue, mueble del TV integrado al muro, tapete tejido y menos objetos en la galería.</li>
+    </ul>
+
+    <h3>11. ¿Se ajusta a tu vida?</h3>
+    <ul class="clean">
+      <li><b>Salir en moto o en bici:</b> llaves, casco, chaqueta, bici y espejo quedan a menos de 1,5 m de la puerta.</li>
+      <li><b>Coleccionista:</b> 30 pares a la vista arriba; figuras y recuerdos de viaje en la galería; libros de tenis en la mesa.</li>
+      <li><b>Trabajo, juego y café:</b> escritorio completo, Xbox en el 75" con sonido envolvente y el café a un paso de la barra.</li>
+      <li><b>Si llega alguien a vivir contigo:</b> barra para dos, sofá cama para visitas, lavaplatos eléctrico, torre de ropas de 14 kg y pasos de 0,85 a 0,93 m.</li>
+      <li><b>Lo que queda justo:</b> la cocina sigue siendo de 1,34 m y el pasillo de cocina de 0,81 m es para una persona cocinando.</li>
+    </ul>
+
+    <h3>12. Con gente: tú en el apartamento y diez personas en la sala</h3>
+    <div class="fotos2">
+      <figure><img src="renders/D_35_foto_diez_personas.jpg" alt="Diez personas en la sala vistas desde el mezzanine" loading="lazy"><figcaption>Diez personas: 7 sentadas y 3 de pie</figcaption></figure>
+      <figure><img src="renders/D_36_foto_en_la_sala.jpg" alt="Un hombre sentado en el sofá con un control" loading="lazy"><figcaption>En la sala</figcaption></figure>
+      <figure><img src="renders/D_37_foto_cocinando.jpg" alt="Un hombre cocinando en la estufa" loading="lazy"><figcaption>Cocinando</figcaption></figure>
+    </div>
+    <p class="lead" style="margin-top:10px">Estas tres son fotos hechas con IA (ChatGPT) sobre los renders del modelo: el espacio es tu diseño y las personas son genéricas, no retratos. Puede haber pequeñas diferencias con el modelo. Diez personas caben así: tres en el sofá, una en el Eames, una en la otomana, dos en los butacos y tres de pie; es una reunión apretada pero posible, y cómodas caben seis u ocho. En la pestaña Renders están las mismas escenas con maniquíes a escala de 1,72 m, además de la cama y la escalera.</p>
+
+    <h3>13. Entorno: qué tan alto quedas frente a los vecinos</h3>
+    <div class="fotos2">
+      <figure><img src="renders/D_30_entorno_frente.jpg" alt="UNO62 y los vecinos vistos desde la calle" loading="lazy"><figcaption>Desde la calle: tu apartamento marcado en naranja</figcaption></figure>
+      <figure><img src="renders/D_33_vista_desde_la_ventana.jpg" alt="Vista desde la ventana del 317" loading="lazy"><figcaption>Lo que verías desde tu ventana</figcaption></figure>
+      <figure><img src="renders/D_34_alturas_del_entorno.jpg" alt="Diagrama de alturas" loading="lazy"><figcaption>Alturas comparadas</figcaption></figure>
+    </div>
+    <p class="lead" style="margin-top:10px">Los vecinos están con la huella y el número de pisos de Catastro Bogotá; son solo volúmenes. Después los revisé en la panorámica de Street View que mandaste (tomada sobre la KR 55C, cuando el lote aún era la sala de ventas) y coinciden: al frente está El Portal de San Diego (KR 55C n.º 162-50), cinco pisos de ladrillo sobre el parqueadero; al sur, un edificio de siete pisos sobre el primero; al norte, una torre de 13 pisos. Tu ventana mira al oriente, hacia la carrera: te entra el sol de la mañana.</p>
+    <div class="tabla"><table>
+      <thead><tr><th>Hacia</th><th>Qué hay</th><th>Altura</th><th>Distancia</th><th>Cómo queda frente a ti</th></tr></thead>
+      <tbody>
+        <tr><td>Frente (oriente)</td><td>El Portal de San Diego: 5 pisos sobre el parqueadero, al otro lado de la carrera; a los lados, casas de 2 y 3 pisos</td><td class="num">15,2 m</td><td class="num">19,1 m</td><td>Tu piso queda a la altura de su cuarto piso; su cubierta está 4,6 m sobre tus ojos de pie</td></tr>
+        <tr><td>Atrás (occidente)</td><td>Construcciones de 1 piso detrás de la Torre B</td><td class="num">2,8 m</td><td class="num">detrás del lote</td><td>No te afecta: tu apartamento no tiene ventanas hacia atrás</td></tr>
+        <tr><td>Lado sur</td><td>Edificio de 8 pisos</td><td class="num">22,4 m</td><td class="num">4,8 m del extremo de la torre</td><td>Es 4,4 m más alto que UNO62; queda al lado, no lo ves desde tu ventana</td></tr>
+        <tr><td>Lado norte</td><td>Torre de 13 pisos, al otro lado de la calle</td><td class="num">36,4 m</td><td class="num">11,4 m del extremo de la torre</td><td>Es 18,4 m más alta que UNO62; tu apartamento está en el otro extremo</td></tr>
+        <tr><td>UNO62</td><td>4 pisos de doble altura en dos edificios (licencia modificada de 5 a 4 pisos)</td><td class="num">18,0 m</td><td></td><td>Tu piso a +9,0 m, tus ojos de pie a +10,6 m y en el mezzanine a +12,9 m</td></tr>
+      </tbody>
+    </table></div>
+    <p class="lead" style="margin-top:10px">Ya confirmado: los pisos de los vecinos (Catastro y Street View) y que UNO62 es de 4 pisos (la modificación de la licencia habla de dos edificaciones de cuatro pisos). Falta confirmar con el corte de la constructora: que el plano de localización está con el norte arriba (por eso la Torre A queda sobre la carrera), que cada piso mide 4,5 m y que el antejardín es de 3,0 m. La altura de los vecinos se estimó a 2,8 m por piso; El Portal puede ser hasta un metro más alto porque su parqueadero sobresale casi un piso entero.</p>
+    <p class="lead" style="margin-top:10px">En la Ciudad 3D está todo el barrio con los edificios de Catastro, los cerros, el sol real por fecha y hora (hoy entra sol directo por tu ventana de 06:46 a 11:51) y el vuelo hasta adentro del apartamento.</p>
+    <a class="ciudad" href="../" target="_blank" rel="noopener">Abrir UNO62 en la ciudad 3D ↗</a>
+
+    <h3>14. Modelo E: alargar el mezzanine</h3>
+    <p class="lead">El modelo E alarga la placa 1,51 m junto a la escalera (+3,3 m²). Se puede, pero es una ampliación: necesita licencia de construcción, acta de la copropiedad y diseño estructural, puede chocar con la altura mínima de 2,30 m en Bogotá y te quita el amparo de la garantía por obras posteriores. Hoy no te lo recomiendo; primero cierra la reclamación con la constructora. El modelo E quedó con el mobiliario anterior a los últimos cambios.</p>
+
+    <h3>15. Para confirmar cuando te entreguen</h3>
+    <ul class="clean">
+      <li>Medidas reales de muros, alturas y ventana, con fotos.</li>
+      <li>Distancia del desagüe del sanitario al muro.</li>
+      <li>Dónde quedó la conexión de la lavadora y el plano eléctrico.</li>
+      <li>Si la secadora de la torre es de bomba de calor (la torre va cerrada).</li>
+      <li>Que la escalera no viene incluida: está en el presupuesto.</li>
+      <li>El corte del edificio: altura de cada piso y hacia dónde mira tu ventana.</li>
+    </ul>
+  </section>
+
+  <section class="vista wrap" id="v-planos" hidden>
+    <h2>Plantas amobladas con medidas</h2>
+    <p class="lead">Medidas interiores en metros, tomadas del plano de tipología de los aptos 217, 317 y 417 de la Torre A (Anexo 20, noviembre de 2026). Los muebles van a escala. La distribución es la misma en los tres estilos.</p>
+    <div class="planos">
+      <div class="plano"><h3>Primer piso · nivel ±0,00</h3><div class="scroll" id="plano-n1"></div></div>
+      <div class="plano"><h3>Mezzanine · nivel +2,32</h3><div class="scroll" id="plano-n2"></div></div>
+    </div>
+    <div class="leyenda">
+      <span><i style="background:var(--fg)"></i>Muro y columna</span>
+      <span><i style="background:var(--surface-2)"></i>Mueble fijo</span>
+      <span><i style="background:transparent;border-style:dashed"></i>Proyección o zona</span>
+      <span><i style="background:#d9540d;border-color:#d9540d"></i>Lámpara naranja</span>
+      <span><b class="pt-agua">●</b> Agua · <b class="pt-agua">○</b> desagüe</span>
+      <span><b class="pt-luz">▲</b> Toma propuesta · <b>▲</b> eléctrico de la entrega</span>
+    </div>
+    <h3>Tomas y conexiones</h3>
+    <p class="lead">Las hidráulicas son las del plano de la constructora: ducha, sanitario, lavamanos y lavaplatos no se mueven. La constructora no ha entregado plano eléctrico, así que las tomas en naranja son una propuesta para coordinar con el electricista. Las láminas en PDF están en <code>D:\Diseño Apto\04 Planos y conexiones</code>.</p>
+    <div class="tabla"><table id="tabla-puntos"><thead><tr><th>#</th><th>Punto</th><th>Altura</th><th>Origen</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section class="vista wrap" id="v-presupuesto" hidden>
+    <h2>Cómo te lo entregan y cuánto falta</h2>
+    <p class="lead">Según los correos de la constructora (19-may-2025 y 25-nov-2025), el apartamento se entrega en obra gris mejorada. Las fuentes y el detalle están en <code>D:\Diseño Apto\06 Entrega de la constructora</code>.</p>
+    <div class="cols">
+      <div>
+        <h3>Lo que entregan</h3>
+        <ul class="clean">
+          <li>Piso en <b>placa de concreto a la vista</b>.</li>
+          <li>Muros pañetados y pintados; techos en concreto a la vista (estructura metálica en el baño y la entrada).</li>
+          <li>Mezzanine con placa de 12 cm y 8,77 m².</li>
+          <li>Baño enchapado en piso y ducha hasta 2,00 m; sanitario, lavamanos y grifería tipo VIS.</li>
+          <li>Cocina: mueble base sin puertas, mesón en piedra, estufa eléctrica de 2 puestos y pileta.</li>
+          <li>Ventana de 2,00 × 3,30 m en aluminio negro; puertas de entrada y baño en madera.</li>
+          <li>Puntos de luz con lámparas de sobreponer; conexiones hidráulicas para la lavadora.</li>
+          <li>Bonos de $1.000.000 para escrituración y $1.000.000 para remodelación.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Lo que no viene</h3>
+        <ul class="clean">
+          <li><b>La escalera al mezzanine</b>: el correo del 19-may-2025 lo dice expresamente.</li>
+          <li>El piso de todo el apartamento fuera del baño.</li>
+          <li>La baranda del mezzanine.</li>
+          <li>Puertas y alacena de la cocina.</li>
+          <li>Todo el mobiliario fijo: clósets, vitrina, galería, puertas ocultas, escritorio y cajones.</li>
+          <li>La iluminación LED y las lámparas.</li>
+          <li>Los electrodomésticos, salvo la estufa, y los muebles.</li>
+        </ul>
+      </div>
+    </div>
+    <h3>Presupuesto del diseño D</h3>
+    <div class="facts" id="presu-resumen"></div>
+    <div class="tabla" style="margin-top:12px"><table id="tabla-presupuesto"><thead><tr><th>Ítem</th><th>Cantidad</th><th>Bajo</th><th>Alto</th><th>Fuente</th></tr></thead><tbody><tr><td colspan="5">Cargando…</td></tr></tbody></table></div>
+    <p class="lead" id="presu-nota" style="margin-top:10px"></p>
+  </section>
+
+  <section class="vista wrap" id="v-renders" hidden>
+    <h2>Renders</h2>
+    <p class="lead">Imágenes del mismo modelo en Blender (Cycles), con la luz del día por la ventana y con la iluminación LED de noche.</p>
+    <div id="galeria"></div>
+  </section>
+
+  <section class="vista wrap" id="v-ficha" hidden>
+    <h2>Ficha del diseño D</h2>
+    <p class="lead">Carácter sin recargar para 33 m² en dos niveles. Una franja vino sube hasta la línea del mezzanine y arriba todo es blanco. Roble, acero negro, cuero cognac y piedra negra; el naranja queda solo en las lámparas. Nada de ladrillo, paneles de madera en las paredes ni colores pastel.</p>
+    <div class="cols">
+      <div>
+        <h3>Primer piso</h3>
+        <ul class="clean">
+          <li><b>Entrada</b>: nicho de llegada con luz, bici de ruta y torre de ropas tras puertas ocultas, locker de la moto con la galería encima, nevera y espejo con bisagras.</li>
+          <li><b>Cocina</b> de 1,34 m con lavaplatos eléctrico, alacena alta y barra conectada de 1,30 m con seis cajones y la estación de café.</li>
+          <li><b>Escritorio</b> de muro a muro bajo la escalera, con el PC, y garaje para el robot.</li>
+          <li><b>Salón en doble altura</b>: sofá cama de 1,80 m, Eames con otomana, TV de 75" tipo cuadro y cielo raso con luz indirecta.</li>
+          <li><b>Baño</b> en microcemento oscuro con nichos iluminados.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Mezzanine</h3>
+        <ul class="clean">
+          <li><b>Cama de 1,40 × 1,90</b> girada, con cabecero en cuero sobre un bloque vino y dos cajones.</li>
+          <li><b>Vitrina de tenis</b> de 0,95 m: 30 pares en vertical, capacidad para 40.</li>
+          <li><b>Clóset</b> de 1,68 m con puertas corredizas y módulo con espejo.</li>
+          <li><b>TV de 65"</b> a ras del muro, frente a la cama.</li>
+          <li><b>Baranda en vidrio</b> de 1,10 m.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Paleta</h3>
+    <div class="paleta">
+      <div class="sw"><div style="background:#4a1f24"></div><span>Vino<br>franja y puertas ocultas</span></div>
+      <div class="sw"><div style="background:#ecebe7"></div><span>Blanco<br>muros altos y cielo raso</span></div>
+      <div class="sw"><div style="background:#8a6542"></div><span>Roble medio<br>piso y escalera</span></div>
+      <div class="sw"><div style="background:#c49a6c"></div><span>Roble claro<br>muebles</span></div>
+      <div class="sw"><div style="background:#8a4a22"></div><span>Cuero cognac<br>sofá y cabecero</span></div>
+      <div class="sw"><div style="background:#161616"></div><span>Negro<br>acero y mesón</span></div>
+      <div class="sw"><div style="background:#e4570f"></div><span>Naranja<br>solo lámparas</span></div>
+    </div>
+
+    <h3>Iluminación</h3>
+    <div class="tabla"><table>
+      <thead><tr><th>Dónde</th><th>Qué es</th><th>Temperatura</th></tr></thead>
+      <tbody>
+        <tr><td>Cielo raso del salón</td><td>Cinta LED en la ranura perimetral del drywall, luz indirecta</td><td class="num">2700 K</td></tr>
+        <tr><td>Línea de la franja</td><td>Perfil fino a +2,32 m, tenue</td><td class="num">2700 K</td></tr>
+        <tr><td>Barra</td><td>Tres lámparas colgantes tipo domo, naranja</td><td class="num">2700 K</td></tr>
+        <tr><td>Salón</td><td>Lámpara colgante grande con difusor, lámpara de arco y cuatro spots empotrados dirigibles</td><td class="num">2700–3000 K</td></tr>
+        <tr><td>Cocina y café</td><td>Cinta bajo la alacena y bajo la repisa del café</td><td class="num">3000 K</td></tr>
+        <tr><td>Escalera</td><td>Cinta bajo la nariz de cada escalón</td><td class="num">2700 K</td></tr>
+        <tr><td>Escritorio</td><td>Cinta bajo la escalera y bajo el borde de la mesa</td><td class="num">3000 K</td></tr>
+        <tr><td>Entrada</td><td>Nicho de llegada, galería, halo del espejo y luz interior de los clósets</td><td class="num">3000 K</td></tr>
+        <tr><td>Dormitorio</td><td>Sobre el cabecero, bajo la cama y lámparas de lectura</td><td class="num">2700 K</td></tr>
+        <tr><td>Vitrina de tenis</td><td>Cinta en cada nivel</td><td class="num">3000 K</td></tr>
+        <tr><td>Baño</td><td>Nichos, espejo, bajo el mueble y línea en la ducha</td><td class="num">3000 K</td></tr>
+      </tbody>
+    </table></div>
+    <p class="lead" style="margin-top:10px">Cinta de 24 V con CRI de 90 o más, en perfil con difusor, y un regulador por capa: ambiente, colgantes, tarea y colección.</p>
+
+    <h3>Muebles y medidas</h3>
+    <div class="tabla"><table>
+      <thead><tr><th>Mueble</th><th>Medida</th><th>Material</th></tr></thead>
+      <tbody>
+        <tr><td>Frente de la entrada</td><td class="num">3,09 × 0,73 m, h 2,20</td><td>Puertas ocultas en vino, nichos en roble</td></tr>
+        <tr><td>Espejo con bisagras</td><td class="num">0,60 × 1,96 m, 8 cm de fondo</td><td>Marco negro, halo de luz</td></tr>
+        <tr><td>Torre de ropas</td><td class="num">0,60 × 0,66 m, h 1,66</td><td>Lavadora y secadora en un cuerpo</td></tr>
+        <tr><td>Lavaplatos eléctrico</td><td class="num">0,45 m de ancho</td><td>Frente de roble</td></tr>
+        <tr><td>Barra</td><td class="num">1,30 × 0,67 m, h 0,90</td><td>Piedra negra, seis cajones en roble</td></tr>
+        <tr><td>Butacos (2)</td><td class="num">asiento h 0,62 m</td><td>Cuero café, acero negro</td></tr>
+        <tr><td>Escritorio</td><td class="num">1,35 × 0,79 m, h 0,75</td><td>Roble, de muro a muro</td></tr>
+        <tr><td>Sofá cama</td><td class="num">1,80 × 0,95 m; cama 1,40 × 1,90</td><td>Cuero cognac, patas de 12 cm</td></tr>
+        <tr><td>Sillón tipo Eames</td><td class="num">0,84 × 0,85 m + otomana</td><td>Cuero negro y nogal</td></tr>
+        <tr><td>Mesa de centro</td><td class="num">Ø 0,64 m</td><td>Roble, patas negras</td></tr>
+        <tr><td>Tapete</td><td class="num">1,75 × 1,75 m</td><td>Tejido plano carbón y arena</td></tr>
+        <tr><td>TV del salón</td><td class="num">75": 1,68 × 0,96 m, centro a 1,35</td><td>Tipo cuadro, marco en tono madera</td></tr>
+        <tr><td>Mueble del TV</td><td class="num">0,80 × 0,37 m, flota a 0,22</td><td>Frentes en vino, tapa de roble</td></tr>
+        <tr><td>Cama</td><td class="num">1,40 × 1,90 m</td><td>Base en roble con dos cajones</td></tr>
+        <tr><td>Clóset</td><td class="num">1,68 m, fondo 0,60, h 1,88</td><td>Blanco mate, corredizo</td></tr>
+        <tr><td>Vitrina de tenis</td><td class="num">0,95 × 0,60 m, h 1,86</td><td>Negro y vidrio, cinco niveles con luz</td></tr>
+        <tr><td>TV del mezzanine</td><td class="num">65": 1,44 × 0,83 m</td><td>A ras del muro</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Lo que hay que confirmar con la constructora</h3>
+    <div class="nota">
+      <ol>
+        <li>El plano de tipología no dibuja la escalera. La puse contra el muro largo, subiendo hacia el mezzanine, como en los renders del proyecto. Hay que confirmar dónde la entregan y si viene incluida.</li>
+        <li>Alturas: 4,20 m libres según el folleto. Bajo el mezzanine dejé 2,20 m y una losa de 12 cm, lo que da 1,88 m libres arriba. Si la losa queda de 10 cm, arriba son 1,90 m. Con tu estatura (1,72 m) te sobran 16 cm al llegar arriba.</li>
+        <li>La ventana mide 2,07 × 3,30 m en el plano. El correo del 25 de noviembre de 2025 dice 2 × 3,30 m.</li>
+        <li>Dónde queda la conexión de la lavadora. El plano sombrea una zona de 0,76 × 0,83 m junto a la entrada que parece ser el punto de ropas; si queda en otro lado, la torre de ropas cambia de orden con el locker.</li>
+        <li>Según ese mismo correo, la constructora entrega paredes pintadas, baño enchapado, mesón en piedra, mueble bajo de cocina, mezzanine, ventana y puertas en madera. Lo demás de esta propuesta (escalera, piso, clósets, cielo raso, LED y muebles) corre por tu cuenta.</li>
+      </ol>
+    </div>
+
+    <h3>Archivos en tu PC</h3>
+    <ul class="clean">
+      <li>Todo está en <code>D:\Diseño Apto</code>; el archivo <code>LEEME.md</code> dice qué hay en cada carpeta.</li>
+      <li>Modelo de Blender: <code>03 Modelos Blender\apto317_D.blend</code>. Con el modo visor, las teclas 1 a 9 cambian de vista y la X abre cajones y puertas.</li>
+      <li>Fotos: <code>02 Renders\D Definitivo</code>, con el video recorrido.</li>
+      <li>Planos en PDF: <code>04 Planos y conexiones</code>. Presupuesto en Excel: <code>05 Presupuesto</code>.</li>
+      <li>Arte para imprimir: <code>08 Motor 3D\texturas\arte_ruta.jpg</code> y <code>arte_317.jpg</code>.</li>
+    </ul>
+  </section>
+
+  <div class="lightbox" id="lightbox" hidden>
+    <button type="button" id="lb-x" aria-label="Cerrar">×</button>
+    <div><img id="lb-img" alt=""><p id="lb-cap"></p></div>
+  </div>
+</main>
+
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+<script>
+// ---------------- pestañas (hash) ----------------
+(function(){
+  const vistas=['modelo','estilos','analisis','planos','presupuesto','renders','ficha'];
+  function mostrar(){
+    let v=(location.hash||'#modelo').slice(1); if(!vistas.includes(v)) v='modelo';
+    vistas.forEach(n=>{document.getElementById('v-'+n).hidden=(n!==v)});
+    document.querySelectorAll('nav.tabs a').forEach(a=>{ if(a.dataset.v===v) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+    window.dispatchEvent(new Event('vista-cambio'));
+  }
+  window.addEventListener('hashchange',mostrar); mostrar();
+})();
+
+// ---------------- renders ----------------
+const RENDERS_A=[
+  ['01_salon_dia','Salón de día','Desde la ventana: pared de listones, barra, cocina abierta, escalera con el estudio debajo y el mezzanine arriba.'],
+  ['05_salon_noche','Salón de noche','La misma vista con el LED del cielo raso, los escalones y las lámparas naranja.'],
+  ['13_sofa_cama','Sofá cama abierto','Abre a 1,40 × 1,90 m; la mesa de centro se corre hacia el TV.'],
+  ['09_entrada_bici','Entrada y bici','Bici colgada junto a la puerta, locker con casco y chaqueta, lavadora y secadora apiladas.'],
+  ['10_bano','Baño','Porcelanato tipo mármol, torre de ducha negra, espejo redondo con LED y grifo terracota.'],
+  ['11_bano_lavamanos','Baño: lavamanos','Mueble flotante en roble y espejo con luz.'],
+  ['04_estudio_noche','Estudio bajo la escalera','Escritorio de 1,15 m con el LED lavando el muro; a la derecha, un cajón grande abierto.'],
+  ['03_mezzanine_dia','Mezzanine','Cama girada con cabecero de listones, lámparas de lectura, clóset corrido y vitrina de tenis.'],
+  ['12_mezzanine_tv','Desde la cama','TV de 43" al frente, zapatero abatible y módulo con espejo.'],
+  ['06_mezzanine_noche','Mezzanine de noche','La cama junto a la baranda de vidrio con vista a la doble altura.'],
+  ['07_axonometria','Vista general','Corte sin techo ni muros de fachada.'],
+  ['08_axonometria_primer_piso','Primer piso sin mezzanine','Se ven el baño, la cocina y las torres bajo el mezzanine.'],
+];
+const VISTAS_BC=[
+  ['01_salon_dia','Salón de día'],['05_salon_noche','Salón de noche'],['09_entrada_bici','Entrada y bici'],
+  ['10_bano','Baño'],['11_bano_lavamanos','Baño: lavamanos'],['04_estudio_noche','Estudio bajo la escalera'],
+  ['03_mezzanine_dia','Mezzanine'],['12_mezzanine_tv','Desde la cama'],['07_axonometria','Vista general'],
+];
+const RENDERS_D=[
+  ['D_01_salon_dia','Salón de día','Franja vino, cielo raso con luz indirecta, lámpara colgante, mapa con ruta y sofá cama en cuero cognac.'],
+  ['D_05_salon_noche','Salón de noche','Luz indirecta del drywall, línea tenue sobre la pintura y lámparas naranja.'],
+  ['D_17_salon_tv','TV tipo cuadro de 75"','Apagado queda una obra. Barra de sonido en el muro y mueble de 0,80 m en vino.'],
+  ['D_18_rincon_eames','Rincón del Eames','Con otomana, mirando al TV y con la lámpara de arco para leer.'],
+  ['D_19_cocina_barra','Cocina y barra conectadas','Mismo mesón y misma altura, estación de café y tres lámparas que caen.'],
+  ['D_20_cocina_abierta','Cocina abierta','Lavaplatos eléctrico, extraíble, alacenas con platos y vasos, y cajones de la barra.'],
+  ['D_14_entrada_galeria','Entrada','Puertas ocultas en vino, nicho de llegada con luz y la galería sobre el locker.'],
+  ['D_15_entrada_abierta','Entrada con todo abierto','La bici de ruta, el locker con el casco y la chaqueta de la moto, y la torre de ropas.'],
+  ['D_21_espejo_entrada','Espejo con bisagras','En el muro del baño, frente a la galería.'],
+  ['D_10_bano','Baño','Microcemento oscuro, división negra en cuadrícula y luz en la ducha y los nichos.'],
+  ['D_16_bano_sanitario','Baño: nichos y sanitario suspendido',''],
+  ['D_11_bano_lavamanos','Baño: lavamanos',''],
+  ['D_04_estudio_noche','Escritorio de muro a muro','La torre al lado de la pantalla, teclado y mouse, sin huecos.'],
+  ['D_22_robot','Garaje del robot','Bajo la escalera, con su toma.'],
+  ['D_03_mezzanine_dia','Mezzanine','Cabecero en cuero sobre el bloque vino, clóset corredizo y vitrina de tenis.'],
+  ['D_24_mezzanine_abierto','Mezzanine abierto','Clóset y vitrina corredizos, y los cajones de la cama.'],
+  ['D_12_mezzanine_tv','Desde la cama','TV de 65" a ras del muro.'],
+  ['D_06_mezzanine_noche','Mezzanine de noche',''],
+  ['D_13_sofa_cama','Sofá cama abierto','La cama de 1,40 × 1,90 sale hacia el TV; la mesa pasa junto a la ventana.'],
+  ['D_25_tu_en_la_sala','Tú en la sala','Figura a escala de 1,72 m en el sofá.'],
+  ['D_26_tu_cocinando','Tú cocinando','Figura a escala frente a la estufa.'],
+  ['D_27_tu_en_la_cama','Tú en la cama','Figura a escala viendo el TV de 65".'],
+  ['D_28_tu_subiendo','Tú subiendo la escalera','Figura a escala en el sexto escalón.'],
+  ['D_29_diez_personas','Diez personas en la sala','7 sentadas y 3 de pie, vistas desde el mezzanine.'],
+  ['D_35_foto_diez_personas','Foto: diez personas en la sala','Hecha con IA en ChatGPT sobre el render de arriba: personas reales en el mismo espacio.'],
+  ['D_36_foto_en_la_sala','Foto: en la sala','Hecha con IA sobre el render; la persona es genérica, no es tu retrato.'],
+  ['D_37_foto_cocinando','Foto: cocinando','Hecha con IA sobre el render.'],
+  ['D_07_axonometria','Vista general','Corte sin techo ni muros de fachada.'],
+  ['D_30_entorno_frente','Entorno desde la calle','UNO62 con tu apartamento marcado en naranja, entre los vecinos con sus alturas reales.'],
+  ['D_31_entorno_aereo','Entorno desde el aire','La torre de 13 pisos al norte, el edificio de 8 al sur y el de 5 al frente.'],
+  ['D_32_entorno_sur','Entorno desde el sur',''],
+  ['D_33_vista_desde_la_ventana','Desde tu ventana','Lo que verías hacia el oriente, al otro lado de la carrera.'],
+  ['D_34_alturas_del_entorno','Alturas comparadas','Tu piso frente a los vecinos de adelante, atrás y los lados.'],
+];
+const RENDERS_E=[
+  ['E_01_salon_dia','E: salón','La placa extendida deja la doble altura desde 4,60 m.'],
+  ['E_23_mezzanine_extension','E: extensión del mezzanine','Rincón con el Eames y la pared de colección de tenis.'],
+  ['E_19_cocina_barra','E: cocina bajo la extensión','La barra queda con techo a 2,20 m.'],
+  ['E_05_salon_noche','E: salón de noche',''],
+  ['E_03_mezzanine_dia','E: mezzanine',''],
+  ['E_07_axonometria','E: vista general',''],
+];
+const GRUPOS_RENDER=[
+  ['D · Definitivo', RENDERS_D],
+  ...(RENDERS_E.length ? [['E · Mezzanine extendido', RENDERS_E]] : []),
+  ['A · Roble y naranja', RENDERS_A],
+  ['B · Loft industrial', VISTAS_BC.map(([f,t])=>['B_'+f, t, 'Estilo B: microcemento, nogal, acero negro y cuero cognac.'])],
+  ['C · Retro mediterráneo', VISTAS_BC.map(([f,t])=>['C_'+f, t, 'Estilo C: espina de pescado, baldosa hidráulica, azulejo azul y colores tierra.'])],
+];
+(function(){
+  const cont=document.getElementById('galeria');
+  GRUPOS_RENDER.forEach(([titulo, lista])=>{
+    const h=document.createElement('h3'); h.textContent=titulo; cont.appendChild(h);
+    const g=document.createElement('div'); g.className='galeria'; cont.appendChild(g);
+    lista.forEach(([f,t,d])=>{
+      const fig=document.createElement('figure');
+      fig.innerHTML=`<button type="button" aria-label="Ampliar ${t}"><img loading="lazy" src="renders/${f}.jpg" alt="${t}"></button><figcaption><b>${t}</b>${d}</figcaption>`;
+      fig.querySelector('button').addEventListener('click',()=>abrir(f,t));
+      g.appendChild(fig);
+    });
+  });
+  const lb=document.getElementById('lightbox');
+  function abrir(f,t){document.getElementById('lb-img').src='renders/'+f+'.jpg';document.getElementById('lb-img').alt=t;document.getElementById('lb-cap').textContent=t;lb.hidden=false;document.getElementById('lb-x').focus();}
+  function cerrar(){lb.hidden=true}
+  document.getElementById('lb-x').addEventListener('click',cerrar);
+  lb.addEventListener('click',e=>{if(e.target===lb) cerrar()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape') cerrar()});
+})();
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const spec = await fetch('spec.json').then(r=>r.json());
+const {W,L,H,MZ,MZ1} = spec.medidas;
+const T3 = p => new THREE.Vector3(p[0], p[2], p[1]);   // plano (x, y, z) -> three (x, z, y)
+const fmt = v => v.toFixed(2).replace('.', ',');
+let tween = null, vistaActual = null, interactuado = false;
+
+const specD = await fetch('spec_D.json').then(r => r.json()).catch(() => spec);
+dibujarPlanos(specD);
+tablaPuntos(specD);
+
+// ---------------- escena ----------------
+const stage = document.getElementById('stage');
+const canvas = document.getElementById('c');
+let renderer;
+try { renderer = new THREE.WebGLRenderer({canvas, antialias:true}); }
+catch(e){ document.getElementById('loading').textContent='Este navegador no pudo abrir el 3D. Los renders y los planos sí funcionan.'; throw e; }
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+renderer.toneMapping = THREE.AgXToneMapping;
+renderer.toneMappingExposure = 1.05;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+const scene = new THREE.Scene();
+const DIA_BG = new THREE.Color('#e7e5e0'), NOCHE_BG = new THREE.Color('#111114');
+scene.background = DIA_BG.clone();
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), 0.04).texture;
+
+const camera = new THREE.PerspectiveCamera(42, 1, 0.03, 200);
+const labelRenderer = new CSS2DRenderer({element: document.getElementById('labels')});
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true; controls.dampingFactor = 0.08; controls.maxDistance = 30; controls.minDistance = 0.05;
+
+const hemi = new THREE.HemisphereLight(0xeef2fb, 0x8b7660, 0.55); scene.add(hemi);
+const sol = new THREE.DirectionalLight(0xfff0dc, 2.4);
+sol.position.set(3.2, 7.5, L + 7); sol.target.position.set(1.5, 0, 3.6);
+sol.castShadow = true; sol.shadow.mapSize.set(2048, 2048);
+Object.assign(sol.shadow.camera, {left:-6, right:6, top:7, bottom:-7, near:0.5, far:30});
+sol.shadow.bias = -0.0004; sol.shadow.normalBias = 0.02;
+scene.add(sol, sol.target);
+const lucesNoche = spec.luces.map(l => {
+  const p = new THREE.PointLight(new THREE.Color(l.c), 0, l.d, 2);
+  p.position.copy(T3(l.p)); p.userData.i = l.i; scene.add(p); return p;
+});
+
+function resize(){
+  const w = stage.clientWidth, h = stage.clientHeight;
+  renderer.setSize(w, h, false); labelRenderer.setSize(w, h);
+  camera.aspect = w / h; camera.updateProjectionMatrix();
+  if(vistaActual && !interactuado) irA(vistaActual, true);
+}
+new ResizeObserver(resize).observe(stage); resize();
+
+// ---------------- texturas de material ----------------
+function tex(draw, w=1024, h=1024){
+  const c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h);
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = renderer.capabilities.getMaxAnisotropy(); return t;
+}
+let seed = 62; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+function veta(g, x0, w, h, base, oscuro){
+  g.fillStyle = base; g.fillRect(x0, 0, w, h);
+  for(let i=0;i<w*0.9;i++){
+    const x = x0 + rnd()*w, a = 0.05 + rnd()*0.12;
+    g.strokeStyle = `rgba(${oscuro},${a})`; g.lineWidth = 0.6 + rnd()*1.6;
+    g.beginPath(); g.moveTo(x, 0);
+    for(let y=0;y<=h;y+=h/8) g.lineTo(x + Math.sin(y/h*6.28*(1+rnd())+i)*w*0.03, y);
+    g.stroke();
+  }
+}
+const TONOS_ROBLE_CLARO = ['#c69f74','#bf966a','#c9a57c','#b98f63','#c39b6f'];
+function madera(base, oscuro, tablas, tonos = TONOS_ROBLE_CLARO){
+  return tex((g,w,h)=>{
+    if(!tablas){ veta(g,0,w,h,base,oscuro); return; }
+    const cols = 8, cw = w/cols;
+    for(let k=0;k<cols;k++){
+      const off = (k%2)*h/2 + rnd()*h*0.2;
+      for(let s=-1;s<2;s++){
+        const y0 = off + s*h/2; g.save(); g.beginPath(); g.rect(k*cw, y0, cw, h/2); g.clip();
+        veta(g, k*cw, cw, h, tonos[Math.floor(rnd()*tonos.length)], oscuro); g.restore();
+        g.fillStyle='rgba(60,40,25,.55)'; g.fillRect(k*cw, y0, cw, 1.5);
+      }
+      g.fillStyle='rgba(60,40,25,.55)'; g.fillRect(k*cw, 0, 1.5, h);
+    }
+  }, 1024, 1024);
+}
+const T_PISO = madera('#c49c70','90,60,35',true); T_PISO.repeat.set(1/1.52, 1/2.4);
+const T_ROBLE = madera('#c79e70','95,62,35',false); T_ROBLE.repeat.set(1/1.2, 1/2.4);
+const T_LISTON = madera('#b8895a','80,50,25',false); T_LISTON.repeat.set(1/0.6, 1/2.4);
+const T_NOGAL = madera('#5e3f2a','30,18,10',false); T_NOGAL.repeat.set(1/1.2, 1/2.4);
+const T_MARMOL = tex((g,w,h)=>{
+  g.fillStyle='#e9e8e4'; g.fillRect(0,0,w,h);
+  for(let i=0;i<14;i++){
+    g.strokeStyle=`rgba(110,110,108,${0.15+rnd()*0.35})`; g.lineWidth=0.8+rnd()*2.2;
+    g.beginPath(); let x=rnd()*w, y=0; g.moveTo(x,y);
+    while(y<h){ x+= (rnd()-0.5)*90; y+= 30+rnd()*60; g.lineTo(x,y); } g.stroke();
+  }
+}); T_MARMOL.repeat.set(1/1.2, 1/1.2);
+const T_MALLA = (()=>{ const t = tex((g,w,h)=>{ g.fillStyle='#fff'; g.fillRect(0,0,w,h); g.fillStyle='#000';
+  for(let i=0;i<4;i++) for(let j=0;j<4;j++) g.fillRect(i*16+4, j*16+4, 9, 9); }, 64, 64);
+  t.colorSpace = THREE.NoColorSpace; t.repeat.set(1/0.048, 1/0.048); return t; })();
+// pisos de D y E: se generan al pedirlos, después de las demás texturas, para no cambiar la semilla de las anteriores
+const PISOS = {
+  medio: {base:'#7e5b3c', oscuro:'45,28,15', tonos:['#8a6542','#7e5b3c','#85613f','#765539','#6f4e33']},
+  nogal: {base:'#5e3f2a', oscuro:'28,16,8', tonos:['#64452e','#5a3c28','#684a32','#553925','#5e3f2a']},
+};
+const texPiso = {claro: T_PISO};
+function texturaPiso(k){
+  if(!texPiso[k]){
+    const p = PISOS[k]; if(!p) return T_PISO;
+    const t = madera(p.base, p.oscuro, true, p.tonos); t.repeat.copy(T_PISO.repeat); texPiso[k] = t;
+  }
+  return texPiso[k];
+}
+
+const emisivos = [];
+function ajustarMaterial(m){
+  const n = m.name || '';
+  if(n === 'Roble_piso'){ m.map = T_PISO; m.color.set('#ffffff'); m.roughness = 0.55; }
+  else if(n === 'Roble'){ m.map = T_ROBLE; m.color.set('#ffffff'); m.roughness = 0.5; }
+  else if(n === 'Roble_listones'){ m.map = T_LISTON; m.color.set('#ffffff'); m.roughness = 0.6; }
+  else if(n === 'Nogal' || n === 'Nogal_listones'){ m.map = T_NOGAL; m.color.set('#ffffff'); m.roughness = 0.5; }
+  else if(n === 'Malla_blanca'){ m.color.set('#d9d7d1'); m.alphaMap = T_MALLA; m.transparent = true; m.side = THREE.DoubleSide; m.depthWrite = false; }
+  else if(n === 'Porcelanato_marmol'){ m.map = T_MARMOL; m.color.set('#ffffff'); m.roughness = 0.18; }
+  else if(n === 'Vidrio'){ m.transparent = true; m.opacity = 0.16; m.color.set('#dfeaea'); m.roughness = 0.05; m.metalness = 0; m.depthWrite = false; }
+  else if(n === 'Persiana'){ m.transparent = true; m.opacity = 0.55; m.depthWrite = false; }
+  else if(n === 'Malla_perforada'){ m.color.set('#141414'); m.alphaMap = T_MALLA; m.transparent = true; m.side = THREE.DoubleSide; m.depthWrite = false; }
+  else if(n === 'Espejo'){ m.metalness = 1; m.roughness = 0.03; m.color.set('#dddddd'); }
+  if(m.emissive && (m.emissive.r + m.emissive.g + m.emissive.b) > 0.01 && m.emissiveIntensity > 0.02){
+    m.userData.e0 = m.emissiveIntensity;
+  }
+  m.needsUpdate = true;
+}
+
+// ---------------- modelo y estilos ----------------
+const grupos = {N:[], S:[], E:[], O:[], TECHO:[], N2:[]};
+const pickables = [];
+const loading = document.getElementById('loading');
+const SUFIJO = {A:'', B:'_B', C:'_C', D:'_D', E:'_E'};
+const ESTILOS_ACABADOS = ['D', 'E'];   // estilos con chips de franja y de piso
+const RE_FRANJA = /^Pintura_(grafito|franja)$/;
+const cache = {};
+let raiz = null, estiloActual = null, primeraVez = true, pedidoEstilo = 0;
+function cargarJSON(url){ return fetch(url).then(r => { if(!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }); }
+function cargarModelo(url){
+  return cargarJSON(url).then(j => new Promise((res, rej) => {
+    const b = atob(j.datos), u = new Uint8Array(b.length);
+    for(let i=0;i<b.length;i++) u[i] = b.charCodeAt(i);
+    new GLTFLoader().parse(u.buffer, '', res, rej);
+  }));
+}
+async function ponerEstilo(e){
+  if(e === estiloActual && loading.hidden) return;
+  const pedido = ++pedidoEstilo;
+  document.querySelectorAll('[data-estilo]').forEach(b => b.setAttribute('aria-pressed', b.dataset.estilo === e));
+  if(!cache[e]){
+    loading.hidden = false; loading.textContent = 'Cargando el estilo ' + e + '…';
+    try {
+      const [gltf, sp] = await Promise.all([cargarModelo('modelo' + SUFIJO[e] + '.json'), cargarJSON('spec' + SUFIJO[e] + '.json')]);
+      cache[e] = {root: gltf.scene, tags: sp.tags || [], moviles: sp.moviles || [], movilesGrupos: sp.moviles_grupos || [], cams: sp.cams || {}, dims: sp.dims || []};
+    } catch(err){
+      if(pedido === pedidoEstilo) loading.textContent = 'No se pudo cargar el modelo 3D. Los renders y los planos sí funcionan.';
+      console.error(err); return;
+    }
+    if(pedido !== pedidoEstilo) return;   // mientras cargaba se eligió otro estilo
+  }
+  loading.hidden = true;
+  if(e === estiloActual) return;   // volvió al estilo que ya estaba (por ejemplo, tras un error)
+  cerrarMoviles();
+  estiloActual = e; Object.assign(VISTAS, cache[e].cams || {}); activar(cache[e]);
+  const acabados = ESTILOS_ACABADOS.includes(e);
+  document.getElementById('grupo-franja').hidden = !acabados;
+  document.getElementById('grupo-piso').hidden = !acabados;
+  if(acabados){
+    colorFranja(document.querySelector('[data-color][aria-pressed="true"]').dataset.color);
+    ponerPiso(document.querySelector('[data-piso][aria-pressed="true"]').dataset.piso);
+  }
+  document.getElementById('t-abrir').hidden = !cache[e].moviles.length;
+  crearCotas(cache[e].dims);
+  if(primeraVez){ primeraVez = false; irA('axo', true); }
+}
+function cadaMaterial(root, fn){ root.traverse(o => { if(o.isMesh) (Array.isArray(o.material) ? o.material : [o.material]).forEach(fn); }); }
+function colorFranja(color){
+  const c = cache[estiloActual]; if(!c || !ESTILOS_ACABADOS.includes(estiloActual)) return;
+  cadaMaterial(c.root, m => { if(RE_FRANJA.test(m.name || '')) m.color.set(color); });
+}
+function ponerPiso(k){
+  const c = cache[estiloActual]; if(!c || !ESTILOS_ACABADOS.includes(estiloActual)) return;
+  const t = texturaPiso(k);
+  cadaMaterial(c.root, m => { if((m.name || '').startsWith('Roble_piso')){ m.map = t; m.color.set('#ffffff'); m.needsUpdate = true; } });
+}
+function activar(c){
+  if(raiz) scene.remove(raiz);
+  raiz = c.root; scene.add(raiz);
+  Object.values(grupos).forEach(a => a.length = 0); pickables.length = 0; emisivos.length = 0;
+  raiz.traverse(o => {
+    if(!o.isMesh) return;
+    const mats = Array.isArray(o.material) ? o.material : [o.material];
+    mats.forEach(m => {
+      if(!m.userData.ajustado){ ajustarMaterial(m); m.userData.ajustado = true; }
+      if(m.userData.e0 !== undefined && !emisivos.includes(m)) emisivos.push(m);
+    });
+    const n = nombreDe(o);
+    const transparente = mats.some(m => m.transparent), emisivo = mats.some(m => m.userData.e0 !== undefined);
+    o.castShadow = !transparente && !emisivo; o.receiveShadow = !emisivo;
+    if(n.startsWith('MURO_N')) grupos.N.push(o);
+    else if(n.startsWith('MURO_S')) grupos.S.push(o);
+    else if(n.startsWith('MURO_E')) grupos.E.push(o);
+    else if(n.startsWith('MURO_O')) grupos.O.push(o);
+    if(n.startsWith('TECHO_')) grupos.TECHO.push(o);
+    if(n.startsWith('N2_')) grupos.N2.push(o);
+    if(!n.includes('LED_reflejo')) pickables.push(o);
+  });
+  ponerEtiquetas(c.tags);
+  aplicarLuz(estado.noche); actualizarCapas();
+  document.getElementById('info').hidden = true;
+}
+document.querySelectorAll('[data-estilo]').forEach(b => b.addEventListener('click', () => ponerEstilo(b.dataset.estilo)));
+document.querySelectorAll('[data-ver-estilo]').forEach(b => b.addEventListener('click', () => { location.hash = '#modelo'; ponerEstilo(b.dataset.verEstilo); }));
+ponerEstilo('D');
+document.querySelectorAll('[data-color]').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('[data-color]').forEach(x => x.setAttribute('aria-pressed', x === b));
+  colorFranja(b.dataset.color);
+}));
+document.querySelectorAll('[data-piso]').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('[data-piso]').forEach(x => x.setAttribute('aria-pressed', x === b));
+  ponerPiso(b.dataset.piso);
+}));
+
+function nombreDe(o){ let p = o; while(p && !/^(N1_|N2_|ARQ_|MURO_|TECHO_)/.test(p.name||'')) p = p.parent; return p ? p.name : (o.name||''); }
+
+// ---------------- cotas y etiquetas ----------------
+const cotas = [], etiquetas = [];
+function crearCotas(dims){
+  cotas.forEach(g => scene.remove(g)); cotas.length = 0;
+  const mat = new THREE.LineBasicMaterial({color:0xd9540d, depthTest:false, transparent:true});
+  ((dims && dims.length) ? dims : spec.dims).forEach(d => {
+    const a = T3(d.a), b = T3(d.b), dir = b.clone().sub(a).normalize();
+    const perp = Math.abs(dir.y) > 0.9 ? new THREE.Vector3(1,0,0) : new THREE.Vector3(0,1,0);
+    const t = perp.clone().multiplyScalar(0.06);
+    const pts = [a, b, a.clone().add(t), a.clone().sub(t), b.clone().add(t), b.clone().sub(t)];
+    const geo = new THREE.BufferGeometry().setFromPoints(pts);
+    const line = new THREE.LineSegments(geo, mat); line.renderOrder = 999;
+    const el = document.createElement('div'); el.className = 'lbl-dim'; el.textContent = d.t;
+    const lab = new CSS2DObject(el); lab.position.copy(a.clone().add(b).multiplyScalar(0.5));
+    const g = new THREE.Group(); g.add(line, lab); g.userData.n = d.n; scene.add(g); cotas.push(g);
+  });
+  actualizarCapas();
+}
+function ponerEtiquetas(tags){
+  etiquetas.forEach(l => scene.remove(l)); etiquetas.length = 0;
+  tags.forEach(t => {
+    const el = document.createElement('div'); el.className = 'lbl-tag'; el.textContent = t.t;
+    const lab = new CSS2DObject(el); lab.position.copy(T3(t.p)); lab.userData.n = t.n; scene.add(lab); etiquetas.push(lab);
+  });
+}
+
+// ---------------- controles ----------------
+const estado = {medidas:true, nombres:false, mezz:true, techo:true, noche:false, sinMezzPorVista:false};
+function toggle(id, clave){
+  const b = document.getElementById(id);
+  b.addEventListener('click', () => { estado[clave] = !estado[clave]; b.setAttribute('aria-pressed', estado[clave]); if(clave==='mezz') estado.sinMezzPorVista=false; actualizarCapas(); });
+}
+toggle('t-medidas','medidas'); toggle('t-nombres','nombres'); toggle('t-mezz','mezz'); toggle('t-techo','techo');
+function actualizarCapas(){
+  const mezz = estado.mezz && !estado.sinMezzPorVista;
+  grupos.N2.forEach(o => o.visible = mezz);
+  cotas.forEach(g => { const v = estado.medidas && (mezz || g.userData.n !== 2); g.visible = v; g.children.forEach(ch => ch.visible = v); });
+  etiquetas.forEach(l => l.visible = estado.nombres && (mezz || l.userData.n !== 2));
+}
+document.getElementById('l-dia').addEventListener('click', () => aplicarLuz(false));
+document.getElementById('l-noche').addEventListener('click', () => aplicarLuz(true));
+function aplicarLuz(noche){
+  estado.noche = noche;
+  document.getElementById('l-dia').setAttribute('aria-pressed', !noche);
+  document.getElementById('l-noche').setAttribute('aria-pressed', noche);
+  stage.classList.toggle('noche', noche);
+  scene.background.copy(noche ? NOCHE_BG : DIA_BG);
+  hemi.intensity = noche ? 0.04 : 0.55; sol.intensity = noche ? 0 : 2.4;
+  renderer.toneMappingExposure = noche ? 1.25 : 1.05;
+  scene.traverse(o => { if(o.isMesh){ (Array.isArray(o.material)?o.material:[o.material]).forEach(m => { if('envMapIntensity' in m) m.envMapIntensity = noche ? 0.06 : 0.9; }); } });
+  emisivos.forEach(m => m.emissiveIntensity = m.userData.e0 * (noche ? 1 : 0.4));
+  lucesNoche.forEach(p => p.intensity = noche ? p.userData.i * 4 : 0);
+}
+
+const VISTAS = {...spec.cams};
+function fovDe(c){ return c.lente ? Math.min(78, Math.max(36, 2*Math.atan(13/c.lente)*180/Math.PI)) : 42; }
+function irA(nombre, inmediato){
+  const c = VISTAS[nombre]; if(!c) return; vistaActual = nombre;
+  document.querySelectorAll('[data-cam]').forEach(b => b.setAttribute('aria-pressed', b.dataset.cam === nombre));
+  estado.sinMezzPorVista = (c.nivel === 'n1'); actualizarCapas();
+  const p1 = T3(c.pos), q1 = T3(c.mira), f1 = nombre.startsWith('axo') ? (camera.aspect < 1 ? Math.min(70, 34 / Math.pow(camera.aspect, 0.85)) : 34) : fovDe(c);
+  if(inmediato){ camera.position.copy(p1); controls.target.copy(q1); camera.fov = f1; camera.updateProjectionMatrix(); controls.update(); return; }
+  tween = {t0: performance.now(), d: 1000, p0: camera.position.clone(), p1, q0: controls.target.clone(), q1, f0: camera.fov, f1};
+}
+document.querySelectorAll('[data-cam]').forEach(b => b.addEventListener('click', () => { interactuado = false; irA(b.dataset.cam); }));
+
+// ---------------- cajones y puertas que abren ----------------
+// spec.moviles: {n, tipo:'cajon'|'puerta'|'abatible', d:[dx,dy,dz], eje:{p, v}, ang, g}, en coordenadas de plano.
+// Cada pieza se cuelga de un pivote en el eje (o en su centro si es cajón); al cerrar vuelve a su nodo original.
+const mov = {abierto:false, k:0, anim:null, piezas:[], etiquetas:[]};
+const DUR_MOV = 700;
+function prepararMoviles(){
+  if(mov.piezas.length || !raiz || !cache[estiloActual]) return;
+  const c = cache[estiloActual], caja = new THREE.Box3(), conPieza = new Set();
+  raiz.updateMatrixWorld(true);
+  c.moviles.forEach(m => {
+    const obj = m && m.n ? raiz.getObjectByName(m.n) : null;
+    if(!obj || !obj.parent || mov.piezas.some(p => p.obj === obj)) return;
+    caja.setFromObject(obj); if(caja.isEmpty()) return;
+    const c0 = caja.getCenter(new THREE.Vector3());
+    const gira = m.tipo !== 'cajon' && m.eje && Array.isArray(m.eje.p) && Array.isArray(m.eje.v) && Number(m.ang);
+    const eje = gira ? T3(m.eje.v) : null;
+    if(eje && eje.lengthSq() < 1e-9) return;
+    if(eje) eje.normalize();
+    const ang = gira ? THREE.MathUtils.degToRad(Number(m.ang)) : 0;
+    const P = gira ? T3(m.eje.p) : c0.clone();
+    const D = Array.isArray(m.d) ? T3(m.d) : new THREE.Vector3();
+    if(!eje && D.lengthSq() < 1e-9) return;
+    const orig = {padre: obj.parent, pos: obj.position.clone(), quat: obj.quaternion.clone(), esc: obj.scale.clone()};
+    const pivote = new THREE.Object3D(); pivote.name = 'pivote_movil'; pivote.position.copy(P);
+    raiz.add(pivote); pivote.updateMatrixWorld(true); pivote.attach(obj);
+    const q = eje ? new THREE.Quaternion().setFromAxisAngle(eje, ang) : new THREE.Quaternion();
+    const c1 = c0.clone().sub(P).applyQuaternion(q).add(P).add(D), dir = c1.clone().sub(c0), largo = dir.length();
+    let flecha = null;
+    if(largo > 0.01){
+      const cabeza = Math.min(0.09, largo*0.4);
+      flecha = new THREE.ArrowHelper(dir.normalize(), c0, largo, 0xd9540d, cabeza, cabeza*0.6);
+      [flecha.line, flecha.cone].forEach(o => { o.material.depthTest = false; o.material.toneMapped = false; o.renderOrder = 998; });
+      flecha.visible = false; scene.add(flecha);
+    }
+    mov.piezas.push({obj, orig, pivote, P, D, eje, ang, flecha, g: m.g});
+    if(m.g !== undefined) conPieza.add(m.g);
+  });
+  c.movilesGrupos.forEach(gr => {
+    if(!gr || !Array.isArray(gr.p) || !conPieza.has(gr.g)) return;
+    const el = document.createElement('div'); el.className = 'lbl-mov'; el.textContent = gr.t || '';
+    const lab = new CSS2DObject(el); lab.position.copy(T3(gr.p)); lab.userData.g = gr.g; lab.visible = false;
+    scene.add(lab); mov.etiquetas.push(lab);
+  });
+}
+function posarMoviles(k){
+  mov.piezas.forEach(p => {
+    p.pivote.position.copy(p.P).addScaledVector(p.D, k);
+    if(p.eje) p.pivote.quaternion.setFromAxisAngle(p.eje, p.ang * k);
+  });
+}
+function limpiarMoviles(){
+  mov.anim = null; mov.k = 0;
+  mov.piezas.forEach(p => {
+    p.orig.padre.add(p.obj); p.obj.position.copy(p.orig.pos); p.obj.quaternion.copy(p.orig.quat); p.obj.scale.copy(p.orig.esc);
+    p.pivote.removeFromParent();
+    if(p.flecha){ scene.remove(p.flecha); p.flecha.dispose(); }
+  });
+  mov.etiquetas.forEach(l => scene.remove(l));
+  mov.piezas.length = 0; mov.etiquetas.length = 0;
+}
+function abrirMoviles(abrir){
+  if(abrir) prepararMoviles();
+  if(!mov.piezas.length) abrir = false;
+  mov.abierto = abrir;
+  document.getElementById('t-abrir').setAttribute('aria-pressed', abrir);
+  if(!mov.piezas.length) return;
+  const k1 = abrir ? 1 : 0;
+  mov.anim = {t0: performance.now(), k0: mov.k, k1, d: Math.max(1, DUR_MOV * Math.abs(k1 - mov.k))};
+}
+function cerrarMoviles(){
+  mov.abierto = false; limpiarMoviles();
+  document.getElementById('t-abrir').setAttribute('aria-pressed', 'false');
+}
+function pasoMoviles(t){
+  const a = mov.anim, f = Math.min(1, Math.max(0, (t - a.t0) / a.d)), e = f < .5 ? 4*f*f*f : 1 - Math.pow(-2*f+2, 3)/2;
+  mov.k = a.k0 + (a.k1 - a.k0)*e; posarMoviles(mov.k);
+  if(f >= 1){ mov.anim = null; if(!mov.abierto) limpiarMoviles(); }
+}
+function algunaVisible(obj){ let v = false; obj.traverse(o => { if(!v && o.isMesh && visibleChain(o)) v = true; }); return v; }
+function visibilidadMoviles(){
+  const ver = mov.k > 0.02, vis = new Map();
+  mov.piezas.forEach(p => { const v = ver && algunaVisible(p.obj); vis.set(p, v); if(p.flecha) p.flecha.visible = v; });
+  // solo las 3 etiquetas mas cercanas que esten en pantalla y a menos de 4 m, para que no se encimen
+  const cerca = mov.etiquetas.filter(l => ver && mov.piezas.some(p => p.g === l.userData.g && vis.get(p))).map(l => {
+    const v = l.position.clone().project(camera);
+    return {l, d: l.position.distanceTo(camera.position), ok: v.z < 1 && Math.abs(v.x) < 0.92 && Math.abs(v.y) < 0.92};
+  }).filter(o => o.ok && o.d < 4.0).sort((a, b) => a.d - b.d).slice(0, 3);
+  const ver3 = new Set(cerca.map(o => o.l));
+  mov.etiquetas.forEach(l => l.visible = ver3.has(l));
+}
+document.getElementById('t-abrir').addEventListener('click', () => abrirMoviles(!mov.abierto));
+document.addEventListener('keydown', ev => {
+  if((ev.key !== 'x' && ev.key !== 'X') || ev.ctrlKey || ev.metaKey || ev.altKey || ev.repeat) return;
+  const a = document.activeElement;
+  if(a && (a.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))) return;
+  if(document.getElementById('v-modelo').hidden) return;
+  abrirMoviles(!mov.abierto);
+});
+
+// ---------------- información al tocar ----------------
+const INFO = [
+  ['N1_bici','Bici de ruta colgada','Gancho giratorio a 2,0 m: la bici se cuelga de la rueda delantera y gira plana contra el muro (sobresale 0,45 m). Panel protector y bandeja de caucho para el agua.'],
+  ['N1_locker','Locker de ciclismo','Módulo de 0,50 m: nicho ventilado con repisa para el casco, gancho para la chaqueta y LED; 2 cajones abajo y gabinete arriba.'],
+  ['N1_torre_ropas','Torre de ropas','Lavadora y secadora separadas de 60 × 60 cm, apiladas con kit, y gabinete arriba para detergentes. La secadora debe ser de condensación o bomba de calor: la torre es cerrada y no tiene salida al exterior.'],
+  ['N1_lavadora','Lavadora','60 × 60 × 85 cm, abajo en la torre.'], ['N1_secadora','Secadora','60 × 60 × 85 cm, apilada sobre la lavadora.'],
+  ['N1_nevera','Nevera','0,64 × 0,64 × 1,55 m, unos 220 L, con nicho para el microondas encima.'],
+  ['N1_microondas','Microondas','En el nicho sobre la nevera, a 1,60 m.'],
+  ['N1_estudio_cajones','Cajones bajo la escalera','Dos cajones grandes extraíbles hacia la sala; el primero se muestra abierto 40 cm.'],
+  ['N1_estudio_cajon','Cajón del escritorio','Plano, para papeles y cables.'],
+  ['N1_sofa','Sofá cama','2,00 × 0,95 m con brazos delgados; abre a 1,40 × 1,90 m.'],
+  ['N2_zapatero_bajo','Zapatero abatible','0,83 m en el muro del TV, 3 frentes abatibles, unos 15 pares; la tapa sirve de repisa.'],
+  ['N2_zapatero','Vitrina de tenis','0,95 m dentro del clóset corrido: 7 repisas con LED, 21 pares a la vista y 21 detrás.'],
+  ['N2_tenis','Vitrina de tenis','21 pares a la vista.'],
+  ['N2_tv','TV 43"','Frente a la cama, a 2,7 m de la almohada, con repisa flotante.'],
+  ['N2_cama_cajones','Cajones bajo la cama','Dos cajones de 0,85 m hacia la zona de vestir.'],
+  ['N2_mesas_noche','Mesas de noche','Repisas flotantes a cada lado del cabecero.'],
+  ['N2_lectura','Lámparas de lectura','Brazo de pared sobre cada mesa de noche.'],
+  ['N2_cabecero','Cabecero de listones','Contra el muro oeste, con LED arriba.'], ['N2_LED_cabecero','LED del cabecero',''],
+  ['N2_closet_espejo','Módulo con espejo','Frente a la columna: repisas por dentro y espejo de cuerpo entero en la puerta.'],
+  ['N2_closet','Clóset corrido','1,68 m de ropero sobre el muro norte, de piso a techo, sin manijas.'],
+  ['N2_cama','Cama 1,40 × 1,90','Girada: cabecero al oeste, costado a 0,35 m de la baranda.'],
+  ['N2_baranda','Baranda','Vidrio templado de 1,10 m con pasamanos, más alta porque la cama queda cerca.'],
+  ['N1_sofa','Sofá','Tela gris carbón, 1,85 × 0,88 m, contra la pared de listones.'],
+  ['N1_cojin','Cojines','Un naranja y uno gris claro.'],
+  ['N1_pared_','Pared acústica de listones','Listones de roble sobre fieltro negro: 3,25 m de largo y 4,00 m de alto. Absorbe el eco de la doble altura.'],
+  ['N1_escalera','Escalera','Zancas y contrahuellas en lámina negra, huella en roble. 12 contrahuellas de 19,3 cm, huella de 22 cm, 0,80 m de ancho. Malla perforada como baranda y LED bajo cada escalón.'],
+  ['N1_LED_escalones','LED de los escalones','Cinta de 2700 K bajo la nariz de cada escalón.'],
+  ['N1_estudio','Estudio bajo la escalera','Escritorio en roble de 1,15 × 0,68 m a 0,75 m. Bajo la escalera quedan 1,9 m libres al comienzo y 0,9 m al final; la bodega aprovecha el triángulo bajo.'],
+  ['N1_LED_estudio','LED del estudio','Cinta que lava el muro sobre el monitor.'],
+  ['N1_LED_pc','Torre del PC','Bajo el extremo del escritorio.'],
+  ['N1_barra','Barra','Roble de 1,20 × 0,42 m a 0,93 m de alto, pata en lámina negra. Deja 0,86 m de paso frente a la cocina.'],
+  ['N1_butacos','Butacos','Dos, asiento de cuero café a 0,65 m.'],
+  ['N1_colgante','Lámpara colgante naranja','Cuelga desde el cielo raso hasta 1,80 m, sobre la barra.'],
+  ['N1_cocina','Cocina abierta','1,34 m: lavaplatos e inducción de 2 zonas, mueble en roble, mesón en piedra negra, repisa en roble con LED y alacena hasta el mezzanine.'],
+  ['N1_LED_cocina','LED de cocina','Bajo la alacena y bajo la repisa.'],
+  ['N1_nevera','Nevera','0,64 × 0,66 × 1,78 m, unos 200 L.'],
+  ['N1_torres','Torres bajo el mezzanine','Lavadora-secadora, despensa con nicho para el microondas y clóset de aseo: 3 módulos de 0,70 m, 0,60 de fondo y 2,20 m de alto.'],
+  ['N1_microondas','Microondas','En el nicho de la despensa, a 0,95 m.'],
+  ['N1_bano','Baño 1,23 × 2,34 m','Porcelanato tipo mármol de piso a techo, torre de ducha negra, mueble flotante en roble, grifo terracota y espejo redondo con luz.'],
+  ['N1_mueble_tv','Mueble del TV','Roble, 1,40 × 0,37 m, flotando a 0,25 m con LED por debajo.'],
+  ['N1_LED_mueble_tv','LED del mueble del TV','Efecto flotante.'],
+  ['N1_tv','TV 55"','Sobre la columna, centro a 1,30 m.'],
+  ['N1_cuadro','Cuadro','Lienzo de 0,80 × 1,20 m con un círculo naranja.'],
+  ['N1_hongo','Lámpara hongo naranja','Sobre el mueble del TV, junto a la ventana.'],
+  ['N1_arco','Lámpara de arco naranja','Base de mármol negro; la pantalla queda a 1,80 m sobre la mesa de centro.'],
+  ['N1_mesa','Mesa de centro','Roble, Ø 0,64 m, patas negras.'],
+  ['N1_tapete','Tapete','1,75 × 1,75 m.'],
+  ['N1_planta','Planta','Ave del paraíso en matera de concreto, en la esquina de la ventana.'],
+  ['N1_riel','Riel de spots','Riel magnético negro de 3,7 m con 4 spots de 3000 K.'],
+  ['N1_spots','Spots','Dirigibles: barra, pared de listones y planta.'],
+  ['N1_LED_bajo','LED bajo el mezzanine','Perfil empotrado en el borde: ilumina la cocina y el escritorio.'],
+  ['N1_LED_pasillo','Línea LED del pasillo','Empotrada en el techo de la entrada, 2,7 m.'],
+  ['N1_libros','Libros',''], ['N1_florero','Florero',''],
+  ['TECHO_','Cielo raso flotante','Separado 14 cm de los muros, con cinta LED de 3000 K hacia el techo: toda la doble altura queda con luz indirecta.'],
+  ['N2_cama','Cama 1,40 × 1,90','Base flotante en roble con LED por debajo.'],
+  ['N2_colchon','Cama 1,40 × 1,90',''], ['N2_edredon','Cama 1,40 × 1,90',''], ['N2_almohadas','Cama 1,40 × 1,90',''], ['N2_pie_de_cama','Cama 1,40 × 1,90',''],
+  ['N2_closet','Clósets','Dos torres de 0,75 × 0,60 m de piso a techo y un puente sobre la cama. Blanco mate sin manijas.'],
+  ['N2_nicho','Mesas de noche','Nichos en roble con LED, dentro de las torres.'],
+  ['N2_LED_nichos','LED del dormitorio','Bajo el puente y en los nichos, 2700 K.'],
+  ['N2_cabecero','Cabecero de listones','Roble sobre fieltro, lavado por el LED del puente.'],
+  ['N2_zapatero','Vitrina de tenis','2,32 × 0,32 m, 7 repisas con LED, 49 pares, puertas corredizas de vidrio.'],
+  ['N2_tenis','Vitrina de tenis','49 pares a la vista.'], ['N2_LED_zapatero','LED de la vitrina','Cinta de 5 W/m en el frente de cada repisa.'],
+  ['N2_espejo','Espejo de cuerpo entero','0,55 × 1,62 m, marco negro.'],
+  ['N2_baranda','Baranda','Vidrio templado con pasamanos negro, 1,00 m de alto.'],
+  ['N2_mezz','Mezzanine','3,00 × 3,09 m, piso a +2,32 m, 1,88 m libres hasta el techo.'],
+  ['N2_LED_downlights','Luces del mezzanine','Dos downlights empotrados.'], ['N2_LED_bajo_cama','LED bajo la cama',''],
+  ['MURO_S_ventana','Ventana','2,07 × 3,30 m, perfilería negra con travesaño.'],
+  ['MURO_S_persiana','Persiana enrollable','Tela screen traslúcida.'],
+  ['MURO_E_columna','Columna estructural','El TV se cuelga sobre su cara.'], ['MURO_N_columna','Columna estructural',''],
+  ['MURO_N_puerta','Puerta de entrada','Roble, 0,81 m.'], ['MURO_N_manija','Puerta de entrada',''],
+  ['ARQ_piso_bano','Piso del baño','Porcelanato tipo mármol.'],
+  ['ARQ_piso','Piso','Laminado o SPC tono roble, tablas de 1,20 × 0,19 m a lo largo del apartamento.'],
+  ['ARQ_muros_bano','Muros del baño','Superboard de 11 cm hasta la losa del mezzanine.'],
+];
+const INFO_ESTILO = {
+  D: [
+    ['N1_butacos','Butacos de barra','Asiento a 0,62 m. Con la X se guardan 24 cm bajo el voladizo de la barra.'],
+    ['N1_estudio_silla','Silla del escritorio','Con la X entra 32 cm bajo el escritorio y deja libre el paso.'],
+    ['MURO_N_puerta','Puerta de entrada','Abre hacia adentro y descansa contra el muro del baño, sin tocar el espejo ni las puertas ocultas.'],
+    ['MURO_N_manija','Puerta de entrada',''],
+    ['N1_bano_puerta','Puerta del baño','Abre hacia adentro y pasa a 0,29 m del mueble.'],
+    ['N1_bano_tapa','Tapa del sanitario','Con caída lenta.'],
+    ['N1_bano_cajon','Cajón del mueble del baño','Corredera oculta; sale 30 cm.'],
+    ['N1_nevera_puerta','Puerta de la nevera','Bisagra al sur: abre hacia la cocina.'], ['N1_nevera_interior','Nevera',''],
+    ['N1_microondas_puerta','Puerta del microondas',''],
+    ['N1_lavadora_puerta','Puerta de la lavadora','Abre hacia el pasillo, con la puerta oculta abierta.'],
+    ['N1_secadora_puerta','Puerta de la secadora',''],
+    ['N1_cafe_pano','Paño de lino',''], ['N1_cafe_tazas','Tazas',''], ['N1_cafe_frasco','Frasco del café',''],
+    ['N1_lavavajillas','Lavaplatos eléctrico','De 45 cm, con frente de roble, entre el lavaplatos y la estufa. La puerta baja hacia ti; usa el mismo punto de agua y desagüe.'],
+    ['N1_cocina_extraible','Extraíble de 30 cm','Bajo la estufa, para aceites y especias. Sale 45 cm.'],
+    ['N1_cocina_alacena','Alacena alta','De 1,55 a 2,10 m con puertas batientes de cierre suave: platos y bowls a la izquierda, vasos y pocillos al centro y despensa a la derecha. No lleva tapas que suban porque arriba está la placa del mezzanine.'],
+    ['N1_cocina_platos','Platos y bowls','En la alacena izquierda, sobre el lavaplatos.'], ['N1_cocina_vasos','Vasos','Alacena del centro.'],
+    ['N1_cocina_pocillos','Pocillos','Alacena del centro.'], ['N1_cocina_despensa','Despensa','Alacena derecha.'],
+    ['N1_cocina_remate','Remate de la alacena',''],
+    ['N1_cafe_molino','Molino de café','En la bandeja de la barra, junto a la toma doble.'],
+    ['N1_cafe_tetera','Tetera eléctrica','De cuello de cisne, para el Chemex y la prensa.'],
+    ['N1_cafe_prensa','Prensa francesa',''], ['N1_cafe_chemex','Chemex',''],
+    ['N1_cafe_repisa','Repisa del café','Tazas y el frasco del café, con luz por debajo.'],
+    ['N1_cafe','Estación de café','En fila contra el muro, sobre una bandeja de roble: molino, tetera, prensa francesa y Chemex, con dos tomas detrás. Filtros y báscula en el primer cajón.'],
+    ['N1_hongo','Lámpara hongo','Naranja, en el extremo de la barra.'],
+    ['N1_espejo_gabinete','Gabinete del espejo','6 cm de fondo: gafas, correas, llaves de repuesto y una sombrilla plegable.'],
+    ['N1_espejo_entrada','Espejo con bisagras','0,60 × 1,96 m con marco negro y halo de luz. Es la puerta de un gabinete de 6 cm; abre hacia el pasillo con bisagras de cazoleta de 110°.'],
+    ['N1_tv_marco','Marco del TV','Bisel en tono madera, intercambiable.'],
+    ['N1_tv_caja','Caja de conexiones del TV','Va dentro del mueble; al TV solo le llega un cable delgado por dentro del muro técnico.'],
+    ['N1_tv_pantalla','TV tipo cuadro','Apagado muestra una obra de arte.'],
+    ['N1_tv_75','TV de 75" tipo cuadro','Samsung The Frame o el de galería de LG: a ras del muro, 1,68 × 0,96 m, con arte cuando está apagado. Centro a 1,35 m y a 2,5 m del sofá.'],
+    ['N1_barra_sonido','Barra de sonido','Dolby Atmos, fijada al muro bajo el TV; el subwoofer va debajo del mueble.'],
+    ['N1_mueble_tv_frente','Frente del mueble de TV','En vino, abatible hacia abajo con compás y apertura por empuje.'],
+    ['N1_mueble_tv','Mueble de TV flotante','0,80 m centrado bajo el TV, frentes en vino y tapa de roble. Arranca 0,89 m después del último escalón: el pie de la escalera queda libre.'],
+    ['N1_arte_ruta','Mapa con ruta','Curvas de nivel y una ruta de ciclismo en naranja, 1,60 × 0,85 m con marco negro. El archivo para imprimir está en la carpeta del proyecto.'],
+    ['N1_arte_317','Afiche 317','1,10 × 1,00 m, en la doble altura.'],
+    ['N1_tapete','Tapete','Tejido plano jaspeado carbón y arena, 1,75 × 1,75 m; el robot lo cruza sin problema.'],
+    ['N1_control','Control del Xbox',''],
+    ['N1_colgante_salon_difusor','Difusor de la lámpara','Opal, para que no se vea el bombillo.'],
+    ['N1_planta','Planta','En matera negra junto a la ventana, sin invadir el paso.'],
+    ['N1_LED_linea','Línea de luz sobre la pintura','Perfil fino y tenue a +2,32 m: marca el cambio de vino a blanco sin competir con las lámparas.'],
+    ['N2_closet_corrediza','Puerta corrediza del clóset','Dos hojas de 0,84 m sobre riel superior con cierre suave: no invaden la franja para vestirse.'],
+    ['N2_closet_uneros','Uñero',''],
+    ['N2_vitrina','Vitrina de tenis','Puertas corredizas de vidrio. Los 30 pares van parados, en vertical: cada par ocupa 22 cm de frente y caben 40 en dos filas.'],
+    ['N2_zapatero','Vitrina de tenis','Cinco niveles de 35 cm con luz; 30 pares en vertical, capacidad para 40.'],
+    ['N2_tenis','Tenis en vertical','Parados sobre el talón y de perfil hacia el vidrio: 20 adelante y 10 atrás.'],
+    ['N2_tv_65','TV de 65"','A ras del muro, con el centro a 1,22 m del piso del mezzanine y a 2,4 m de la almohada.'],
+    ['N2_edredon','Ropa de cama','Algodón blanco cálido.'], ['N2_pie_de_cama','Manta','Carbón, al pie de la cama.'],
+    ['N1_galeria_cajon','Cajón de la galería','Para llaves, billetera y gafas. Sale 35 cm hacia el pasillo con correderas ocultas de cierre suave.'],
+    ['N1_galeria','Galería de la entrada','Encima del locker de la moto: nicho con LED, cajón, nicho alto. Para tus figuras tipo KAWS, piezas de Supreme y recuerdos de viaje.'],
+    ['N1_LED_galeria','LED de la galería','Cinta cálida en el techo de cada nicho.'],
+    ['N1_puerta_oculta_locker','Locker de la moto','Puerta oculta de 1,22 m de alto. Adentro: el casco abajo, sobre caucho, y la chaqueta colgada en una barra extraíble. Ranuras de ventilación ocultas arriba y abajo para que se aireen.'],
+    ['N1_locker','Locker de la moto','Casco integral abajo y chaqueta en barra extraíble, cerca de la puerta.'],
+    ['N1_puerta_oculta_zapatos','Zapatos del día','Puerta oculta bajo el nicho de llegada para los tenis que te quitas al entrar.'],
+    ['N1_puerta_oculta','Puerta oculta','Hoja lisa del color del muro, sin manija: se abre empujando (push-latch). Bisagras de cazoleta de 110° con cierre suave; abre hacia el pasillo.'],
+    ['N1_nicho','Nicho de llegada','El espacio junto a la puerta: repisas de roble con LED para llaves, una figura y una planta. Los interruptores de la entrada quedan adentro.'],
+    ['N1_LED_nicho','LED del nicho de llegada',''],
+    ['N1_washtower','Torre de ropas','LG WashTower de 60 cm: lavadora de 14 kg abajo y secadora de 10 kg arriba, dos tambores en un solo cuerpo. En Colombia no hay lavadora y secadora separadas de 60 cm. Confirma que la secadora sea de bomba de calor: la torre va cerrada.'],
+    ['N1_lavadora','Torre de ropas',''], ['N1_secadora','Torre de ropas',''], ['N1_ropas','Repisa de detergentes',''],
+    ['N1_espejo_entrada','Espejo de cuerpo entero','0,60 × 1,96 m con marco negro y halo LED, en el muro del baño frente a la galería: la duplica y ensancha el pasillo. Para mirarte antes de salir.'],
+    ['N1_LED_espejo_entrada','Halo LED del espejo',''],
+    ['N1_bici','Bici de ruta','Colgada de la rueda delantera detrás de dos puertas ocultas, con el casco de bici en una repisa.'],
+    ['N1_barra_cajon','Cajón de la barra','Sale 36 cm hacia la cocina. Correderas ocultas de extensión total con cierre suave y apertura por empuje.'],
+    ['N1_barra','Barra conectada','1,30 m al mismo nivel (0,90) y con el mismo mesón negro de la cocina, para que sirva de mesón extra. Seis cajones hacia la cocina y voladizo de 25 cm para las rodillas. Pasillo de cocina de 0,81 m y 0,90 m de paso al salón.'],
+    ['N1_butacos','Butacos de barra','Asiento a 0,62 m, para la barra a 0,90.'],
+    ['N1_colgante_salon','Lámpara colgante grande','Domo de Ø 55 cm, negro por fuera y naranja por dentro, colgado a 2,35 m sobre la mesa de centro en la doble altura.'],
+    ['N1_colgante','Lámparas colgantes','Tres domos naranja a distintas alturas sobre la barra, colgados del cielo raso.'],
+    ['N1_cocina_cajon','Cajón de la cocina','Correderas ocultas de extensión total con cierre suave; sale 42 cm hacia ti.'],
+    ['N1_cocina_ollas','Cajón de ollas','Bajo la estufa; correderas de extensión total.'],
+    ['N1_cocina_puerta','Puerta del lavaplatos','Bisagra de cazoleta de 110° con cierre suave.'],
+    ['N1_cocina_alacena','Alacena','Tapas abatibles hacia arriba con pistón.'],
+    ['N1_estudio_torre','Torre del PC','Sobre el escritorio, al lado de la pantalla, con el vidrio hacia la pantalla.'],
+    ['N1_estudio_cajon','Cajones del escritorio','Dos cajones y uno bajo la escalera, con correderas de extensión total.'],
+    ['N1_estudio_escritorio','Escritorio de muro a muro','1,35 × 0,79 m en roble, desde el costado de la nevera hasta el garaje del robot: no queda ningún hueco donde se caigan las cosas. Pantalla de 27", teclado, mouse y tapete de fieltro.'],
+    ['N1_estudio','Estudio','PC y pantalla con su toma doble + USB + datos.'],
+    ['N1_robot','Robot aspiradora','Base de autovaciado en un garaje bajo la escalera, con toma. Sale al salón y pasa bajo el sofá (patas de 12 cm) y el mueble del TV.'],
+    ['N1_eames','Sillón tipo Eames con otomana','En la esquina de la ventana, mirando al TV, con la lámpara de arco encima para leer. Para que quepa, el sofá cama pasa a 1,80 m.'],
+    ['N1_tv_75','TV de 75"','A ras del muro técnico, a 2,5 m del sofá. Para Xbox, mejor de 120 Hz.'],
+    ['N1_barra_sonido','Barra de sonido Dolby Atmos','Con subwoofer inalámbrico bajo el mueble.'], ['N1_subwoofer','Subwoofer inalámbrico',''],
+    ['N1_xbox','Xbox','Dentro del mueble del TV, detrás del frente abatible con ranuras.'], ['N1_router','Router',''],
+    ['N1_mueble_tv_frente','Frente del mueble de TV','Abatible hacia abajo con pistón y apertura por empuje.'],
+    ['N1_mueble_tv','Mueble de TV flotante','1,94 m, flota a 22 cm para que pase el robot, con LED por debajo.'],
+    ['N1_muro_tv','Muro técnico del TV','Drywall de 10 cm pintado en vino: tapa la columna, esconde los cables y deja el TV a ras.'],
+    ['N1_cortina','Cortina de lino','Translúcida, recogida junto a la ventana.'],
+    ['N1_pintura','Pintura en bloque','Vino mate (#4a1f24) desde el piso hasta la línea del mezzanine (+2,32 m) en el salón y en todo el muro bajo el mezzanine. Arriba, blanco. Puedes probar otros colores con los botones de franja.'],
+    ['MURO_E_pintura','Pintura en bloque','Vino mate hasta la línea del mezzanine.'], ['MURO_S_pintura','Pintura en bloque',''], ['MURO_N_pintura','Pintura en bloque',''],
+    ['N1_LED_linea','Línea LED sobre la pintura','Perfil de aluminio a +2,32 m que ilumina hacia arriba el muro blanco de la doble altura y marca la división.'],
+    ['N1_arte','Arte','Dos obras con marco negro sobre la franja grafito y una grande en la doble altura.'],
+    ['N1_libros_tenis','Libros de tenis','Tres libros de sneakers sobre la mesa de centro.'],
+    ['N1_figura','Figura de colección',''],
+    ['N1_bano_muro_tecnico','Muro técnico del baño','Bastidor de 15 cm para el sanitario suspendido, en microcemento, con dos nichos iluminados como en tu referencia. No se pica el muro de fachada.'],
+    ['N1_bano_sanitario','Sanitario suspendido','Usa el mismo desagüe y deja 0,59 m libres al frente. Hay que verificar con el plomero la distancia del desagüe al muro.'],
+    ['N1_bano_division','División de ducha','Vidrio templado con perfilería negra en cuadrícula.'],
+    ['N1_bano_LED','LED del baño','En los nichos, el espejo, bajo el mueble y en una línea vertical dentro de la ducha.'],
+    ['N1_bano_toallero','Toallero negro',''], ['N1_bano_ducha_lluvia','Ducha tipo lluvia','Negra.'],
+    ['N1_bano','Baño 1,23 × 2,34 m','Microcemento gris oscuro en muros, piso y techo; mueble flotante de roble de 0,50 m; espejo redondo con LED; grifería negra.'],
+    ['N1_sofa','Sofá cama','Cuero cognac, 1,80 m; la cama de 1,40 × 1,90 sale hacia el TV. Patas de 12 cm para el robot.'],
+    ['N2_cabecero','Cabecero tapizado','Cuero cognac sobre un bloque vino de 1,25 m, con LED arriba.'], ['N2_pintura','Pintura en bloque','Detrás de la cama.'],
+    ['N2_tv_65','TV de 65"','A ras del muro con soporte fijo de bajo perfil y una repisa delgada: no ocupa piso. Queda a 2,4 m de la almohada.'],
+    ['N2_tv_repisa','Repisa flotante',''],
+    ['N2_closet_puerta','Puerta del clóset','Batiente con bisagras de cazoleta de 110° y cierre suave; abre hacia la cama.'],
+    ['N2_closet_espejo','Puerta con espejo','Abre hacia el oeste.'],
+    ['N2_vitrina','Vitrina de tenis','Puertas corredizas de vidrio sobre riel: una pasa por detrás de la otra.'],
+    ['N2_cama_cajon','Cajón de la cama','Sale 45 cm hacia la zona de vestir.'],
+    ['N1_tomas','Toma propuesta','La lista completa está en la pestaña Planos.'],
+    ['TECHO_cielo','Cielo raso en drywall','A 3,95 m sobre el salón, con una ranura perimetral de 12 cm donde va la cinta LED: la luz rebota en el techo y baña los muros (luz indirecta). Spots empotrados dirigibles.'],
+    ['TECHO_LED','Luz indirecta del cielo raso',''], ['TECHO_spots','Spots empotrados','Dirigibles: arte, barra y rincón del Eames.'],
+    ['TECHO_','Techo','Concreto a la vista sobre el mezzanine, sellado.'],
+  ],
+  B: [
+    ['MURO_E_microcemento','Muro en microcemento','Microcemento gris medio llanado a mano, con sello mate, en el muro de la escalera.'],
+    ['N1_pared_salvia','Media pared verde salvia','Pintura lavable hasta 1,10 m detrás del sofá.'],
+    ['N1_paneles','Paneles acústicos','Cuatro paneles de listones finos sobre fieltro, con una franja negra; absorben el eco de la doble altura.'],
+    ['N1_ratan','Lámpara de ratán','Pantalla de fibra de Ø 0,84 m colgada a 3 m, sobre la mesa de centro.'],
+    ['N1_colgante','Colgante negro','Pantalla metálica con bombillo vintage de filamento sobre la barra.'],
+    ['N1_sofa','Sofá','Cuero cognac, 1,85 × 0,88 m.'], ['N1_cojin','Cojines','Verde salvia y gris.'],
+    ['N1_escalera','Escalera','Lámina negra, huella en nogal, malla perforada negra. 12 contrahuellas de 19,3 cm, contra el muro de microcemento.'],
+    ['N1_cocina','Cocina abierta','Frentes negros mate, alacena en nogal, mesón en piedra negra y salpicadero en azulejo grafito vertical.'],
+    ['N1_bano','Baño 1,23 × 2,34 m','Mármol verde salvia de piso a techo con grifería negra y mueble en nogal.'],
+    ['N2_closet','Clósets','Dos torres y puente en nogal, de piso a techo.'],
+    ['TECHO_','Cielo raso flotante','Con LED perimetral cálido y riel de spots negro.'],
+    ['ARQ_piso','Piso','Nogal en tablas anchas de 0,22 m.'],
+  ],
+  C: [
+    ['N1_cuadros','Galería de cuadros','Ocho cuadros con marco negro en mostaza, azul, oliva, terracota y crema, sobre el sofá.'],
+    ['N1_piso_hidraulico','Baldosa hidráulica','Baldosa de 20 × 20 cm en azul, ocre y crema en la zona de cocina y barra.'],
+    ['N1_colgante','Globo opal','Lámpara de vidrio opal de Ø 0,42 m sobre la barra.'],
+    ['N1_sofa','Sofá','Bouclé crema, 1,85 × 0,88 m.'], ['N1_cojin','Cojines','Mostaza.'],
+    ['N1_escalera','Escalera','Lámina blanca, huella en roble y malla blanca. 12 contrahuellas de 19,3 cm.'],
+    ['N1_cocina','Cocina abierta','Frentes gris salvia, nicho de roble con LED, azulejo azul vertical de 7,5 × 30 cm y mesón en cuarzo blanco.'],
+    ['N1_mueble_tv','Mueble del TV','Lacado verde oliva, flotante con LED por debajo.'],
+    ['N1_bano','Baño 1,23 × 2,34 m','Enchape beige con relieve de rombos, ducha en mármol verde salvia, grifo terracota y espejo redondo.'],
+    ['N2_mezz_frente','Frente del mezzanine','Lacado verde oliva.'],
+    ['N2_closet','Clósets','Blanco brillante sin manijas, con nichos de roble iluminados.'],
+    ['TECHO_','Líneas de luz','Perfiles LED empotrados en el techo: dos a lo largo y una transversal.'],
+    ['ARQ_piso','Piso','Roble claro en espina de pescado, tablas de 0,60 × 0,12 m.'],
+  ],
+};
+INFO_ESTILO.E = [
+  ['N2_mezz_losa_extension','Extensión del mezzanine','La placa se alarga 1,51 m junto a la escalera (2,20 × 1,51 = 3,3 m²). Necesita licencia de ampliación, acta de la copropiedad y diseño estructural: lee el análisis.'],
+  ['N2_mezz_piso_extension','Extensión del mezzanine','+3,3 m² arriba.'],
+  ['N2_eames','Sillón tipo Eames','En la extensión, mirando a la doble altura y a la ventana.'],
+  ['N2_pared_coleccion','Pared de colección','Seis repisas de roble con LED para 24 pares de tenis.'], ['N2_pared_tenis','Tenis',''], ['N2_LED_pared','LED de la colección',''],
+  ['N1_downlights_bajo_extension','Luz bajo la extensión','La cocina y la barra quedan con techo a 2,20 m.'],
+  ...INFO_ESTILO.D,
+];
+const infoBox = document.getElementById('info');
+document.getElementById('info-x').addEventListener('click', () => infoBox.hidden = true);
+const ray = new THREE.Raycaster(); const ptr = new THREE.Vector2(); let down = null;
+canvas.addEventListener('pointerdown', e => { down = [e.clientX, e.clientY]; });
+canvas.addEventListener('pointerup', e => {
+  if(!down || Math.hypot(e.clientX-down[0], e.clientY-down[1]) > 6) return;
+  const r = canvas.getBoundingClientRect();
+  ptr.set(((e.clientX-r.left)/r.width)*2-1, -((e.clientY-r.top)/r.height)*2+1);
+  ray.setFromCamera(ptr, camera);
+  const hit = ray.intersectObjects(pickables, false).find(h => visibleChain(h.object) && !(h.object.material && h.object.material.name==='Vidrio' && !nombreDe(h.object).startsWith('N2_baranda')));
+  if(!hit){ infoBox.hidden = true; return; }
+  const n = nombreDe(hit.object);
+  if(/^MURO_(N|S|E|O)$/.test(n) || n === 'TECHO_losa' || n === 'ARQ_losa_piso'){ infoBox.hidden = true; return; }
+  const it = (INFO_ESTILO[estiloActual] || []).find(([p]) => n.startsWith(p)) || INFO.find(([p]) => n.startsWith(p));
+  document.getElementById('info-t').textContent = it ? it[1] : n.replace(/^(N1_|N2_|ARQ_|MURO_|TECHO_)/,'').replace(/_/g,' ');
+  document.getElementById('info-d').textContent = it ? it[2] : '';
+  infoBox.hidden = false;
+});
+function visibleChain(o){ while(o){ if(!o.visible) return false; o = o.parent; } return true; }
+
+// ---------------- bucle ----------------
+function corte(){
+  const c = camera.position;
+  grupos.N.forEach(o => o.visible = c.z > -0.05);
+  grupos.S.forEach(o => o.visible = c.z < L + 0.05);
+  grupos.E.forEach(o => o.visible = c.x < W + 0.05);
+  grupos.O.forEach(o => o.visible = c.x > -0.05);
+  grupos.TECHO.forEach(o => o.visible = estado.techo && c.y < H - 0.02);
+}
+let activo = true;
+window.addEventListener('vista-cambio', () => { activo = !document.getElementById('v-modelo').hidden; if(activo) resize(); });
+renderer.setAnimationLoop(t => {
+  if(!activo) return;
+  if(tween){
+    const k = Math.min(1, (t - tween.t0) / tween.d), e = k < .5 ? 4*k*k*k : 1 - Math.pow(-2*k+2, 3)/2;
+    camera.position.lerpVectors(tween.p0, tween.p1, e); controls.target.lerpVectors(tween.q0, tween.q1, e);
+    camera.fov = tween.f0 + (tween.f1 - tween.f0)*e; camera.updateProjectionMatrix();
+    if(k >= 1) tween = null;
+  }
+  if(mov.anim) pasoMoviles(t);
+  controls.update(); corte();
+  if(mov.piezas.length) visibilidadMoviles();
+  renderer.render(scene, camera); labelRenderer.render(scene, camera);
+});
+controls.addEventListener('start', () => { tween = null; interactuado = true; document.querySelectorAll('[data-cam]').forEach(b => b.setAttribute('aria-pressed','false')); });
+
+// ---------------- presupuesto ----------------
+fetch('presupuesto.json').then(r => r.json()).then(p => {
+  const cop = v => '$' + Math.round(v).toLocaleString('es-CO');
+  const tb = document.querySelector('#tabla-presupuesto tbody');
+  tb.innerHTML = p.categorias.map(c => `<tr class="presu-cat"><td colspan="2">${c.nombre}</td><td class="num">${cop(c.bajo)}</td><td class="num">${cop(c.alto)}</td><td></td></tr>` +
+    c.items.map(it => `<tr><td>${it.item}${it.nota ? '<br><span style="color:var(--muted);font-size:12.5px">' + it.nota + '</span>' : ''}</td><td class="num">${it.cantidad}</td><td class="num">${it.bajo ? cop(it.bajo) : '—'}</td><td class="num">${it.alto ? cop(it.alto) : '—'}</td><td>${(it.fuentes || []).map((u, k) => `<a href="${u}" target="_blank" rel="noopener">${k + 1}</a>`).join(' ')}</td></tr>`).join('')).join('');
+  document.getElementById('presu-resumen').innerHTML = p.resumen.map(r => `<div class="fact"><div class="n">${r.valor}</div><div class="t">${r.texto}</div></div>`).join('');
+  document.getElementById('presu-nota').innerHTML = p.nota;
+}).catch(() => { document.querySelector('#tabla-presupuesto tbody').innerHTML = '<tr><td colspan="5">El presupuesto se está preparando.</td></tr>'; });
+
+// ---------------- tabla de tomas ----------------
+function tablaPuntos(s){
+  const tb = document.querySelector('#tabla-puntos tbody'); if(!tb || !s.puntos) return;
+  tb.innerHTML = s.puntos.map((pt, i) => {
+    const z = pt.p[2], mz = z > s.medidas.MZ1 - 0.01;
+    const alto = (mz ? z - s.medidas.MZ1 : z).toFixed(2).replace('.', ',') + ' m' + (mz ? ' (mezzanine)' : '');
+    return `<tr><td class="num">${i + 1}</td><td>${pt.d}</td><td class="num">${alto}</td><td>${pt.o === 'plano' ? 'Plano / acabados' : 'Propuesto'}</td></tr>`;
+  }).join('');
+}
+
+// ---------------- planos 2D (SVG) ----------------
+function dibujarPlanos(s){
+  const m = s.plan.muros, S = 92, PAD = 1.05;
+  function svgDe(nivel){
+    const x0 = -PAD, y0 = -PAD, w = m.W + 2*PAD, h = (nivel==='n1' ? m.L : m.L) + 2*PAD;
+    const X = v => ((v - x0)*S).toFixed(1), Y = v => ((v - y0)*S).toFixed(1), D = v => (v*S).toFixed(1);
+    const out = [], tx = [];
+    const rect = (a,b,c,d,cls,extra='') => out.push(`<rect x="${X(Math.min(a,c))}" y="${Y(Math.min(b,d))}" width="${D(Math.abs(c-a))}" height="${D(Math.abs(d-b))}" class="${cls}" ${extra}/>`);
+    const txt = (x,y,t,cls='t') => tx.push(`<text x="${X(x)}" y="${Y(y)}" class="${cls}">${t}</text>`);
+    const line = (a,b,c,d,cls) => out.push(`<line x1="${X(a)}" y1="${Y(b)}" x2="${X(c)}" y2="${Y(d)}" class="${cls}"/>`);
+    function cotaH(a,b,y,t){ line(a,y,b,y,'dl'); [a,b].forEach(v=>line(v-0.05,y+0.05,v+0.05,y-0.05,'dt')); line(a,y-0.12,a,y+0.12,'de'); line(b,y-0.12,b,y+0.12,'de'); txt((a+b)/2, y-0.07, t ?? fmt(b-a), 'dn'); }
+    function cotaV(a,b,x,t){ line(x,a,x,b,'dl'); [a,b].forEach(v=>line(x-0.05,v+0.05,x+0.05,v-0.05,'dt')); line(x-0.12,a,x+0.12,a,'de'); line(x-0.12,b,x+0.12,b,'de');
+      tx.push(`<text x="${X(x-0.07)}" y="${Y((a+b)/2)}" class="dn" transform="rotate(-90 ${X(x-0.07)} ${Y((a+b)/2)})">${t ?? fmt(b-a)}</text>`); }
+    const T = m.T, Wd = m.W, Ld = m.L;
+    if(nivel === 'n2'){
+      // vacío sobre el salón
+      rect(0, m.MZ, Wd, Ld, 'vacio');
+      line(0, m.MZ, Wd, Ld, 'proy'); line(Wd, m.MZ, 0, Ld, 'proy');
+      txt(Wd/2, (m.MZ+Ld)/2 + 0.45, 'Vacío sobre el salón', 'tz');
+      rect(0, 0, Wd, m.MZ, 'losa');
+    } else {
+      rect(0, 0, Wd, Ld, 'losa');
+    }
+    // muros perimetrales
+    out.push(`<path class="muro" fill-rule="evenodd" d="M${X(-T)} ${Y(-T)}H${X(Wd+T)}V${Y(Ld+T)}H${X(-T)}Z M${X(0)} ${Y(0)}V${Y(Ld)}H${X(Wd)}V${Y(0)}Z"/>`);
+    rect(m.puerta[0], -T-0.01, m.puerta[1], 0.01, 'hueco');
+    rect(m.ventana[0], Ld-0.01, m.ventana[1], Ld+T+0.01, 'hueco');
+    line(m.ventana[0], Ld+0.06, m.ventana[1], Ld+0.06, 'vid'); line(m.ventana[0], Ld+0.10, m.ventana[1], Ld+0.10, 'vid');
+    rect(...m.col_e, 'muro'); rect(...m.col_ne, 'muro');
+    if(nivel === 'n1'){
+      const [bx, by, bm] = m.bano; const cy0 = m.coc[0];
+      rect(bx, 0, bx+bm, m.puerta_bano[0]-0.02, 'muro'); rect(bx, m.puerta_bano[1]+0.02, bx+bm, cy0, 'muro'); rect(0, by, bx+bm, cy0, 'muro');
+      // puerta de entrada (abatimiento)
+      const r = m.puerta[1]-m.puerta[0];
+      out.push(`<path class="abat" d="M${X(m.puerta[0])} ${Y(0)} L${X(m.puerta[0])} ${Y(r)} A${D(r)} ${D(r)} 0 0 0 ${X(m.puerta[1])} ${Y(0)}"/>`);
+      line(m.MZ>0?0:0, m.MZ, Wd, m.MZ, 'proy');
+      txt(1.86, m.MZ - 0.08, 'borde del mezzanine', 'tp');
+    }
+    s.plan[nivel].forEach(it => {
+      if(it.k === 'rect'){ rect(it.r[0], it.r[1], it.r[2], it.r[3], it.c); if(it.t) txt((it.r[0]+it.r[2])/2, (it.r[1]+it.r[3])/2 + 0.05, it.t, it.c==='zona'?'tz':'t'); }
+      else if(it.k === 'circ'){ out.push(`<circle cx="${X(it.p[0])}" cy="${Y(it.p[1])}" r="${D(it.r)}" class="${it.c}"/>`); }
+      else if(it.k === 'escalera'){
+        const [a,b,c,d] = it.r; rect(a,b,c,d,'esc'); const n = it.n, g = (d-b)/n;
+        for(let i=1;i<n;i++) line(a, b+i*g, c, b+i*g, 'escl');
+        line((a+c)/2, d-0.1, (a+c)/2, b+0.15, 'flecha');
+        out.push(`<path class="flechap" d="M${X((a+c)/2-0.08)} ${Y(b+0.3)} L${X((a+c)/2)} ${Y(b+0.15)} L${X((a+c)/2+0.08)} ${Y(b+0.3)}"/>`);
+        txt((a+c)/2 - 0.0, d - 0.25, it.t, 'tp');
+      }
+    });
+    (s.puntos || []).forEach((pt, i) => {
+      const [px, py, pz] = pt.p, enMezz = pz > s.medidas.MZ1 - 0.01;
+      if((nivel === 'n2') !== enMezz) return;
+      const xx = px < 0.1 ? px + 0.08 : (px > Wd - 0.1 ? px - 0.08 : px);
+      if(pt.t === 'electrico'){
+        const col = pt.o === 'plano' ? 'var(--fg)' : '#d9540d';
+        out.push(`<path d="M${X(xx-0.08)} ${Y(py+0.06)} L${X(xx+0.08)} ${Y(py+0.06)} L${X(xx)} ${Y(py-0.08)} Z" fill="${col}"/>`);
+      } else {
+        out.push(`<circle cx="${X(xx)}" cy="${Y(py)}" r="${D(0.075)}" fill="${pt.t === 'agua' ? '#2f6fb0' : 'var(--surface)'}" stroke="#2f6fb0" stroke-width="1.6"/>`);
+      }
+      tx.push(`<text x="${X(xx + 0.12)}" y="${Y(py + 0.04)}" class="dn" style="text-anchor:start;font-size:10px">${i + 1}</text>`);
+    });
+    if(nivel === 'n1'){
+      // lámparas naranja
+      out.push(`<circle cx="${X(0.60)}" cy="${Y(4.17)}" r="${D(0.22)}" class="lamp"/>`);
+      out.push(`<circle cx="${X(1.25)}" cy="${Y(6.45)}" r="${D(0.19)}" class="lamp"/>`);
+      out.push(`<circle cx="${X(2.74)}" cy="${Y(7.43)}" r="${D(0.16)}" class="lamp"/>`);
+      txt(0.86, 1.98, 'Baño', 'tz'); txt(1.86, 1.25, 'Entrada', 'tz'); txt(1.62, 5.42, 'Salón', 'tz');
+      cotaH(0, Wd, -0.55);
+      cotaV(0, 2.34, -0.45); cotaV(2.34, 2.49, -0.45, ''); cotaV(2.49, m.MZ, -0.45, '0,60'); cotaV(m.MZ, Ld, -0.45);
+      cotaV(0, Ld, -0.85);
+      cotaV(0.22, 1.30, Wd+0.45, '1,08'); cotaV(1.30, 1.80, Wd+0.45, '0,50'); cotaV(1.80, 2.42, Wd+0.45, '0,62'); cotaV(2.42, m.MZ, Wd+0.45, '0,67'); cotaV(m.MZ, 5.51, Wd+0.45, '2,42'); cotaV(5.51, Ld, Wd+0.45, '2,27');
+      cotaH(0, m.ventana[0], Ld+0.55); cotaH(m.ventana[0], m.ventana[1], Ld+0.55); cotaH(m.ventana[1], Wd, Ld+0.55);
+      cotaH(1.34, 2.38, 2.10, '1,04'); cotaH(1.34, 2.55, 0.95, '1,21'); cotaH(0, 1.20, 4.70, '1,20'); cotaV(3.09, 3.96, 1.55, '0,86');
+    } else {
+      txt(2.55, 2.98, 'llega la escalera', 'tp'); txt(1.25, 0.98, 'zona para vestirse', 'tp');
+      cotaH(0, Wd, -0.55); cotaV(0, m.MZ, -0.85, '3,09');
+      cotaV(0, 0.60, -0.45); cotaV(0.60, 1.30, -0.45, '0,70'); cotaV(1.30, 2.70, -0.45, '1,40'); cotaV(2.70, m.MZ, -0.45, '');
+      cotaH(0.05, 2.00, 2.45, '1,95'); cotaH(2.00, Wd, 2.62, '1,00');
+      line(0, m.MZ, 2.20, m.MZ, 'baranda');
+    }
+    const vbW = (w*S).toFixed(0), vbH = (h*S).toFixed(0);
+    return `<svg viewBox="0 0 ${vbW} ${vbH}" role="img" aria-label="Planta ${nivel==='n1'?'del primer piso':'del mezzanine'} con medidas">
+<style>
+.losa{fill:var(--surface)}.vacio{fill:var(--surface-2);opacity:.55}.muro{fill:var(--fg)}.hueco{fill:var(--surface)}
+.vid{stroke:var(--fg);stroke-width:1.2}.mueble,.equipo,.loza{fill:var(--surface-2);stroke:var(--fg);stroke-width:1.2}
+.equipo{fill:var(--surface)}.zona,.tapete{fill:none;stroke:var(--muted);stroke-width:1;stroke-dasharray:5 4}
+.listones{fill:var(--oak)}.silla{fill:var(--surface);stroke:var(--muted);stroke-width:1}.planta{fill:none;stroke:var(--muted);stroke-width:1.2}
+.lamp{fill:#d9540d;fill-opacity:.28;stroke:#d9540d;stroke-width:2}.esc{fill:var(--surface-2);stroke:var(--fg);stroke-width:1.2}.escl{stroke:var(--fg);stroke-width:.8}
+.flecha{stroke:var(--fg);stroke-width:1.2}.flechap{fill:none;stroke:var(--fg);stroke-width:1.2}
+.proy{stroke:var(--muted);stroke-width:1;stroke-dasharray:7 5}.abat{fill:none;stroke:var(--muted);stroke-width:1}
+.baranda{stroke:#4a9db0;stroke-width:3}
+.dl,.de{stroke:var(--fg);stroke-width:.9}.dt{stroke:var(--fg);stroke-width:1.6}
+.dn,.t,.tz,.tp{paint-order:stroke;stroke:var(--surface);stroke-width:4px;stroke-linejoin:round}
+.dn{font:500 12px 'IBM Plex Mono',ui-monospace,monospace;fill:var(--fg);text-anchor:middle}
+.t{font:500 12.5px 'Jost','Segoe UI',sans-serif;fill:var(--fg);text-anchor:middle}
+.tz{font:600 14px 'Jost','Segoe UI',sans-serif;fill:var(--muted);text-anchor:middle;letter-spacing:.04em}
+.tp{font:400 11.5px 'Inter',system-ui,sans-serif;fill:var(--muted);text-anchor:middle}
+</style>${out.join('')}${tx.join('')}</svg>`;
+  }
+  document.getElementById('plano-n1').innerHTML = svgDe('n1');
+  document.getElementById('plano-n2').innerHTML = svgDe('n2');
+}
+</script>
+
+</body>
+</html>

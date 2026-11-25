@@ -1,0 +1,799 @@
+{
+ "resumen": [
+  {
+   "valor": "$76,0 M – $113,4 M",
+   "texto": "total con 10 % de imprevistos y menos el bono de $1 M"
+  },
+  {
+   "valor": "$10,7 M – $20,3 M",
+   "texto": "imprescindible: escalera, baranda, piso, cocina, electricista"
+  },
+  {
+   "valor": "$25,3 M – $35,2 M",
+   "texto": "dotación: electrodomésticos y muebles (resta lo que ya tengas)"
+  },
+  {
+   "valor": "10",
+   "texto": "ítems sin precio en línea: cotizar"
+  }
+ ],
+ "categorias": [
+  {
+   "nombre": "1. Obra que no entregan",
+   "bajo": 10515224.0,
+   "alto": 17943900.0,
+   "items": [
+    {
+     "item": "Escalera metálica a medida (12 pasos, 0,80 m, lámina negra)",
+     "cantidad": "12 paso",
+     "bajo": 3600000,
+     "alto": 6000000,
+     "fuentes": [
+      "https://www.comandoconstrucciones.com/escaleras-metalicas-para-casa-colombia/"
+     ],
+     "nota": "No viene con el apto (correo 19-may-2025). Precio con fabricación, pintura e instalación; confirmar huella en roble y baranda de malla."
+    },
+    {
+     "item": "Baranda en vidrio templado h 1,10 m",
+     "cantidad": "2,2 ml",
+     "bajo": 1056000.0,
+     "alto": 1056000.0,
+     "fuentes": [
+      "https://www.acerovidrioaluminio.com/p/barandas-vidrio-balcones.html"
+     ],
+     "nota": "Precio \"desde\"; instalación no confirmada. Sin precio alto."
+    },
+    {
+     "item": "Piso SPC de clic tono roble medio (incluye 10 % de desperdicio)",
+     "cantidad": "33 m²",
+     "bajo": 1646700,
+     "alto": 3791700,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/898776/",
+      "https://www.homecenter.com.co/homecenter-co/product/898777/",
+      "https://www.homecenter.com.co/homecenter-co/product/3023049/"
+     ],
+     "nota": "Tono más oscuro que el roble claro, como pediste. Holztek Midnight Oak: 59.900/m². El SPC aguanta agua y el robot. Se entrega en placa de concreto."
+    },
+    {
+     "item": "Cielo raso en drywall del salón con ranura perimetral para luz indirecta",
+     "cantidad": "15 m²",
+     "bajo": 825000,
+     "alto": 1275000,
+     "fuentes": [
+      "https://oneestimate.ai/es/blog/precio-m2-drywall-mano-obra-colombia-2026",
+      "https://www.homecenter.com.co/homecenter-co/product/71096/"
+     ],
+     "nota": "Referencia de drywall instalado por m² (placa ST de 1/2\" a 48.900). El foseado perimetral puede subirlo: cotizar."
+    },
+    {
+     "item": "Muro técnico del TV en drywall (tapa la columna y los cables)",
+     "cantidad": "5 m²",
+     "bajo": 275000,
+     "alto": 425000,
+     "fuentes": [
+      "https://oneestimate.ai/es/blog/precio-m2-drywall-mano-obra-colombia-2026"
+     ],
+     "nota": "Referencia de drywall instalado por m²."
+    },
+    {
+     "item": "Instalación del piso",
+     "cantidad": "33 m²",
+     "bajo": 887700,
+     "alto": 1580700,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/514481/",
+      "https://www.homecenter.com.co/homecenter-co/product/278824/"
+     ],
+     "nota": "26.900 solo mano de obra; 47.900 todo costo."
+    },
+    {
+     "item": "Guardaescoba",
+     "cantidad": "28 ml",
+     "bajo": 348824,
+     "alto": 465500,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/636111/",
+      "https://www.homecenter.com.co/homecenter-co/product/718979/",
+      "https://www.homecenter.com.co/homecenter-co/product/793638/"
+     ],
+     "nota": "Precio por metro calculado de tiras de 2,4 m."
+    },
+    {
+     "item": "Cocina: puertas del mueble base, alacena y repisa (1,34 ml)",
+     "cantidad": "1,34 ml",
+     "bajo": 1876000.0,
+     "alto": 3350000.0,
+     "fuentes": [
+      "https://todoresuelto.com/co/blog/cuanto-cuesta-un-mueble-de-cocina-o-closet-en-carpinteria",
+      "https://cuantomecuesta.com/co/cocina-integral/"
+     ],
+     "nota": "Precio de cocina completa por ml; como el mueble base ya viene sin puertas, debería costar menos. Cotizar."
+    }
+   ]
+  },
+  {
+   "nombre": "2. Baño",
+   "bajo": 7952280,
+   "alto": 10273380,
+   "items": [
+    {
+     "item": "Microcemento en muros, piso y techo del baño",
+     "cantidad": "20 m²",
+     "bajo": 3137980,
+     "alto": 3137980,
+     "fuentes": [
+      "https://colombia.generadordeprecios.info/rehabilitacion/Revestimientos/RB_Morteros_industriales_para_rev/Microcemento/RBR005_Revestimiento_continuo_de_paramento.html"
+     ],
+     "nota": "Precio de paramento (CYPE). Pedir sistema apto para ducha. Va sobre el enchape que entregan."
+    },
+    {
+     "item": "Sanitario suspendido con sistema empotrado (Corona Loto)",
+     "cantidad": "1 und",
+     "bajo": 2549900,
+     "alto": 2999900,
+     "fuentes": [
+      "https://corona.co/productos/sanitarios/sanitarios-individuales/sanitario-suspendido-loto/p/117641001",
+      "https://www.homecenter.com.co/homecenter-co/product/3034137/"
+     ],
+     "nota": "Opcional: solo si el desagüe queda a unos 25 cm o menos del muro. Si no, se deja el sanitario que entregan."
+    },
+    {
+     "item": "Instalación del sanitario suspendido",
+     "cantidad": "1 und",
+     "bajo": 204900,
+     "alto": 290000,
+     "fuentes": [
+      "https://corona.co/productos/servicios/instalaciones/instalaciones-para-banos/instalacion-de-sanitario-loto-ada/p/700487",
+      "https://www.homecenter.com.co/homecenter-co/product/478718/"
+     ],
+     "nota": ""
+    },
+    {
+     "item": "Muro técnico con nichos en superboard (≈3 m²)",
+     "cantidad": "3 m²",
+     "bajo": 165000,
+     "alto": 255000,
+     "fuentes": [
+      "https://oneestimate.ai/es/blog/precio-m2-drywall-mano-obra-colombia-2026"
+     ],
+     "nota": "Precio de drywall instalado por m², como referencia."
+    },
+    {
+     "item": "División de ducha en vidrio templado con perfil negro",
+     "cantidad": "1 und",
+     "bajo": 319900,
+     "alto": 1260900,
+     "fuentes": [
+      "https://www.falabella.com.co/falabella-co/product/142063491/division-de-bano-marco-negro-cuadros-100x195cm-apertura-pivot-sensi-dacqua",
+      "https://www.falabella.com.co/falabella-co/product/150565542/division-bano-marco-negro-100x195cm-sensi-dacqua",
+      "https://www.homecenter.com.co/homecenter-co/product/554539/"
+     ],
+     "nota": "La de cuadrícula (100 × 195) cuesta 489.900. Ninguna es exacta para el vano: medir."
+    },
+    {
+     "item": "Mueble de lavamanos flotante con lavamanos",
+     "cantidad": "1 und",
+     "bajo": 569900,
+     "alto": 659900,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/908257/",
+      "https://www.homecenter.com.co/homecenter-co/product/908266/"
+     ],
+     "nota": "Los encontrados son de 60 cm; el diseño pide 50 cm para dejar 0,42 m al sanitario."
+    },
+    {
+     "item": "Espejo redondo con LED de 60 cm",
+     "cantidad": "1 und",
+     "bajo": 229900,
+     "alto": 354900,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/3092522/",
+      "https://www.homecenter.com.co/homecenter-co/product/678780/"
+     ],
+     "nota": ""
+    },
+    {
+     "item": "Monocontrol de lavamanos negro",
+     "cantidad": "1 und",
+     "bajo": 129900,
+     "alto": 234900,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/896977/",
+      "https://www.homecenter.com.co/homecenter-co/product/726386/",
+      "https://www.homecenter.com.co/homecenter-co/product/739064/"
+     ],
+     "nota": ""
+    },
+    {
+     "item": "Columna de ducha negra",
+     "cantidad": "1 und",
+     "bajo": 644900,
+     "alto": 1079900,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/3119267/",
+      "https://www.homecenter.com.co/homecenter-co/product/3082259/",
+      "https://www.homecenter.com.co/homecenter-co/product/758797/"
+     ],
+     "nota": ""
+    },
+    {
+     "item": "Extractor de baño (el baño no tiene ventana)",
+     "cantidad": "1 und",
+     "bajo": 0,
+     "alto": 0,
+     "fuentes": [],
+     "nota": "Sin dato: cotizar. Preguntar si la constructora lo instala."
+    }
+   ]
+  },
+  {
+   "nombre": "3. Pintura",
+   "bajo": 753100,
+   "alto": 1157100,
+   "items": [
+    {
+     "item": "Pintura vinilo tipo 1 lavable, color vino (#4a1f24)",
+     "cantidad": "4 galón",
+     "bajo": 415600,
+     "alto": 459600,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/3056133/",
+      "https://www.homecenter.com.co/homecenter-co/product/725625/"
+     ],
+     "nota": "Precio del galón blanco; el color oscuro puede variar. Cantidad estimada para ~40 m² a dos manos: confirmar con el pintor."
+    },
+    {
+     "item": "Mano de obra de pintura (franja vino, 2 manos)",
+     "cantidad": "45 m²",
+     "bajo": 337500,
+     "alto": 697500,
+     "fuentes": [
+      "https://oneestimate.ai/es/blog/precio-m2-pintura-acabados-colombia-2026",
+      "https://www.homecenter.com.co/homecenter-co/product/3110593/"
+     ],
+     "nota": ""
+    }
+   ]
+  },
+  {
+   "nombre": "4. Carpintería a medida",
+   "bajo": 19403500.0,
+   "alto": 25891200.0,
+   "items": [
+    {
+     "item": "Muebles altos a medida: clóset 1,68 (corredizo) + espejo 0,37 + vitrina 0,95 + entrada 3,09 (nicho, bici, locker de moto y galería, ropas, nevera) + gabinete del espejo 0,60",
+     "cantidad": "6,69 ml",
+     "bajo": 12711000.0,
+     "alto": 14049000.0,
+     "fuentes": [
+      "https://todoresuelto.com/co/blog/cuanto-cuesta-un-mueble-de-cocina-o-closet-en-carpinteria"
+     ],
+     "nota": "Precio de clóset en melamina por ml (Colombia, nov-2026). Puertas ocultas con push-latch y vidrio de la vitrina pueden subirlo."
+    },
+    {
+     "item": "Muebles bajos a medida: escritorio de muro a muro 1,35 + garaje del robot y cajón bajo escalera 0,90 + barra con 6 cajones 1,30",
+     "cantidad": "3,55 ml",
+     "bajo": 4970000.0,
+     "alto": 8875000.0,
+     "fuentes": [
+      "https://todoresuelto.com/co/blog/cuanto-cuesta-un-mueble-de-cocina-o-closet-en-carpinteria"
+     ],
+     "nota": "Precio de mueble de cocina por ml como referencia; escritorio y barra suelen costar menos. Cotizar con el carpintero."
+    },
+    {
+     "item": "Mueble de TV flotante de 0,80 m con 2 frentes abatibles en vino y tapa de roble",
+     "cantidad": "1 und",
+     "bajo": 199900,
+     "alto": 499000,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/3097440/",
+      "https://www.homecenter.com.co/homecenter-co/product/564843/",
+      "https://www.homecenter.com.co/homecenter-co/product/3128611/"
+     ],
+     "nota": "Referencias de muebles hechos; a medida y pintado puede variar: cotizar con el carpintero."
+    },
+    {
+     "item": "Riel superior y herrajes para 2 puertas corredizas del clóset",
+     "cantidad": "1 juego",
+     "bajo": 0,
+     "alto": 0,
+     "fuentes": [],
+     "nota": "Sin dato: cotizar."
+    },
+    {
+     "item": "Correderas ocultas de extensión total con cierre suave (cajones)",
+     "cantidad": "12 und",
+     "bajo": 1102800,
+     "alto": 1234800,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/587717/",
+      "https://www.homecenter.com.co/homecenter-co/product/587718/",
+      "https://www.homecenter.com.co/homecenter-co/product/468662/"
+     ],
+     "nota": "Barra 6, extraíble de la cocina 1, escritorio 2, galería 1 y cama 2. El listado no dice si el precio es por par."
+    },
+    {
+     "item": "Bisagras de cazoleta 110° con cierre suave",
+     "cantidad": "33 und",
+     "bajo": 293700,
+     "alto": 1052700,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/875668/",
+      "https://www.homecenter.com.co/homecenter-co/product/468642/",
+      "https://www.homecenter.com.co/homecenter-co/product/301525/"
+     ],
+     "nota": "Puertas ocultas de la entrada (17), cocina (8), espejo de la entrada (4) y puerta con espejo del clóset (4). Paquete de 25 Fixser: 139.900."
+    },
+    {
+     "item": "Push-to-open para puertas sin manija",
+     "cantidad": "13 und",
+     "bajo": 126100,
+     "alto": 180700,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/301538/",
+      "https://www.homecenter.com.co/homecenter-co/product/661220/",
+      "https://www.homecenter.com.co/homecenter-co/product/661203/"
+     ],
+     "nota": ""
+    },
+    {
+     "item": "Compases para tapas abatibles (mueble de TV y gabinete de la nevera)",
+     "cantidad": "3 und",
+     "bajo": 0,
+     "alto": 0,
+     "fuentes": [],
+     "nota": "Sin dato: cotizar con el carpintero."
+    }
+   ]
+  },
+  {
+   "nombre": "5. Iluminación",
+   "bajo": 4073600,
+   "alto": 7882728,
+   "items": [
+    {
+     "item": "Cinta LED cálida, rollo de 5 m",
+     "cantidad": "12 rollo",
+     "bajo": 538800,
+     "alto": 598800,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/690235/",
+      "https://www.homecenter.com.co/homecenter-co/product/886914/"
+     ],
+     "nota": "Precio de cinta genérica; la de 24 V con CRI ≥ 90 que recomiendo no apareció: cotizar."
+    },
+    {
+     "item": "Perfil de aluminio con difusor",
+     "cantidad": "40 m",
+     "bajo": 796000,
+     "alto": 996000,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/902925/",
+      "https://www.homecenter.com.co/homecenter-co/product/902928/"
+     ],
+     "nota": ""
+    },
+    {
+     "item": "Fuente 24 V 120-144 W",
+     "cantidad": "4 und",
+     "bajo": 512000,
+     "alto": 686000,
+     "fuentes": [
+      "https://www.falabella.com.co/falabella-co/product/126217192/Fuente-Conmutada-Switchada-100-240V-AC-a-24V-DC-6A",
+      "https://www.falabella.com.co/falabella-co/product/126050126/Fuente-Switchada-Conmutada-24V-5A-120W-Cnc-Impresora3d"
+     ],
+     "nota": ""
+    },
+    {
+     "item": "Controlador o dimmer por zona",
+     "cantidad": "5 und",
+     "bajo": 132500,
+     "alto": 215000,
+     "fuentes": [
+      "https://www.falabella.com.co/falabella-co/product/126218896/Regulador-Dimmer-R102-12-24V-2A-Ajuste-Brillo-Tira-Led",
+      "https://www.falabella.com.co/falabella-co/product/152197718/controlador-rf-led-12v24v-con-control-remoto"
+     ],
+     "nota": ""
+    },
+    {
+     "item": "Spots LED empotrables dirigibles para el drywall",
+     "cantidad": "4 und",
+     "bajo": 0,
+     "alto": 0,
+     "fuentes": [],
+     "nota": "Sin dato: cotizar. Reemplazan el riel."
+    },
+    {
+     "item": "Lámpara de mesa tipo hongo",
+     "cantidad": "1 und",
+     "bajo": 39900,
+     "alto": 57528,
+     "fuentes": [
+      "https://www.falabella.com.co/falabella-co/product/153865513/lampara-hongo-tactil-recargable-rgb-luz-noche-mesa-led"
+     ],
+     "nota": "Las encontradas no son naranja."
+    },
+    {
+     "item": "Lámpara de pie de arco",
+     "cantidad": "1 und",
+     "bajo": 299900,
+     "alto": 359900,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/902958/",
+      "https://www.falabella.com.co/falabella-co/product/156890940/lampara-de-pie-arco-led-media-luna-hd-m6x-color-negro"
+     ],
+     "nota": ""
+    },
+    {
+     "item": "Lámparas colgantes tipo domo sobre la barra",
+     "cantidad": "3 und",
+     "bajo": 254700,
+     "alto": 539700,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/278093/",
+      "https://www.homecenter.com.co/homecenter-co/product/603436/",
+      "https://www.homecenter.com.co/homecenter-co/product/487847/"
+     ],
+     "nota": "Ninguna naranja en Homecenter: buscar una naranja o pintarla. Rosca E27."
+    },
+    {
+     "item": "Lámpara colgante grande para la doble altura (Ø 55 cm)",
+     "cantidad": "1 und",
+     "bajo": 0,
+     "alto": 0,
+     "fuentes": [],
+     "nota": "Sin dato: cotizar."
+    },
+    {
+     "item": "Lámparas de lectura de pared",
+     "cantidad": "2 und",
+     "bajo": 239800,
+     "alto": 369800,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/881804/",
+      "https://www.falabella.com.co/falabella-co/product/133410658/Lampara-de-pared-dafne-black-38x13x20-cm"
+     ],
+     "nota": ""
+    },
+    {
+     "item": "Electricista: tomas propuestas y circuitos LED",
+     "cantidad": "28 punto",
+     "bajo": 1260000,
+     "alto": 4060000,
+     "fuentes": [
+      "https://oneestimate.ai/es/blog/precios-mano-obra-construccion-colombia-2026",
+      "https://oneestimate.ai/es/blog/precios-obra-gris-obra-blanca-colombia-2026"
+     ],
+     "nota": "20 tomas propuestas, 4 salidas de lámparas colgantes y 4 circuitos de LED."
+    }
+   ]
+  },
+  {
+   "nombre": "6. Electrodomésticos",
+   "bajo": 19539190,
+   "alto": 25764780,
+   "items": [
+    {
+     "item": "Torre LG WashTower WK14BS6R: lavadora 14 kg + secadora 10 kg, 60 cm",
+     "cantidad": "1 und",
+     "bajo": 6499900,
+     "alto": 6629900,
+     "fuentes": [
+      "https://www.falabella.com.co/falabella-co/product/73074923/Torre-de-lavado-LG-Electrica-14-kg-WK14BS6R/73074923"
+     ],
+     "nota": "Precio de Black Friday (normal 12.999.900). 60 × 66 × 165,5 cm. En Colombia no se consiguen lavadora y secadora separadas de 60 cm. La ficha no dice si la secadora es de bomba de calor ni el voltaje: confirmarlo antes de comprar, porque la torre va cerrada."
+    },
+    {
+     "item": "Nevera 200-270 L",
+     "cantidad": "1 und",
+     "bajo": 899900,
+     "alto": 1649900,
+     "fuentes": [
+      "https://www.falabella.com.co/falabella-co/product/72890157/Nevera-Congelador-superior-Hisense-206-lt-Netos-BCD205-RT267N",
+      "https://www.homecenter.com.co/homecenter-co/product/650210/",
+      "https://www.homecenter.com.co/homecenter-co/product/670084/"
+     ],
+     "nota": "El diseño pide máximo 1,55 m de alto."
+    },
+    {
+     "item": "Microondas 20 L",
+     "cantidad": "1 und",
+     "bajo": 239990,
+     "alto": 382600,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/3076231/",
+      "https://www.falabella.com.co/falabella-co/product/145180978/Horno-Microondas-ELECTROLUX-20-Litros-Digital-EMDO20S3GSLUG"
+     ],
+     "nota": ""
+    },
+    {
+     "item": "Televisor 75\" tipo cuadro: Samsung The Frame (o LG de galería)",
+     "cantidad": "1 und",
+     "bajo": 6799900,
+     "alto": 6799900,
+     "fuentes": [],
+     "nota": "Precio de The Frame 75\" visto en Falabella el 22-nov-2026; no quedó guardado el enlace: confirmarlo. Trae soporte a ras y caja de conexiones aparte (va dentro del mueble). LG de galería en 75\": sin dato. Un 75\" normal cuesta 2.699.900-4.699.900."
+    },
+    {
+     "item": "Marco intercambiable para The Frame 75\" (tono madera)",
+     "cantidad": "1 und",
+     "bajo": 0,
+     "alto": 0,
+     "fuentes": [],
+     "nota": "Sin dato: cotizar."
+    },
+    {
+     "item": "Lavaplatos eléctrico (lavavajillas) de 45 cm, panelable",
+     "cantidad": "1 und",
+     "bajo": 0,
+     "alto": 0,
+     "fuentes": [],
+     "nota": "Sin dato: cotizar. Va entre el lavaplatos y la estufa; usa el mismo punto de agua y desagüe."
+    },
+    {
+     "item": "Estación de café: molino, tetera de cuello de cisne, prensa francesa y Chemex",
+     "cantidad": "1 juego",
+     "bajo": 0,
+     "alto": 0,
+     "fuentes": [],
+     "nota": "Sin dato: cotizar o restar lo que ya tengas."
+    },
+    {
+     "item": "Televisor 65\" 4K (mezzanine)",
+     "cantidad": "1 und",
+     "bajo": 1899900,
+     "alto": 4299900,
+     "fuentes": [
+      "https://www.falabella.com.co/falabella-co/product/159560279/televisor-hisense-65-qd5sv-qled-uhd-4k-smart-tv-con-dolby-vision-y-vidaa",
+      "https://www.falabella.com.co/falabella-co/product/156470001/televisor-samsung-65-pulgadas-un65u8500hkxzl"
+     ],
+     "nota": ""
+    },
+    {
+     "item": "Soporte de pared fijo de bajo perfil 65-75\"",
+     "cantidad": "2 und",
+     "bajo": 59800,
+     "alto": 307780,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/898963/",
+      "https://www.falabella.com.co/falabella-co/product/883096951/Soportes-de-TV-Fijo-32-pulgadas-75-pulgadas-Acero",
+      "https://www.falabella.com.co/falabella-co/product/156026283/soporte-fijo-tv-base-de-60-a-110-negro"
+     ],
+     "nota": ""
+    },
+    {
+     "item": "Barra de sonido Dolby Atmos con subwoofer inalámbrico",
+     "cantidad": "1 und",
+     "bajo": 2039900,
+     "alto": 3094900,
+     "fuentes": [
+      "https://www.falabella.com.co/falabella-co/product/156794279/barra-de-sonido-jbl-bar-500-mk2-dolby-atmos-5-1-y-subwoofer-inalambrico",
+      "https://www.falabella.com.co/falabella-co/product/159947805/barra-de-sonido-jbl-bar-800mk2-7-1-canales-con-dolby-atmos"
+     ],
+     "nota": "Kit de parlantes traseros: sin dato."
+    },
+    {
+     "item": "Robot aspiradora con base de autovaciado",
+     "cantidad": "1 und",
+     "bajo": 1099900,
+     "alto": 2599900,
+     "fuentes": [
+      "https://www.falabella.com.co/falabella-co/product/150081864/Aspiradora-Robot-Xiaomi-H40-US-con-Autovaciado,-Succion-10.000-Pa-y-Trapeado-2-en-1",
+      "https://www.falabella.com.co/falabella-co/product/158027281/aspiradora-robot-roborock-2-en-1-succion-10-000-pa-hyperforce-autovaciado-49-a-63-dias-rockdock-plus-doble-antienredos-q7-m5"
+     ],
+     "nota": "El garaje bajo la escalera deja 0,48 m de alto: medir la base antes de comprar."
+    }
+   ]
+  },
+  {
+   "nombre": "7. Muebles",
+   "bajo": 5782000,
+   "alto": 9465090,
+   "items": [
+    {
+     "item": "Sofá cama de 1,80 m con cama que sale hacia adelante (1,40 × 1,90)",
+     "cantidad": "1 und",
+     "bajo": 699900,
+     "alto": 2699900,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/906183/",
+      "https://www.falabella.com.co/falabella-co/product/119660341/Sofa-Cama-Note-Clic-Clac-Tela-Negro",
+      "https://www.falabella.com.co/falabella-co/product/882727934/Sofa-cama-3-puestos-en-Tela-200-x-92-x-75-cm,-con-Patas-de-Madera-Mueble-Roberta-Allen-Arthur"
+     ],
+     "nota": "Precios de referencia de sofás cama de 2 m en tela; en cuero cognac no apareció. Buscar uno de 1,80 m para que quepa el Eames."
+    },
+    {
+     "item": "Sillón tipo Eames lounge con otomana (réplica)",
+     "cantidad": "1 und",
+     "bajo": 2149900,
+     "alto": 2399900,
+     "fuentes": [
+      "https://www.falabella.com.co/falabella-co/product/159015387/silla-poltrona-eames-con-otomana/159015388",
+      "https://www.falabella.com.co/falabella-co/product/146237452/Silla-Eames-para-Sala/146237453"
+     ],
+     "nota": "Confirmar que traiga otomana y que sea en cuero. El alto es precio de evento hasta el 30-nov (normal 4.200.000)."
+    },
+    {
+     "item": "Base de cama con cajones 140 × 190",
+     "cantidad": "1 und",
+     "bajo": 1009900,
+     "alto": 1099900,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/3041961/",
+      "https://www.homecenter.com.co/homecenter-co/product/490537/"
+     ],
+     "nota": ""
+    },
+    {
+     "item": "Cabecero tapizado doble",
+     "cantidad": "1 und",
+     "bajo": 329900,
+     "alto": 509900,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/686360/",
+      "https://www.homecenter.com.co/homecenter-co/product/571397/"
+     ],
+     "nota": ""
+    },
+    {
+     "item": "Colchón 140 × 190",
+     "cantidad": "1 und",
+     "bajo": 549900,
+     "alto": 999900,
+     "fuentes": [
+      "https://www.falabella.com.co/falabella-co/product/156330272/colchon-doble-firme-high-confort-140x190-colchones-relax",
+      "https://www.homecenter.com.co/homecenter-co/product/677768/"
+     ],
+     "nota": ""
+    },
+    {
+     "item": "Butacos de barra",
+     "cantidad": "2 und",
+     "bajo": 239800,
+     "alto": 412800,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/905742/",
+      "https://www.homecenter.com.co/homecenter-co/product/277344/"
+     ],
+     "nota": ""
+    },
+    {
+     "item": "Silla de escritorio ergonómica",
+     "cantidad": "1 und",
+     "bajo": 259900,
+     "alto": 629900,
+     "fuentes": [
+      "https://www.falabella.com.co/falabella-co/product/120483547/silla-ergonomica-styles-gris",
+      "https://www.falabella.com.co/falabella-co/product/148522591/silla-ergonomica-con-cabecero-fone-ultra-gris"
+     ],
+     "nota": ""
+    },
+    {
+     "item": "Mesa de centro redonda",
+     "cantidad": "1 und",
+     "bajo": 254900,
+     "alto": 312990,
+     "fuentes": [
+      "https://www.falabella.com.co/falabella-co/product/143324582/Mesa-De-Centro-Redonda-Victory-35x60cm-Amaretto",
+      "https://www.falabella.com.co/falabella-co/product/155817933/mesa-redonda-60cm-color-gris-oscuro-diseno-minimalista"
+     ],
+     "nota": "Mejor liviana o con ruedas, para abrir el sofá cama."
+    },
+    {
+     "item": "Tapete tejido plano jaspeado carbón y arena, 175 × 175",
+     "cantidad": "1 und",
+     "bajo": 287900,
+     "alto": 399900,
+     "fuentes": [
+      "https://www.falabella.com.co/falabella-co/product/157905018/tapete-nomada-160x230-cm-400",
+      "https://www.homecenter.com.co/homecenter-co/product/412502/"
+     ],
+     "nota": "Precio de referencia de tapetes de 160 × 230; de pelo corto o tejido plano para que pase el robot."
+    }
+   ]
+  },
+  {
+   "nombre": "8. Decoración y accesorios",
+   "bajo": 1993008.42,
+   "alto": 5590458.8,
+   "items": [
+    {
+     "item": "Espejo de cuerpo entero con marco negro",
+     "cantidad": "1 und",
+     "bajo": 524900,
+     "alto": 1399990,
+     "fuentes": [
+      "https://www.falabella.com.co/falabella-co/product/132947193/Espejo-Salamanca-80x180-cm-Negro",
+      "https://www.homecenter.com.co/homecenter-co/product/732630/",
+      "https://www.falabella.com.co/falabella-co/product/770251479/Espejo-de-piso-Emmy-Rectangular-194-cm-x-81-cm"
+     ],
+     "nota": "El diseño pide 0,60 × 1,96: ninguno de 60 cm ni con LED (el halo se hace con cinta). Alternativa: Ibiza 60 × 160 negro, 419.900. Se monta como puerta con bisagras sobre un gabinete de 6 cm."
+    },
+    {
+     "item": "Cortina de lino translúcida con riel",
+     "cantidad": "1 und",
+     "bajo": 0,
+     "alto": 0,
+     "fuentes": [],
+     "nota": "Sin dato: cotizar a la medida."
+    },
+    {
+     "item": "Gancho de pared para bici en vertical",
+     "cantidad": "1 und",
+     "bajo": 23990,
+     "alto": 124900,
+     "fuentes": [
+      "https://www.falabella.com.co/falabella-co/product/138272279/Gancho-Vertical-de-Pared-BKS-Para-Bicicletas",
+      "https://www.homecenter.com.co/homecenter-co/product/3126295/"
+     ],
+     "nota": "Ninguno confirma que sea giratorio. Forrado en caucho para no marcar el rin."
+    },
+    {
+     "item": "Bandeja o tapete para la bici",
+     "cantidad": "1 und",
+     "bajo": 0,
+     "alto": 0,
+     "fuentes": [],
+     "nota": "Sin dato: cotizar."
+    },
+    {
+     "item": "Cortina enrollable screen a la medida (2,07 × 3,30 m)",
+     "cantidad": "6,83 m²",
+     "bajo": 659600.42,
+     "alto": 2020040.8,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/365177/",
+      "https://www.homecenter.com.co/homecenter-co/product/371491/"
+     ],
+     "nota": "Precio por m² calculado; la ventana supera los tamaños publicados: cotizar a la medida."
+    },
+    {
+     "item": "Dos obras propias impresas con marco negro (mapa con ruta 1,60 × 0,85 y afiche 317 de 1,10 × 1,00)",
+     "cantidad": "2 und",
+     "bajo": 277980,
+     "alto": 879800,
+     "fuentes": [
+      "https://www.falabella.com.co/falabella-co/product/883023448/Cuadro-Decorativo-Abstracto-Block-Gris-60x90-cm",
+      "https://www.homecenter.com.co/homecenter-co/product/788909/"
+     ],
+     "nota": "Precio de referencia de cuadros hechos más pequeños; la impresión a la medida hay que cotizarla. Los archivos están en 08 Motor 3D\\texturas."
+    },
+    {
+     "item": "Libros de sneakers para la mesa de centro",
+     "cantidad": "3 und",
+     "bajo": 234738,
+     "alto": 659928,
+     "fuentes": [
+      "https://www.buscalibre.com.co/libros/search?q=sneaker+freaker",
+      "https://www.buscalibre.com.co/libro-nike-better-is-temporary/9781838660512/p/53375930",
+      "https://www.falabella.com.co/falabella-co/product/136073222/Sneaker-Freaker.-The-Ultimate-Sneaker-Book.-40th-Ed."
+     ],
+     "nota": "Precios de Buscalibre con descuento de Black Friday."
+    },
+    {
+     "item": "Planta (strelitzia) ",
+     "cantidad": "1 und",
+     "bajo": 145900,
+     "alto": 145900,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/3090471/"
+     ],
+     "nota": "Ejemplar pequeño de 0,60 m; uno grande: sin dato."
+    },
+    {
+     "item": "Matera grande",
+     "cantidad": "1 und",
+     "bajo": 125900,
+     "alto": 359900,
+     "fuentes": [
+      "https://www.homecenter.com.co/homecenter-co/product/3089780/",
+      "https://www.homecenter.com.co/homecenter-co/product/3103670/"
+     ],
+     "nota": ""
+    }
+   ]
+  }
+ ],
+ "nota": "Precios consultados el 22-nov-2026 (semana de Black Friday) en Homecenter, Falabella, Corona, Buscalibre y guías de costos de Colombia; cada fila trae sus enlaces. Los ítems sin dato no se suman. El Excel con fórmulas editables está en <code>D:\\Diseño Apto\\05 Presupuesto</code>."
+}
