@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>El 317 en splat</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@500;700&family=Inter:wght@400;500&display=swap">
+<style>
+/* Visor a pantalla completa: el splat ocupa todo; marca arriba a la izquierda, vistas abajo. Un solo mundo oscuro, a proposito. */
+:root {
+  --fondo: #0f0d0d;
+  --panel: rgba(18, 15, 15, 0.78);
+  --tinta: #f3efe9;
+  --tenue: #b2aaa4;
+  --vino: #8a2634;
+  --naranja: #e5602c;
+  --linea: rgba(243, 239, 233, 0.16);
+  --display: 'Jost', 'Futura', 'Avenir Next', system-ui, sans-serif;
+  --texto: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  color-scheme: dark;
+}
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+body { margin: 0; background: var(--fondo); color: var(--tinta); font-family: var(--texto); overflow: hidden; }
+#escena { position: fixed; inset: 0; }
+#escena canvas { display: block; }
+.marca {
+  position: fixed; z-index: 5;
+  top: calc(env(safe-area-inset-top, 0px) + 14px);
+  left: max(16px, env(safe-area-inset-left, 0px));
+  right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; align-items: center; gap: 12px; pointer-events: none;
+}
+.caja {
+  font-family: var(--display); font-weight: 700; font-size: 1.15rem; letter-spacing: 0.02em;
+  background: var(--tinta); color: var(--fondo); padding: 4px 9px; line-height: 1.1;
+}
+.marca h1 { font-family: var(--display); font-weight: 500; font-size: 1.05rem; margin: 0; text-wrap: balance; }
+.marca p { margin: 2px 0 0; font-size: 0.78rem; color: var(--tenue); }
+.vistas {
+  position: fixed; z-index: 5;
+  left: max(16px, env(safe-area-inset-left, 0px));
+  right: max(16px, env(safe-area-inset-right, 0px));
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 14px);
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+}
+.vistas button {
+  font-family: var(--display); font-weight: 500; font-size: 0.9rem; letter-spacing: 0.02em;
+  color: var(--tinta); background: var(--panel); border: 1px solid var(--linea);
+  padding: 8px 13px; cursor: pointer; backdrop-filter: blur(6px);
+}
+.vistas button[aria-pressed="true"] { background: var(--vino); border-color: var(--vino); }
+.vistas button:focus-visible { outline: 2px solid var(--naranja); outline-offset: 2px; }
+.ayuda { font-size: 0.75rem; color: var(--tenue); margin-left: auto; text-shadow: 0 1px 2px #000; }
+#estado {
+  position: fixed; z-index: 6; inset: 0; display: grid; place-items: center; text-align: center;
+  padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px));
+  font-family: var(--display); font-size: 1rem; color: var(--tenue); background: var(--fondo);
+}
+#estado b { display: block; color: var(--tinta); font-size: 1.4rem; font-weight: 500; margin-bottom: 6px; }
+.barra { width: min(320px, 70vw); height: 3px; background: var(--linea); margin: 14px auto 0; }
+.barra i { display: block; height: 100%; width: 0; background: var(--naranja); transition: width .2s; }
+@media (max-width: 560px) { .ayuda { display: none; } .marca p { display: none; } }
+@media (prefers-reduced-motion: reduce) { .barra i { transition: none; } }
+</style>
+
+</head>
+<body>
+<div id="escena" aria-label="Apartamento 317 como Gaussian splat"></div>
+<header class="marca">
+  <span class="caja">317</span>
+  <div>
+    <h1>El 317 en splat</h1>
+    <p id="nota">Gaussian splat entrenado con fotos de Cycles del diseño D</p>
+  </div>
+</header>
+<nav class="vistas" aria-label="Vistas">
+  <button type="button" id="v-salon" data-v="salon" aria-pressed="true">Salón</button>
+  <button type="button" id="v-mezz" data-v="mezz" aria-pressed="false">Mezzanine</button>
+  <button type="button" id="v-vitrina" data-v="vitrina" aria-pressed="false">Vitrina de tenis</button>
+  <button type="button" id="v-cocina" data-v="cocina" aria-pressed="false">Cocina y entrada</button>
+  <button type="button" id="v-arriba" data-v="arriba" aria-pressed="false">Desde arriba</button>
+  <span class="ayuda">Arrastra para girar · rueda o pellizco para acercar · clic derecho para moverte</span>
+</nav>
+<div id="estado" role="status"><div><b>Cargando el 317</b><span id="estado-txt">Bajando las gaussianas…</span><div class="barra"><i id="estado-barra"></i></div></div></div>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "gs3d": "https://cdn.jsdelivr.net/npm/@mkkellogg/gaussian-splats-3d@0.4.7/build/gaussian-splats-3d.module.js"
+} }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import * as GS from 'gs3d';
+
+// Coordenadas del modelo de Blender: X = ancho del apto (0 a 3 m), Y = -fondo (0 en la puerta, -7,78 en la ventana), Z arriba.
+const VISTAS = {
+  salon:   { pos: [1.55, -7.15, 1.55], mira: [1.05, -2.6, 2.25] },
+  mezz:    { pos: [2.45, -2.75, 3.55], mira: [0.6, -1.2, 2.85] },
+  vitrina: { pos: [1.35, -2.95, 3.55], mira: [0.47, -0.3, 3.15] },
+  cocina:  { pos: [0.85, -5.6, 1.6],  mira: [2.0, -2.0, 1.15] },
+  arriba:  { pos: [1.5, -7.2, 3.95],  mira: [1.4, -2.8, 0.6] },
+};
+const estado = document.getElementById('estado');
+const txt = document.getElementById('estado-txt');
+const barra = document.getElementById('estado-barra');
+
+async function bajarJson(url) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error('No se pudo bajar ' + url + ' (' + r.status + ')');
+  const total = Number(r.headers.get('content-length')) || 0;
+  if (!r.body || !total) return r.json();
+  const lector = r.body.getReader();
+  const partes = []; let n = 0;
+  for (;;) {
+    const { done, value } = await lector.read();
+    if (done) break;
+    partes.push(value); n += value.length;
+    barra.style.width = Math.min(100, 100 * n / total).toFixed(1) + '%';
+  }
+  return JSON.parse(new TextDecoder().decode(await new Blob(partes).arrayBuffer()));
+}
+
+// formato compacto (17 bytes por gaussiana) -> formato .splat (32 bytes) que lee la libreria
+function aSplat(d) {
+  const bin = Uint8Array.from(atob(d.datos), c => c.charCodeAt(0));
+  const n = d.n, [lo, hi] = d.caja, [smin, smax] = d.log_escala;
+  const out = new ArrayBuffer(n * 32), f = new Float32Array(out), u = new Uint8Array(out), dv = new DataView(bin.buffer);
+  for (let i = 0; i < n; i++) {
+    const o = i * 17, k = i * 8, b = i * 32;
+    for (let a = 0; a < 3; a++) {
+      f[k + a] = lo[a] + dv.getUint16(o + 2 * a, true) / 65535 * (hi[a] - lo[a]);
+      f[k + 3 + a] = Math.exp(smin + bin[o + 6 + a] / 255 * (smax - smin));
+    }
+    for (let a = 0; a < 8; a++) u[b + 24 + a] = bin[o + 9 + a];
+  }
+  return URL.createObjectURL(new Blob([out]));
+}
+
+async function iniciar() {
+  const d = await bajarJson('splat_317.json?v=202611270827');
+  txt.textContent = 'Armando ' + d.n.toLocaleString('es-CO') + ' gaussianas…';
+  document.getElementById('nota').textContent = d.n.toLocaleString('es-CO') + ' gaussianas entrenadas con ' + (d.vistas || 'cientos de') + ' fotos de Cycles del diseño D';
+  const url = aSplat(d);
+  const v0 = VISTAS.salon;
+  const viewer = new GS.Viewer({
+    rootElement: document.getElementById('escena'),
+    cameraUp: [0, 0, 1], initialCameraPosition: v0.pos, initialCameraLookAt: v0.mira,
+    sharedMemoryForWorkers: false, gpuAcceleratedSort: false, sphericalHarmonicsDegree: 0,
+    antialiased: true, dynamicScene: false, sceneRevealMode: GS.SceneRevealMode.Instant, logLevel: GS.LogLevel.None,
+  });
+  await viewer.addSplatScene(url, { format: GS.SceneFormat.Splat, showLoadingUI: false, splatAlphaRemovalThreshold: 4 });
+  viewer.start();
+  viewer.camera.fov = 68; viewer.camera.near = 0.02; viewer.camera.updateProjectionMatrix();
+  if (viewer.controls) { viewer.controls.minDistance = 0.05; viewer.controls.maxDistance = 12; viewer.controls.rotateSpeed = 0.6; }
+  estado.hidden = true;
+  window.__splat = viewer;
+
+  let anim = null;
+  function ir(nombre) {
+    const v = VISTAS[nombre]; if (!v) return;
+    document.querySelectorAll('.vistas button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === nombre)));
+    const p0 = viewer.camera.position.clone(), t0 = viewer.controls.target.clone();
+    const p1 = new THREE.Vector3(...v.pos), t1 = new THREE.Vector3(...v.mira);
+    const dur = matchMedia('(prefers-reduced-motion: reduce)').matches ? 1 : 900, ini = performance.now();
+    cancelAnimationFrame(anim);
+    const paso = (t) => {
+      const u = Math.min(1, (t - ini) / dur), e = u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
+      viewer.camera.position.lerpVectors(p0, p1, e); viewer.controls.target.lerpVectors(t0, t1, e); viewer.controls.update();
+      if (u < 1) anim = requestAnimationFrame(paso);
+    };
+    anim = requestAnimationFrame(paso);
+  }
+  document.querySelectorAll('.vistas button').forEach(b => b.addEventListener('click', () => ir(b.dataset.v)));
+}
+
+iniciar().catch(e => {
+  estado.hidden = false;
+  estado.querySelector('b').textContent = 'No se pudo abrir el splat';
+  txt.textContent = e.message || String(e);
+});
+</script>
+
+</body>
+</html>
